@@ -1,0 +1,22 @@
+{
+  "name": "martin-helmich.de",
+  "authors": [
+    "Martin Helmich <kontakt@martin-helmich.de>"
+  ],
+  "description": "",
+  "main": "",
+  "moduleType": [],
+  "license": "None",
+  "homepage": "https://www.martin-helmich.de",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "bootstrap": "^3.3.6"
+  }
+}
