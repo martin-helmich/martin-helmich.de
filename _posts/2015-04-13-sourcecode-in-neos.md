@@ -1,8 +1,11 @@
 ---
-layout: post
-title:  "Quelltext-Contentelemente für TYPO3 Neos"
-date:   2015-04-13 21:42:28 +0200
-categories: typo3-neos
+layout:     post
+title:      Quelltext-Contentelemente für TYPO3 Neos
+date:       2015-04-13 21:42:28 +0200
+tags:       [TYPO3 Neos]
+image:      /assets/headers/neos-sourcecode.jpg
+image_license: CC BY-SA
+image_author: Martin Helmich
 ---
 Eines der Features von TYPO3 Neos, das mich am meisten begeistert, ist die Anpassungsfähigkeit des Systems. Für diese Seite brauchte ich die Möglichkeit, Quelltextbeispiele mit Syntaxhervorhebung darstellen zu können. Glücklicherweise ist so etwas in Neos überhaupt kein Problem; daher beschreibe ich heute, wie ihr in TYPO3 Neos einen eigenen NodeType hinzufügen könnt, der euch ein Content-Element mit Quelltext und Syntax-Hervorhebung in eure Neos-Seite rendert.
 

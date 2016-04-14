@@ -2,22 +2,36 @@
 layout: default
 ---
 
-<div class="home">
+{% for post in site.posts %}
+{% capture mod %}{{ forloop.index0 | modulo:3 }}{% endcapture %}
+  {% if mod == '0' or forloop.first %}
+    {% unless forloop.first %}</div>{% endunless %}
+    <div class="row">
+  {% endif %}
 
-  <h1 class="page-heading">Posts</h1>
+  <div class="col-md-4 blog-teaser">
+    <div class="img-header" style="background-image: url({{ post.image }})">
+      <div style="display: table-row">
+        <div style="display: table-cell; width: 100%;"></div>
+        <div class="date" style="">
+          {{ post.date | localize: "%d. %b."}}
+        </div>
+      </div>
+    </div>
+    <div class="tags">
+    </div>
+    <h2>
+      <a href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
+    </h2>
+    <div>
+      <p>{{ post.excerpt }}</p>
+      <a class="btn btn-success" href="{{ post.url | prepend: site.baseurl }}">
+        <span class="glyphicon glyphicon-eye-open"></span>
+        weiterlesen!
+    </a>
+    </div>
+  </div>
+{% endfor %}
 
-  <ul class="post-list">
-    {% for post in site.posts %}
-      <li>
-        <span class="post-meta">{{ post.date | date: "%b %-d, %Y" }}</span>
-
-        <h2>
-          <a class="post-link" href="{{ post.url | prepend: site.baseurl }}">{{ post.title }}</a>
-        </h2>
-      </li>
-    {% endfor %}
-  </ul>
-
-  <p class="rss-subscribe">subscribe <a href="{{ "/feed.xml" | prepend: site.baseurl }}">via RSS</a></p>
 
 </div>

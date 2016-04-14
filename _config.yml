@@ -21,5 +21,9 @@ github_username:  martin-helmich
 markdown: kramdown
 highlighter: pygments
 
+lang: "de-DE"
 collections:
   - publications
+
+gems:
+  - jekyll-gist

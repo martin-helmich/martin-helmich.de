@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+  {% include head.html %}
+
+  <body>
+
+    <div class="main">
+      <div  class="blog-landing" style="background-image: url({{ page.image }})">
+      {% include navigation.html %}
+
+        <div class="container attribution">
+          {% if page.image_source %}
+          <a href="{{ page.image_source }}" target="_blank">
+            {{ page.image_license }}, {{ page.image_author }}
+          </a>
+          {% else %}
+          {{ page.image_license }}, {{ page.image_author }}
+          {% endif %}
+        </div>
+      </div>
+
+      <div class="container primary">
+        <div class="content main-content">
+          {{ content }}
+        </div>
+      </div>
+    </div>
+
+    {% include footer.html %}
+
+  </body>
+
+</html>

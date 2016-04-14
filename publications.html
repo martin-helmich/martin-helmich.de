@@ -4,8 +4,76 @@ title: Veröffentlichungen
 permalink: /publications/
 ---
 
-asdasd
+{% assign books = site.publications | where:"type","book" | sort:"date" %}
+{% assign articles = site.publications | where:"type","article" | sort:"date" %}
 
-{% for publication in site.publications %}
-  <h2>{{ publication.title }}</h2>
-{% endfor %}
+<div class="row">
+  <div class="col-lg-6">
+    <h2>Bücher</h2>
+    {% for publication in books reversed %}
+    <div class="row publication">
+      <div class="col-md-2 col-sm-3 col-xs-4">
+        <img src="{{ publication.image }}" width="100%"/>
+      </div>
+      <div class="col-md-10 col-sm-9 col-xs-8">
+        <h3>{{ publication.title }}</h3>
+        <p>
+          <em>
+            {% case publication.type %}
+            {% when "book" %}veröffentlicht am {{ publication.date | localize:"%d. %B %Y" }} im {{ publication.publisher }}, {{ publication.publisher_location }}
+            {% endcase %}
+          </em>
+        </p>
+        <p>
+          {{ publication.excerpt }}
+        </p>
+
+        {% if publication.links.amazon %}
+        <a href="{{ publication.links.amazon }}" class="btn btn-success" target="_blank">
+            <span class="glyphicon glyphicon-shopping-cart"></span>
+            Nimm mein Geld!
+        </a>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  <div class="col-lg-6">
+    <h2>Artikel</h2>
+
+    {% for publication in articles reversed limit:3 %}
+    <div class="row publication">
+      <div class="col-md-2 col-sm-3 col-xs-4">
+        <img src="{{ publication.image }}" width="100%"/>
+      </div>
+      <div class="col-md-10 col-sm-9 col-xs-8">
+        <h3>{{ publication.title }}</h3>
+        <p>
+          <em>
+            {% case publication.type %}
+            {% when "book" %}veröffentlicht am {{ publication.date | localize:"%d. %B %Y" }} im {{ publication.publisher }}, {{ publication.publisher_location }}
+            {% when "article" %}veröffentlicht am {{ publication.date | localize:"%d. %B %Y" }} im {{ publication.magazine }}, Ausgabe {{ publication.issue }}
+            {% endcase %}
+          </em>
+        </p>
+        <p>
+          {{ publication.excerpt }}
+        </p>
+
+        {% if publication.links.amazon %}
+        <a href="{{ publication.links.amazon }}" class="btn btn-success" target="_blank">
+            <span class="glyphicon glyphicon-shopping-cart"></span>
+            Nimm mein Geld!
+        </a>
+        {% endif %}
+        {% if publication.links.article %}
+        <a href="{{ publication.links.article }}" class="btn btn-default" target="_blank">
+          <span class="glyphicon glyphicon-book"></span>
+          Zum Artikel
+        </a>
+        {% endif %}
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
