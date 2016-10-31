@@ -5,15 +5,28 @@ layout: trailer
 
   <header class="post-header">
     <p class="post-meta">
-      Geschrieben am
+      {{ site.t[page.lang].written_on }}
       <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
         {{ page.date | localize:"%d. %B %Y" }}
       </time>
 
       {% if page.author %}
-      von <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>
+      {{ site.t[page.lang].by }} <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>
       {% endif %}
     </p>
+
+    {% if page.translations %}
+      {% if page.lang == "de" %}
+        {% i18nhint Hello! %}
+          This article is also <a href="{{ page.translations.en | prepend:site.baseurl }}">available in English</a>!
+        {% endi18nhint %}
+      {% elsif page.lang == "en" %}
+        {% i18nhint Hallo! %}
+          Dieser Artikel steht auch <a href="{{ page.translations.de | prepend:site.baseurl }}">auf Deutsch zur Verfügung</a>!
+        {% endi18nhint %}
+      {% endif %}
+    {% endif %}
+
     <h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
   </header>
 
@@ -22,3 +35,28 @@ layout: trailer
   </div>
 
 </article>
+
+<h2>{{ site.t[page.lang].comments }}</h2>
+
+<div id="disqus_thread"  class="helmich-homepage-blogarticle"></div>
+<script type="text/javascript">
+/* * * CONFIGURATION VARIABLES * * */
+var disqus_shortname = "martinhelmichde";
+var disqus_identifier = "{{ page.disqus_id | default:page.id }}";
+var disqus_url = "{{ page.url | prepend: site.baseurl }}";
+var disqus_title = "{{ page.title }}";
+var disqus_category_id = null;
+
+/* * * DON'T EDIT BELOW THIS LINE * * */
+(function () {
+var dsq = document.createElement('script');
+dsq.type = 'text/javascript';
+dsq.async = true;
+dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+(document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+})();
+</script>
+<noscript>
+Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+powered by Disqus.</a>
+</noscript>

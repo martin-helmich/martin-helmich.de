@@ -7,36 +7,38 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/">martin-helmich.de</a>
+      <a class="navbar-brand" href="{% if page.lang == 'de' %}/{% else %}/{{ page.lang }}/blog.html{% endif %}">martin-helmich.de</a>
     </div>
 
     <div id="navbar" class="collapse navbar-collapse">
       <ul class="nav navbar-nav">
-        {% for my_page in site.pages %}
-          {% if my_page.title %}
-          <li class="normal">
+        {% for my_page in site.menu[page.lang] %}
+          {% assign cls='normal' %}
+          {% if page.url == my_page.url %}{% assign cls='active' %}{% endif %}
+          <li class="{{ cls }}">
             <a class="page-link" href="{{ my_page.url | prepend: site.baseurl }}">{{ my_page.title }}</a>
           </li>
-          {% endif %}
         {% endfor %}
       </ul>
 
+      {% if page.translations %}
       <ul class="nav navbar-nav navbar-right">
         <li class="dropdown">
           <a href="#" class="dropdown-toggle" data-toggle="dropdown">
-            German (de)
+            {{ site.t[page.lang][page.lang] }}
             <span class="caret"></span>
           </a>
           <ul class="dropdown-menu">
-            <li class="current">
-              <a href="/de/ueber-mich.html">German (de)</a>
+            <li class="{% if page.lang == 'de' %}active{% else %}normal{% endif %}">
+              <a href="{{ page.translations.de }}">{{ site.t[page.lang].de }}</a>
             </li>
-            <li class="normal">
-              <a href="/en/about-me.html">English (en)</a>
+            <li class="{% if page.lang == 'en' %}active{% else %}normal{% endif %}">
+              <a href="{{ page.translations.en }}">{{ site.t[page.lang].en }}</a>
             </li>
           </ul>
         </li>
       </ul>
+      {% endif %}
     </div>
   </div>
 </nav>

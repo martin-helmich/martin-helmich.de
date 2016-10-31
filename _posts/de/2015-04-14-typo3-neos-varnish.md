@@ -2,11 +2,17 @@
 layout:     post
 title:      "CMS auf Speed: TYPO3 Neos mit Varnish"
 date:       2015-04-14 21:42:28 +0200
-tags:       [TYPO3 Neos, Varnish]
+tags:       [neos, varnish]
+lang: de
 image:      /assets/headers/flash.jpg
 image_license: CC BY
 image_author: JD Hancock
 image_source: https://www.flickr.com/photos/jdhancock/4698846940
+disqus_id: 1bdc76e0-21b1-3c24-3512-821f485cc91c
+permalink: /de/blog/typo3-neos-mit-varnish.html
+translations:
+  de: /de/blog/typo3-neos-mit-varnish.html
+  en: /en/blog/typo3-neos-mit-varnish.html
 ---
 
 Nicht, dass TYPO3 Neos im Production-Modus nicht eigentlich schon schnell genug wäre. Aus keinem anderen Grund außer "Weil ich es kann!" habe ich einmal versucht zu schauen, wie viel schneller ich diese Seite durch den Einsatz von Varnish noch machen kann. Vor allem hat mich dabei interessiert, wie gut TYPO3 Neos mit Varnish zusammenspielt.
@@ -19,7 +25,9 @@ Der Grund dafür ist, dass Neos (im Unterschied zu anderer Software; ja, ich mei
 
 ## Vorbereitungen
 
-**Achtung**: Dieser Abschnitt betrifft euch nur, wenn ihr Varnish und euren Webserver (z.B. Apache, Nginx) auf demselben Server betreiben wollt.
+{% caution Achtung %}
+  Dieser Abschnitt betrifft euch nur, wenn ihr Varnish und euren Webserver (z.B. Apache, Nginx) auf demselben Server betreiben wollt.
+{% endcaution %}
 
 Falls ihr vorhabt, den Varnish-Dienst auf demselben Server zu betreiben, wie euren Webserver, solltet ihr vorher noch ein paar kleinere Anpassungen vornehmen. In der Regel sollte der Varnish-Dienst als HTTP-Proxy direkt auf Port 80 lauschen. Läuft eurer Webserver nun auf demselben Host, wird dieser wahrscheinlich ebenfalls diesen Port beanspruchen. Bevor ihr Varnish installiert, solltet ihr also euren Webserver auf einen anderen Port umbiegen.
 

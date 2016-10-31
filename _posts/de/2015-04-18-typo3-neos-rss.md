@@ -2,11 +2,17 @@
 layout:     post
 title:      "RSS-Feeds mit TYPO3 Neos"
 date:       2015-04-15 21:42:28 +0200
-tags:       [TYPO3 Neos]
+tags:       [neos]
+lang: de
 image:      /assets/headers/newspaper.jpg
 image_license: CC BY
 image_author: John S.
 image_source: https://www.flickr.com/photos/62693815@N03/6277209256/
+disqus_id: 2fce36a4-cc12-fd3b-d805-0c8410451f89
+permalink: /de/blog/rss-feeds-mit-typo3-neos.html
+translations:
+  de: /de/blog/rss-feeds-mit-typo3-neos.html
+  en: /en/blog/rss-feeds-mit-typo3-neos.html
 ---
 
 RSS (für *Really Simple Syndication*) ist ein XML-basiertes Dateiformat, über das Veränderungen an Websites bekannt gemacht werden können. Speziell für Blog- und Nachrichtenseiten bieten sich solche RSS-Feeds an; Leser können diesen einfach in einen Feed-Reader einbinden, um auf dem Laufenden zu bleiben. In diesem Artikel erkläre ich euch, wie ihr in TYPO3 Neos solch einen Feed erstellen könnt.
@@ -21,7 +27,6 @@ Diese Konfiguration entspricht übrigens nahezu der Standard-Konfiguration, die 
 
 ## Ab ins TypoScript
 
-Ab ins TypoScript
 Die Standard-TypoScript-Konfiguration von Neos sieht bereits vor, dass bei einem Format, das anders lautet als `html` einfach das TypoScript-Objekt mit dem entsprechenden Namen gerendert wird. Wir müssen an dieser Stelle also nur noch das Objekt mit dem Namen `rss` implementieren. Da hier z.B. auch HTTP-Header verändert werden müssen (wir haben ja schließlich einen anderen Content-Type), kann hier am besten gleich die `TYPO3.TypoScript:Http.Message`-Klasse genutzt werden. Das Endergebnis ist recht komplex; anstatt es nach und nach aufzubauen, präsentiere ich erstmal den ganzen Block:
 
 {% gist martin-helmich/aab1c83379063d4beba5 Rss.ts2 %}

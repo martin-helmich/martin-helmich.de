@@ -105,6 +105,8 @@ body {
 
   .main-content {
 
+    padding-top: 1em;
+
     p, li {
       font-family: 'Source Sans Pro', sans-serif;
       font-size: 12pt;
@@ -214,6 +216,63 @@ body {
 .post-meta {
   text-align: center;
   font-style: italic;
+}
+
+.my-alert {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: larger;
+  padding: 1em 10%;
+  margin: 1em 0;
+
+  .glyphicon {
+    font-size: 64px;
+    margin-right: 16px;
+    padding-right: 16px;
+    border-right: 1px solid #bce8f1;
+    color: #31708f;
+    float: left;
+  }
+
+  strong {
+    margin-right: 1em;
+  }
+
+  & > div {
+    min-height: 64px;
+  }
+
+  &.info {
+    background-color: #d9edf7;
+    strong {
+      color: #31708f;
+    }
+    .glyphicon {
+      color: #31708f;
+      border-color: #bce8f1;
+    }
+  }
+
+  &.caution {
+    background-color: #fcf8e3;
+    strong {
+      color: #8a6d3b;
+    }
+    .glyphicon {
+      color: #8a6d3b;
+      border-color: #faebcc;
+    }
+  }
+
+  &.danger {
+    background-color: #f2dede;
+    strong {
+      color: #a94442;
+    }
+    .glyphicon {
+      color: #a94442;
+      border-color: #ebccd1;
+    }
+  }
 }
 
 

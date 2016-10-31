@@ -6,8 +6,8 @@
 # 'jekyll serve'. If you change this file, please restart the server process.
 
 # Site settings
-title: Your awesome title
-email: your-email@domain.com
+title: martin-helmich.de
+email: kontakt@martin-helmich.de
 description: > # this means to ignore newlines until "baseurl:"
   Write an awesome description for your new site here. You can edit this
   line in _config.yml. It will appear in your document head meta (for
@@ -16,6 +16,72 @@ baseurl: "" # the subpath of your site, e.g. /blog
 url: "http://yourdomain.com" # the base hostname & protocol for your site
 twitter_username: jekyllrb
 github_username:  martin-helmich
+
+menu:
+  de:
+    - url: /de/blog.html
+      title: Blog
+    - url: /de/ueber-mich.html
+      title: Über mich
+    - url: /de/veroeffentlichungen.html
+      title: Veröffentlichungen
+  en:
+    - url: /en/blog.html
+      title: Blog
+    - url: /en/about-me.html
+      title: About me
+    - url: /en/publications.html
+      title: Publications
+
+footer_menu:
+  de:
+    - url: /de/impressum.html
+      title: Impressum
+  en:
+    - url: /de/impressum.html
+      title: Legal
+
+tags_display:
+  neos:
+    name: NEOS CMS
+    color: '#39c6ff'
+  typo3:
+    name: TYPO3 CMS
+    color: '#FF8700'
+  surf:
+    name: TYPO3 Surf
+    color: '#FF8700'
+  aws:
+    name: AWS
+    color: '#f91'
+  docker:
+    name: Docker
+    color: '#22b8eb'
+  varnish:
+    name: Varnish
+    color: '#1C75BC'
+
+t:
+  de:
+    more: weiterlesen!
+    publications: Veröffentlichungen
+    blog_articles: Blog-Artikel
+    menu: Menü
+    de: Deutsch
+    en: Englisch
+    comments: Kommentare
+    written_on: Geschrieben am
+    by: von
+  en:
+    more: read more!
+    publications: Publications
+    blog_articles: Blog articles
+    menu: Menu
+    de: German
+    en: English
+    comments: Comments
+    written_on: Written on
+    by: by
 
 # Build settings
 markdown: kramdown

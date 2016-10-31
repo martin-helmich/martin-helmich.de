@@ -2,11 +2,14 @@
 layout:     post
 title:      "Gut eingepackt: TYPO3 CMS in Docker betreiben"
 date:       2016-04-10 21:42:28 +0200
-tags:       [TYPO3 CMS, Docker]
+tags:       [typo3, docker]
+lang: de
 image:      /assets/headers/containers.jpg
 image_license: CC BY
 image_author: Glyn Lowe
 image_source: https://www.flickr.com/photos/glynlowe/10039742285
+disqus_id: 2d781b1b-2cca-3912-9e45-81d22325ec90
+permalink: /de/blog/typo3-cms-docker.html
 ---
 
 Für die 8. Auflage des Buchs *Praxiswissen TYPO3* (welches nächsten Monat im O'Reilly-Verlag erscheint), suchte ich nach einer Möglichkeit, allen Lesern einen schnellen Start mit TYPO3 zu ermöglichen - und das unter allen Betriebssystemen gleichermaßen. Die Windows-Installer, die früher in der TYPO3-Community kursierten, sind mittlerweile hoffnungslos veraltet und auch die manuelle Installation auf unixoiden Systemen war nichts für jeden.
@@ -36,7 +39,9 @@ Das Image enthält lediglich eine PHP-FPM-Umgebung mit einem Webserver. Um die E
         --character-set-server=utf8 \
         --collation-server=utf8_unicode_ci
 
-**Achtung!** Denkt daran, die Passwort-Platzhalter im obigen Code-Beispielen mit sicheren Werten zu ersetzen!
+{% danger Achtung %}
+  Denkt daran, die Passwort-Platzhalter im obigen Code-Beispielen mit sicheren Werten zu ersetzen!
+{% enddanger %}
 
 Im Anschluss kann der eigentliche Applikationscontainer gestartet werden:
 
