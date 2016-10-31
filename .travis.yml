@@ -10,6 +10,7 @@ before_deploy:
 - chmod 600 /tmp/travis_rsa
 - eval "$(ssh-agent -s)"
 - ssh-add /tmp/travis_rsa
+- ssh-keyscan www.martin-helmich.de >> ~/.ssh/known_hosts
 deploy:
   provider: script
   script: rsync -r --delete-after --quiet . travis@martin-helmich.de:/var/www/www.martin-helmich.de/
