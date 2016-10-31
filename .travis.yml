@@ -4,11 +4,15 @@ rvm:
 script:
 - jekyll build
 before_install:
+before_deploy:
 - openssl aes-256-cbc -K $encrypted_08d59baf4e3b_key -iv $encrypted_08d59baf4e3b_iv
-  -in travis_rsa.enc -out travis_rsa -d
+  -in travis_rsa.enc -out /tmp/travis_rsa -d
+- chmod 600 /tmp/travis_rsa
+- eval "$(ssh-agent -s)"
+- ssh-add /tmp/travis_rsa
 deploy:
   provider: script
-  script: scripts/deploy.sh
+  script: rsync -r --delete-after --quiet . travis@martin-helmich.de:/var/www/www.martin-helmich.de/
   skip_cleanup: true
   on:
     branch: master
