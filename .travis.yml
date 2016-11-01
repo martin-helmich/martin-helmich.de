@@ -3,16 +3,9 @@ rvm:
 - 2.2.5
 script:
 - jekyll build
-before_install: 
-before_deploy:
-- openssl aes-256-cbc -K $encrypted_08d59baf4e3b_key -iv $encrypted_08d59baf4e3b_iv
-  -in travis_rsa.enc -out /tmp/travis_rsa -d
-- chmod 600 /tmp/travis_rsa
-- eval "$(ssh-agent -s)"
-- ssh-add /tmp/travis_rsa
-- ssh-keyscan www.martin-helmich.de >> ~/.ssh/known_hosts
 deploy:
   provider: s3
+  skip_cleanup: true
   access_key_id: AKIAJ575NLZEMCAGAZAQ
   secret_access_key:
     secure: QyTk78UhSAdKmIQLaP05fm+h3dMhfjOmBxRCqQ3AC95ugaIza8d34VonF1A1gFtY3wqw+xyaTBfBnkcwB1btJIz4mwyrbQfnhcxENzNOCs9Z57FMopmsHyiHsay0A0R3Znpmp6FPLQ/BPHDS+xsKyq2DxF2Slf+z5lIvjmbP6sz6G0ih3Dup5mejMgrqsUovhoYsB2AWRrUZM2t630TvSe07CFvefMCEVocJxJ6Oapthnm7tYY5se3IUfNysp+ouNE154GaikEywuIckWhOwyiK8RcUehNqSyMNV9ahEKb6jZ7EW+fJ+BO5AYs4dTJgyYbhl4DTpnFDsJxULU4Dpl4CzudW9W5BlUAZ1w3dp+Gv/myJu82wLLdQpjy1lUWC2Jx+y/DAaI3K3FrakFavSwkzYrUL6CWaMKENOQ8wItb7AS3EW8pI1qiW2HYXUT3YjBFsQvLz3H9ur6Yg1pgX/6d0XXmzWnqixDgnOAC3an6N0puglScqsPIxWUZzHiO6cMGUo535zL0aJNMf3TKgxKLzLklAXSruWTyK5ewszvrUkbm/m29tty2pkwnnym9ik+4fdvCabrah5sg89bCBX5QAPe1zFgQgArkyF/roVlDC3V4GNZGC38B0qjWH1n9NKP6U3TkueS409UUtP34LKc9nm88Lrb0jFQOQAKLqXyrI=
