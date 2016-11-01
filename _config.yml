@@ -19,7 +19,7 @@ github_username:  martin-helmich
 
 menu:
   de:
-    - url: /de/blog.html
+    - url: /
       title: Blog
     - url: /de/ueber-mich.html
       title: Über mich
