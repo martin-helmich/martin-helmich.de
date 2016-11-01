@@ -59,6 +59,15 @@ tags_display:
   varnish:
     name: Varnish
     color: '#1C75BC'
+  prometheus:
+    name: Prometheus
+    color: '#e6522c'
+  nginx:
+    name: NGINX
+    color: '#00B140'
+  monitoring:
+    name: Monitoring
+    color: '#333333'
 
 t:
   de:
