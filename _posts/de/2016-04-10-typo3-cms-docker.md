@@ -20,7 +20,7 @@ Da ich mittlerweile sehr intensiv mit Docker arbeite und Docker über die Docker
 
 Das TYPO3-Image steht im [Docker-Hub unter dem Repository-Namen `martinhelmich/typo3`][hub-typo3] zur Verfügung. Mit untenstehendem docker pull-Befehl kann die jeweils aktuellste Version des Images bezogen werden:
 
-    $ docker pull martin-helmich/typo3
+    $ docker pull martinhelmich/typo3
 
 Darüber hinaus kann beim Pull auch eine spezielle Version herunter geladen werden. Hierzu bietet das Repository die folgenden Tags an:
 
