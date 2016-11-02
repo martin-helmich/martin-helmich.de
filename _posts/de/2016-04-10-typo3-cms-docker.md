@@ -28,7 +28,7 @@ Darüber hinaus kann beim Pull auch eine spezielle Version herunter geladen werd
   - `martinhelmich/typo3:7` für die jeweils aktuellste 7.6 LTS-Version
   - `martinhelmich/typo3:8` oder `martinhelmich/typo3:latest` für die jeweils aktuellste 8er-Preview-Version
 
-Das Image enthält lediglich eine PHP-FPM-Umgebung mit einem Webserver. Um die Ein Container, eine Anwendung-Philosophie von Docker zu befolgen, sollte für Datenbanksystem folglich am besten ein eigener Container gestartet werden, wie hier beispielsweise ein MariaDB-Container:
+Das Image enthält lediglich eine PHP-FPM-Umgebung mit einem Webserver. Um die "Ein Container, eine Anwendung"-Philosophie von Docker zu befolgen, sollte für das Datenbanksystem folglich am besten ein eigener Container gestartet werden, wie hier beispielsweise ein MariaDB-Container:
 
     $ docker run -d --name typo3-db \
         -e MYSQL_ROOT_PASSWORD=yoursupersecretpassword \
@@ -43,7 +43,7 @@ Das Image enthält lediglich eine PHP-FPM-Umgebung mit einem Webserver. Um die E
   Denkt daran, die Passwort-Platzhalter im obigen Code-Beispielen mit sicheren Werten zu ersetzen!
 {% enddanger %}
 
-Im Anschluss kann der eigentliche Applikationscontainer gestartet werden:
+Danach kann der eigentliche Applikationscontainer gestartet werden:
 
     $ docker run -d --name typo3-web \
         --link typo3-db:db \
@@ -65,7 +65,7 @@ Im Produktivbetrieb ist es besonders wichtig, sich um die Nutzdaten der TYPO3-In
   3. /var/www/html/typo3temp
   4. /var/www/html/uploads
 
-Diese drei Verzeichnisse enthalten im Regelfall Nutzdaten, die nicht verloren gehen sollten. Das `typo3temp/`-Verzeichnis ist ein Sonderfall. Die Daten hierin sind zwar nicht besonders wichtig, da in diesem Verzeichnis jedoch besonders viel geschrieben und gelesen wird, ist es aus Gründen der Performance ratsam, dieses Verzeichnis als Volume zu erstellen.
+Diese vier Verzeichnisse enthalten im Regelfall Nutzdaten, die nicht verloren gehen sollten. Das `typo3temp/`-Verzeichnis ist ein Sonderfall. Die Daten hierin sind zwar nicht besonders wichtig, da in diesem Verzeichnis jedoch besonders viel geschrieben und gelesen wird, ist es aus Gründen der Performance ratsam, dieses Verzeichnis als Volume zu erstellen.
 
 Zur Haltung der Nutzdaten kann nun als erstes ein *Data-Only*-Container erstellt werden. Dieser wird später nicht laufen (daher empfiehlt es sich sogar, das CMD des Containers mit `/bin/true` zu überschreiben), sondern wird lediglich die Volumes mit Nutzdaten beinhalten:
 
