@@ -57,15 +57,25 @@ translations:
     {% for publication in talks reversed %}
     <div class="row publication">
       <div class="col-md-2 col-sm-3 col-xs-4">
+        {% if publication.speakerdeck_id %}
+        <img src="https://speakerd.s3.amazonaws.com/presentations/{{ publication.speakerdeck_id }}/slide_0.jpg" width="100%" />
+        {% else if publication.image %}
         <img src="{{ publication.image }}" width="100%"/>
+        {% endif %}
       </div>
       <div class="col-md-10 col-sm-9 col-xs-8">
         <h3>{{ publication.title }}</h3>
         <p>
           <em>
-            {% case publication.type %}
-            {% when "book" %}veröffentlicht am {{ publication.date | localize:"%d. %B %Y" }} im {{ publication.publisher }}, {{ publication.publisher_location }}
-            {% endcase %}
+            gehalten am {{ publication.date | localize:"%d. %B %Y" }} auf der
+            {% if publication.conference.link %}
+            <a href="{{ publication.conference.link }}" target="_blank">
+              {{ publication.conference.name }}
+            </a>
+            {% else %}
+              {{ publication.conference.name }}
+            {% endif %}
+            in {{ publication.conference.location }}
           </em>
         </p>
         <p>
@@ -76,6 +86,18 @@ translations:
         <a href="{{ publication.links.amazon }}" class="btn btn-success" target="_blank">
             <span class="glyphicon glyphicon-shopping-cart"></span>
             Nimm mein Geld!
+        </a>
+        {% endif %}
+        {% if publication.links.speakerdeck %}
+        <a href="{{ publication.links.speakerdeck }}" class="btn btn-primary" target="_blank">
+            <span class="glyphicon glyphicon-blackboard"></span>
+            Speakerdeck
+        </a>
+        {% endif %}
+        {% if publication.links.paper %}
+        <a href="{{ publication.links.paper }}" class="btn btn-default" target="_blank">
+            <span class="glyphicon glyphicon-book"></span>
+            Paper herunterladen
         </a>
         {% endif %}
       </div>
