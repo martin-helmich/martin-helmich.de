@@ -10,22 +10,72 @@ translations:
 
 {% assign books = site.publications | where:"type","book" | sort:"date" %}
 {% assign articles = site.publications | where:"type","article" | sort:"date" %}
+{% assign talks = site.publications | where:"type","talk" | sort:"date" %}
+
+<div class="row">
+  <h2>Books</h2>
+</div>
+
+<div class="books">
+  {% for book in books reversed %}
+  {% capture mod %}{{ forloop.index0 | modulo:3 }}{% endcapture %}
+  {% if mod == '0' or forloop.first %}
+    {% unless forloop.first %}</div>{% endunless %}
+    <div class="row">
+  {% endif %}
+
+  <div class="col-md-4">
+    <div class="text-center">
+      <img src="{{ book.image }}" class="img-thumbnail"/>
+    </div>
+    <p class="text-center">
+      <em>
+        {% case book.type %}
+        {% when "book" %}{{ book.date | localize:"%B %Y" }}, {{ book.publisher }}, {{ book.publisher_location }}
+        {% endcase %}
+      </em>
+    </p>
+    <h3>{{ book.title }}</h3>
+    <p>
+      {{ book.excerpt }}
+    </p>
+
+    {% if book.links.amazon %}
+    <a href="{{ book.links.amazon }}" class="btn btn-success" target="_blank">
+        <span class="glyphicon glyphicon-shopping-cart"></span>
+        Take my money!
+    </a>
+    {% endif %}
+  </div>
+  {% if forloop.last %}</div>{% endif %}
+  {% endfor %}
+</div>
 
 <div class="row">
   <div class="col-lg-6">
-    <h2>Bücher</h2>
-    {% for publication in books reversed %}
+    <h2>Talks and presentations</h2>
+    {% for publication in talks reversed %}
     <div class="row publication">
       <div class="col-md-2 col-sm-3 col-xs-4">
+        {% if publication.speakerdeck_id %}
+        <img src="https://speakerd.s3.amazonaws.com/presentations/{{ publication.speakerdeck_id }}/slide_0.jpg" width="100%" />
+        {% else if publication.image %}
         <img src="{{ publication.image }}" width="100%"/>
+        {% endif %}
       </div>
       <div class="col-md-10 col-sm-9 col-xs-8">
         <h3>{{ publication.title }}</h3>
         <p>
           <em>
-            {% case publication.type %}
-            {% when "book" %}veröffentlicht am {{ publication.date | localize:"%d. %B %Y" }} im {{ publication.publisher }}, {{ publication.publisher_location }}
-            {% endcase %}
+            presented on {{ publication.date | localize:"%d. %B %Y" }} at
+            {% if publication.conference.link %}
+            <a href="{{ publication.conference.link }}" target="_blank">
+              {{ publication.conference.name }}
+            </a>
+            {% else %}
+              {{ publication.conference.name }}
+            {% endif %}
+            in {{ publication.conference.location }}
           </em>
         </p>
         <p>
@@ -35,7 +85,19 @@ translations:
         {% if publication.links.amazon %}
         <a href="{{ publication.links.amazon }}" class="btn btn-success" target="_blank">
             <span class="glyphicon glyphicon-shopping-cart"></span>
-            Nimm mein Geld!
+            Take my money!
+        </a>
+        {% endif %}
+        {% if publication.links.speakerdeck %}
+        <a href="{{ publication.links.speakerdeck }}" class="btn btn-primary" target="_blank">
+            <span class="glyphicon glyphicon-blackboard"></span>
+            Speakerdeck
+        </a>
+        {% endif %}
+        {% if publication.links.paper %}
+        <a href="{{ publication.links.paper }}" class="btn btn-default" target="_blank">
+            <span class="glyphicon glyphicon-book"></span>
+            Download paper
         </a>
         {% endif %}
       </div>
@@ -43,7 +105,7 @@ translations:
     {% endfor %}
   </div>
   <div class="col-lg-6">
-    <h2>Artikel</h2>
+    <h2>Articles</h2>
 
     {% for publication in articles reversed limit:3 %}
     <div class="row publication">
@@ -55,8 +117,8 @@ translations:
         <p>
           <em>
             {% case publication.type %}
-            {% when "book" %}veröffentlicht am {{ publication.date | localize:"%d. %B %Y" }} im {{ publication.publisher }}, {{ publication.publisher_location }}
-            {% when "article" %}veröffentlicht am {{ publication.date | localize:"%d. %B %Y" }} im {{ publication.magazine }}, Ausgabe {{ publication.issue }}
+            {% when "book" %}published on {{ publication.date | localize:"%d. %B %Y" }} with {{ publication.publisher }}, {{ publication.publisher_location }}
+            {% when "article" %}published on {{ publication.date | localize:"%d. %B %Y" }} in {{ publication.magazine }}, issue {{ publication.issue }}
             {% endcase %}
           </em>
         </p>
@@ -67,13 +129,13 @@ translations:
         {% if publication.links.amazon %}
         <a href="{{ publication.links.amazon }}" class="btn btn-success" target="_blank">
             <span class="glyphicon glyphicon-shopping-cart"></span>
-            Nimm mein Geld!
+            Take my money!
         </a>
         {% endif %}
         {% if publication.links.article %}
         <a href="{{ publication.links.article }}" class="btn btn-default" target="_blank">
           <span class="glyphicon glyphicon-book"></span>
-          Zum Artikel
+          Go to article
         </a>
         {% endif %}
       </div>
