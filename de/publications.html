@@ -107,7 +107,7 @@ translations:
   <div class="col-lg-6">
     <h2>Artikel</h2>
 
-    {% for publication in articles reversed limit:3 %}
+    {% for publication in articles reversed %}
     <div class="row publication">
       <div class="col-md-2 col-sm-3 col-xs-4">
         <img src="{{ publication.image }}" width="100%"/>
