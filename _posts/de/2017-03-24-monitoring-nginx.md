@@ -10,6 +10,9 @@ image_author: Ray Bouknight
 image_source: https://www.flickr.com/photos/raybouk/8201310617/
 disqus_id: 0106ee21-38c1-4ab2-a62e-c7bc3892d653
 permalink: /de/blog/monitoring-nginx.html
+translations:
+  de: /de/blog/monitoring-nginx.html
+  en: /en/blog/monitoring-nginx.html
 ---
 
 [Prometheus][prom] ist eine Kombination aus Monitoring-Werkzeug und
