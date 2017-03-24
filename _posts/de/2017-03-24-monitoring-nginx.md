@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      NGINX-Performancemetriken mit Prometheus
-date:       2017-03-24 11:05:00 +0100
+date:       2016-11-01 14:42:00 +0100
 tags:       [prometheus, nginx, monitoring]
 lang: de
 image:      /assets/headers/seismograph.jpg
@@ -133,15 +133,6 @@ Beachtet, dass diese Unitfile davon ausgeht, dass das Binary unter
 `/etc/prometheus-nginxlog-exporter.hcl` liegt. Diese Pfade können natürlich nach
 Bedarf angepasst werden.
 
-## Das Ergebnis
-
-Ich betreibe den `prometheus-nginxlog-exporter` nun seit einiger Zeit schon
-produktiv. Insbesondere zusammen mit [Grafana][grafana] lassen sich wunderbare
-Auswertungen und Monitoring-Dashboards erstellen:
-
-![NGINX-Monitoring in Aktion]({{ site.url }}/assets/posts/prometheus-nginx-monitoring.png)
-
 [prom]: http://prometheus.io
 [nginx-log]: http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format
 [exporter]: https://github.com/martin-helmich/prometheus-nginxlog-exporter
-[grafana]: https://grafana.com/
