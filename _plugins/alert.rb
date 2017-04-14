@@ -30,6 +30,11 @@ class I18nHintTag < AlertTag
   ICON = 'globe'
 end
 
+class UpdateTag < AlertTag
+  CLS = 'info'
+  ICON = 'lamp'
+end
+
 class DangerTag < AlertTag
   CLS = 'danger'
   ICON = 'fire'
@@ -37,4 +42,5 @@ end
 
 Liquid::Template.register_tag('caution', CautionTag)
 Liquid::Template.register_tag('i18nhint', I18nHintTag)
+Liquid::Template.register_tag('update', UpdateTag)
 Liquid::Template.register_tag('danger', DangerTag)
