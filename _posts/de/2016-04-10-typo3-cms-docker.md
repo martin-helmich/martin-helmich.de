@@ -16,6 +16,11 @@ Für die 8. Auflage des Buchs *Praxiswissen TYPO3* (welches nächsten Monat im O
 
 Da ich mittlerweile sehr intensiv mit Docker arbeite und Docker über die Docker Toolbox auch unter Windows und MacOS gut von Einsteigern benutzbar ist, beschloss ich ein entsprechendes Docker-Image zu entwickeln.
 
+{% update Update %}
+  Seit kurzem steht auch ein Image für TYPO3 8.7 zur Verfügung. Dieser Artikel
+  wurde an den entsprechenden Stellen wo nötig aktualisiert.
+{% endupdate %}
+
 ## Erste Schritte
 
 Das TYPO3-Image steht im [Docker-Hub unter dem Repository-Namen `martinhelmich/typo3`][hub-typo3] zur Verfügung. Mit untenstehendem `docker pull`-Befehl kann die jeweils aktuellste Version des Images bezogen werden:
@@ -26,7 +31,7 @@ Darüber hinaus kann beim Pull auch eine spezielle Version herunter geladen werd
 
   - `martinhelmich/typo3:6` für die jeweils aktuellste 6.2 LTS-Version
   - `martinhelmich/typo3:7` für die jeweils aktuellste 7.6 LTS-Version
-  - `martinhelmich/typo3:8` oder `martinhelmich/typo3:latest` für die jeweils aktuellste 8er-Preview-Version
+  - `martinhelmich/typo3:8` oder `martinhelmich/typo3:latest` für die aktuellste 8.7 LTS-Version
 
 Das Image enthält lediglich eine PHP-FPM-Umgebung mit einem Webserver. Um die "Ein Container, eine Anwendung"-Philosophie von Docker zu befolgen, sollte für das Datenbanksystem folglich am besten ein eigener Container gestartet werden, wie hier beispielsweise ein MariaDB-Container:
 
@@ -48,7 +53,7 @@ Danach kann der eigentliche Applikationscontainer gestartet werden:
     $ docker run -d --name typo3-web \
         --link typo3-db:db \
         -p 80:80 \
-      martinhelmich/typo3:7
+      martinhelmich/typo3:8
 
 Im Anschluss ist die laufende TYPO3-Installation unter `http://localhost` erreichbar (falls ihr die Docker Toolbox unter Windows oder MacOS nutzt, nutzt stattdessen die IP-Adresse der virtuellen Maschine, die ihr mit `docker-machine ip` herausfinden könnt).
 
@@ -69,7 +74,7 @@ Diese vier Verzeichnisse enthalten im Regelfall Nutzdaten, die nicht verloren ge
 
 Zur Haltung der Nutzdaten kann nun als erstes ein *Data-Only*-Container erstellt werden. Dieser wird später nicht laufen (daher empfiehlt es sich sogar, das CMD des Containers mit `/bin/true` zu überschreiben), sondern wird lediglich die Volumes mit Nutzdaten beinhalten:
 
-    $ docker run --name typo3-data martinhelmich/typo3:7 /bin/true
+    $ docker run --name typo3-data martinhelmich/typo3:8 /bin/true
 
 Der eigentliche Applikationscontainer kann dann mit dem `--volumes-from`-Flag gestartet werden:
 
@@ -78,12 +83,12 @@ Der eigentliche Applikationscontainer kann dann mit dem `--volumes-from`-Flag ge
         --link typo3-db:db \
         --volumes-from typo3-data \
         -p 80:80 \
-      martinhelmich/typo3:7
+      martinhelmich/typo3:8
 
 Auf diese Weise sind sogar später einfache Versionsupdates und Deployments möglich. Hierzu kann der `typo3-web`-Container einfach gelöscht werden; die wichtigen Nutzdaten bleiben in den Volumes des `typo3-data`-Containers erhalten und ein neuer `typo3-web`-Container kann mit denselben Daten erstellt werden:
 
     $ docker rm -f typo3-web
-    $ docker pull martinhelmich/typo3:7
+    $ docker pull martinhelmich/typo3:8
     $ docker run --name typo3-web ...
 
 ## Unter der Haube
