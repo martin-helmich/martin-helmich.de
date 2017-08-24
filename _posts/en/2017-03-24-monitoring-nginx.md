@@ -64,7 +64,7 @@ existing `access.log` file:
   waiting for PHP-FPM or other FastCGI modules.
 - Various quantiles of the response times and upstream times
 
-## Konfiguration
+## Configuration
 
 The NGINX exporter is configured using an HCL config file. In this config file,
 you can configure multiple "namespaces" -- there will then be exported as
