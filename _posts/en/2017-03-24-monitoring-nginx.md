@@ -1,21 +1,23 @@
 ---
-layout:     post
-title:      NGINX Performance Metrics with Prometheus
-date:       2017-03-24 11:05:00 +0100
-tags:       [prometheus, nginx, monitoring]
+layout: post
+title: NGINX Performance Metrics with Prometheus
+date: 2017-03-24 10:05:00 +0000
+tags:
+- prometheus
+- nginx
+- monitoring
 lang: en
-image:      /assets/headers/seismograph.jpg
+image: "/assets/headers/seismograph.jpg"
 image_license: CC BY
 image_author: Ray Bouknight
 image_source: https://www.flickr.com/photos/raybouk/8201310617/
 disqus_id: 0106ee21-38c1-4ab2-a62e-c7bc3892d653
-permalink: /en/blog/monitoring-nginx.html
+permalink: "/en/blog/monitoring-nginx.html"
 translations:
-  de: /de/blog/monitoring-nginx.html
-  en: /en/blog/monitoring-nginx.html
+  de: "/de/blog/monitoring-nginx.html"
+  en: "/en/blog/monitoring-nginx.html"
 ---
-
-[Prometheus][prom] is a combination of monitoring tool and time-series database
+[Prometheus](http://prometheus.io) is a combination of monitoring tool and time-series database
 that I have come to appreciate highly over the last few months. This article
 demonstrates how Prometheus can be used to visualize and monitor various web
 server metrics without changing the configuration of the web server itself.
@@ -53,16 +55,16 @@ legacy application).
 
 My solution to this challenge is my own Exporter that can generate performance
 metrics from existing NGINX access logs. This exporter is available as
-[Open Source on Github][exporter], and exports various metrics based on an
+[Open Source on Github](https://github.com/martin-helmich/prometheus-nginxlog-exporter), and exports various metrics based on an
 existing `access.log` file:
 
-- Number of processed requests per HTTP request method and response status
-- The total sum of time needed for processing HTTP requests per HTTP request
+* Number of processed requests per HTTP request method and response status
+* The total sum of time needed for processing HTTP requests per HTTP request
   method and status (together with the first metrics, this can be used to
   compute the average response time)
-- The total sum of the "Upstream Time", which is the time that NGINX spent on
+* The total sum of the "Upstream Time", which is the time that NGINX spent on
   waiting for PHP-FPM or other FastCGI modules.
-- Various quantiles of the response times and upstream times
+* Various quantiles of the response times and upstream times
 
 ## Configuration
 
@@ -95,8 +97,8 @@ metrics.
 
 The namespace name (`app1`, in this case) will later be used in the name of the
 exported metrics -- for example, `app1_http_response_time_seconds`. The format
-(`format`) describes the format in which NGINX writes its access logs (for more
-information, refer to [the documentation][nginx-log]).
+\(`format`) describes the format in which NGINX writes its access logs (for more
+information, refer to [the documentation](http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format)).
 
 ## Starting the Exporter
 
@@ -110,20 +112,18 @@ To ensure that the exporter starts automatically on system startup, you can
 configure a systemd unit (starting at Debian 8, Ubuntu 16.04 or CentOS 7).
 Place this file at `/etc/systemd/system/prometheus-nginxlog-exporter.service`:
 
-```
-[Unit]
-Description=NGINX metrics exporter for Prometheus
-After=network-online.target
-
-[Service]
-ExecStart=/usr/local/bin/prometheus-nginxlog-exporter -config-file /etc/prometheus-nginxlog-exporter.hcl
-Restart=always
-ProtectSystem=full
-CapabilityBoundingSet=
-
-[Install]
-WantedBy=multi-user.target
-```
+    [Unit]
+    Description=NGINX metrics exporter for Prometheus
+    After=network-online.target
+    
+    [Service]
+    ExecStart=/usr/local/bin/prometheus-nginxlog-exporter -config-file /etc/prometheus-nginxlog-exporter.hcl
+    Restart=always
+    ProtectSystem=full
+    CapabilityBoundingSet=
+    
+    [Install]
+    WantedBy=multi-user.target
 
 Note that this unit file expects the executable to be located at
 `/usr/local/bin/prometheus-nginxlog-exporter` and the configuration file to be
@@ -133,7 +133,7 @@ these paths as required.
 ## The Result
 
 I have been operating the `prometheus-nginxlog-exporter` in production for some
-time,now. Especially together with [Grafana][grafana], you can easily create
+time,now. Especially together with [Grafana](https://grafana.com/), you can easily create
 some excellent reports and monitoring dashboards:
 
 ![NGINX-Monitoring in Aktion]({{ site.url }}/assets/posts/prometheus-nginx-monitoring.png)
@@ -141,13 +141,8 @@ some excellent reports and monitoring dashboards:
 The diagrams in the screenshot above were generated from the following
 Prometheus queries:
 
-- Average response time: `sum(rate(app_http_response_time_seconds_sum[5m])) by (instance) / sum(rate(app_http_response_time_seconds_count[5m])) by (instance)`
-- Requests per second: `sum(rate(app_http_response_time_seconds_count[1m])) by (instance)`
-- Response tome (90% quantile): `app_http_response_time_seconds{quantile="0.9",method="GET",status="200"}`
-- HTTP traffic: `sum(rate(app_http_response_size_bytes[5m])) by (instance)`
-- Status codes per second: `sum(rate(app_http_response_count_total[1m])) by (status)`
-
-[prom]: http://prometheus.io
-[nginx-log]: http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format
-[exporter]: https://github.com/martin-helmich/prometheus-nginxlog-exporter
-[grafana]: https://grafana.com/
+* Average response time: `sum(rate(app_http_response_time_seconds_sum\[5m\])) by (instance) / sum(rate(app_http_response_time_seconds_count\[5m\])) by (instance)`
+* Requests per second: `sum(rate(app_http_response_time_seconds_count\[1m\])) by (instance)`
+* Response time (90% quantile): `app_http_response_time_seconds{quantile="0.9",method="GET",status="200"}`
+* HTTP traffic: `sum(rate(app_http_response_size_bytes\[5m\])) by (instance)`
+* Status codes per second: `sum(rate(app_http_response_count_total\[1m\])) by (status)`
