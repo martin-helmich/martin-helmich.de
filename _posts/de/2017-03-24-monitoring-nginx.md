@@ -1,14 +1,21 @@
 ---
-title: NGINX-Performancemetriken mit Prometheus
+layout:     post
+title:      NGINX-Performancemetriken mit Prometheus
+date:       2017-03-24 11:05:00 +0100
+tags:       [prometheus, nginx, monitoring]
 lang: de
-date: '2017-03-24 11:05:00 +0100'
-tags:
-  - prometheus
-  - nginx
-  - monitoring
-image: /assets/headers/seismograph.jpg
+image:      /assets/headers/seismograph.jpg
+image_license: CC BY
+image_author: Ray Bouknight
+image_source: https://www.flickr.com/photos/raybouk/8201310617/
+disqus_id: 0106ee21-38c1-4ab2-a62e-c7bc3892d653
+permalink: /de/blog/monitoring-nginx.html
+translations:
+  de: /de/blog/monitoring-nginx.html
+  en: /en/blog/monitoring-nginx.html
 ---
-[Prometheus](http://prometheus.io) ist eine Kombination aus Monitoring-Werkzeug und
+
+[Prometheus][prom] ist eine Kombination aus Monitoring-Werkzeug und
 Zeitreihen-Datenbank, die ich in den letzten Monaten sehr zu schätzen gelernt
 habe. Dieser Artikel zeigt, wie Prometheus genutzt werden kann, um verschiedene
 Webserver-Metriken (ohne Konfigurationseingriff) in Prometheus nutzbar zu
@@ -21,14 +28,13 @@ Sekunden) abgefragt werden kann. Dieser Endpunkt (beispielsweise
 `http://<service-name>/metrics`) muss dann eine Antwort mit entsprechenden
 Zeitreihendaten ausliefern:
 
-```
-http_response_count_total{application="my-application"} 12423
-http_response_time_seconds{application="my-application"} 1832745
-```
+    http_response_count_total{application="my-application"} 12423
+    http_response_time_seconds{application="my-application"} 1832745
 
 Dies funktioniert ausgezeichnet in Microservice-Architekturen -- hier kann jeder
 Service einen einzelnen `/metrics`-Endpunkt implementieren, der alle denkbaren
 Kennzahlen auswirft.
+
 
 ## Das Problem
 
@@ -47,21 +53,22 @@ angeboten wird (nicht detailliert genug für meinen Anwendungsfall), oder
 erfordern eine Umkonfiguration des Webservers, um einen neuen Logging-Server
 anzusprechen (zu invasiv für meine gehegte und gepflegte Alt-Applikation).
 
+
 ## Meine Lösung
 
 Meine Lösung des Problems besteht nun in einem eigenen Exporter, der
 Performance-Metriken aus bestehenden NGINX-Accesslogs generieren kann. Dieser
-steht als [Open Source auf Github zur Verfügung](https://github.com/martin-helmich/prometheus-nginxlog-exporter), und stellt einem
+steht als [Open Source auf Github zur Verfügung][exporter], und stellt einem
 Prometheus-Server auf Grundlage einer bestehenden `access.log`-Datei diverse
 Metriken zur Verfügung:
 
-* Anzahl der verarbeiteten Requests pro Request-Methode und Status
-* Summe der für die bisher verarbeiteten Requests notwendige Zeit, pro Methode
+- Anzahl der verarbeiteten Requests pro Request-Methode und Status
+- Summe der für die bisher verarbeiteten Requests notwendige Zeit, pro Methode
   und Status (zusammen mit der Anzahl kann hieraus die durchschnittliche
   Antwortzeit über den zeitlichen Verlauf ermittelt werden)
-* Summe der "Upstream Time", also der Zeit, die NGINX damit zugebracht hat, auf
+- Summe der "Upstream Time", also der Zeit, die NGINX damit zugebracht hat, auf
   PHP-FPM oder andere FastCGI-Module zu warten
-* Diverse Quantile der Antwortzeit und Upstream Time
+- Diverse Quantile der Antwortzeit und Upstream Time
 
 ## Konfiguration
 
@@ -95,17 +102,15 @@ Performance-Metriken abgegriffen werden.
 Der Namespace-Name (hier `app1`) wird später in den Namen der exportierten
 Metriken übernommen -- also beispielsweise `app1_http_response_time_seconds`.
 Das Format (`format`) gibt das Format an, in dem NGINX die Access-Logs schreibt
-(für mehr Informationen dazu sei [auf die Dokumentation](http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format) verwiesen).
+(für mehr Informationen dazu sei [auf die Dokumentation][nginx-log] verwiesen).
 
 ## Start des Exporters
 
 Der eigentliche Exporter ist ein statisch kompiliertes Go-Binary, welches nach
 dem Herunterladen sofort installiert werden kann:
 
-```
-wget https://github.com/martin-helmich/prometheus-nginxlog-exporter/releases/download/v1.0.0/prometheus-nginxlog-exporter
-./prometheus-nginxlog-exporter -config-file /pfad/zur/config.hcl
-```
+    wget https://github.com/martin-helmich/prometheus-nginxlog-exporter/releases/download/v1.0.0/prometheus-nginxlog-exporter
+    ./prometheus-nginxlog-exporter -config-file /pfad/zur/config.hcl
 
 Um sicherzustellen, dass der Exporter beim Systemstart automatisch startet,
 kann eine entsprechende systemd-Unit konfiguriert werden (ab Debian 8, Ubuntu
@@ -134,15 +139,21 @@ Bedarf angepasst werden.
 ## Das Ergebnis
 
 Ich betreibe den `prometheus-nginxlog-exporter` nun seit einiger Zeit schon
-produktiv. Insbesondere zusammen mit [Grafana](https://grafana.com/) lassen sich wunderbare
+produktiv. Insbesondere zusammen mit [Grafana][grafana] lassen sich wunderbare
 Auswertungen und Monitoring-Dashboards erstellen:
 
 ![NGINX-Monitoring in Aktion]({{ site.url }}/assets/posts/prometheus-nginx-monitoring.png)
 
-Die Diagramme im obigen Screenshot wurden aus den folgenden Prometheus-Queries generiert:
+Die Diagramme im obigen Screenshot wurden aus den folgenden Prometheus-Queries
+generiert:
 
-* Durchschnittliche Antwortzeit: `sum(rate(app_http_response_time_seconds_sum[5m])) by (instance) / sum(rate(app_http_response_time_seconds_count[5m])) by (instance)`
-* Anfragen pro Sekunde: `sum(rate(app_http_response_time_seconds_count[1m])) by (instance)`
-* Antwortzeit (90%-Quantil): `app_http_response_time_seconds{quantile="0.9",method="GET",status="200"}`
-* HTTP-Traffic: `sum(rate(app_http_response_size_bytes[5m])) by (instance)`
-* Statuscodes pro Sekunde: `sum(rate(app_http_response_count_total[1m])) by (status)`
+- Durchschnittliche Antwortzeit: `sum(rate(app_http_response_time_seconds_sum[5m])) by (instance) / sum(rate(app_http_response_time_seconds_count[5m])) by (instance)`
+- Anfragen pro Sekunde: `sum(rate(app_http_response_time_seconds_count[1m])) by (instance)`
+- Antwortzeit (90%-Quantil): `app_http_response_time_seconds{quantile="0.9",method="GET",status="200"}`
+- HTTP-Traffic: `sum(rate(app_http_response_size_bytes[5m])) by (instance)`
+- Statuscodes pro Sekunde: `sum(rate(app_http_response_count_total[1m])) by (status)`
+
+[prom]: http://prometheus.io
+[nginx-log]: http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format
+[exporter]: https://github.com/martin-helmich/prometheus-nginxlog-exporter
+[grafana]: https://grafana.com/
