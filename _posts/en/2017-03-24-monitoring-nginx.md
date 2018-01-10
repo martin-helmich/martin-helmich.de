@@ -143,7 +143,7 @@ Prometheus queries:
 
 - Average response time: `sum(rate(app_http_response_time_seconds_sum[5m])) by (instance) / sum(rate(app_http_response_time_seconds_count[5m])) by (instance)`
 - Requests per second: `sum(rate(app_http_response_time_seconds_count[1m])) by (instance)`
-- Response tome (90% quantile): `app_http_response_time_seconds{quantile="0.9",method="GET",status="200"}`
+- Response time (90% quantile): `app_http_response_time_seconds{quantile="0.9",method="GET",status="200"}`
 - HTTP traffic: `sum(rate(app_http_response_size_bytes[5m])) by (instance)`
 - Status codes per second: `sum(rate(app_http_response_count_total[1m])) by (status)`
 
