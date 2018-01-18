@@ -77,7 +77,7 @@ Konfigurationsdatei können mehrere "Namespaces" konfiguriert werden -- diese
 werden dann als separate Metriken exportiert. Nachfolgend ein kurzes Beispiel
 für eine solche Konfigurationsdatei:
 
-```hcl
+{% highlight tf linenos %}
 listen {
   port = 4040
   address = "0.0.0.0"
@@ -92,7 +92,7 @@ namespace "app1" {
     foo = "bar"
   }
 }
-```
+{% endhighlight %}
 
 Beim Start des Exporters startet dieser einen eigenen HTTP-Server, der auf der
 konfigurierten IP-Adresse und Port lauscht (standardmäßig `0.0.0.0:4040`). Über
@@ -116,7 +116,7 @@ Um sicherzustellen, dass der Exporter beim Systemstart automatisch startet,
 kann eine entsprechende systemd-Unit konfiguriert werden (ab Debian 8, Ubuntu
 16.04 oder CentOS 7). Diese kann platziert werden unter `/etc/systemd/system/prometheus-nginxlog-exporter.service`:
 
-```
+{% highlight ini linenos %}
 [Unit]
 Description=NGINX metrics exporter for Prometheus
 After=network-online.target
@@ -129,7 +129,7 @@ CapabilityBoundingSet=
 
 [Install]
 WantedBy=multi-user.target
-```
+{% endhighlight %}
 
 Beachtet, dass diese Unitfile davon ausgeht, dass das Binary unter
 `/usr/local/bin/prometheus-nginxlog-exporter` und die Konfigurationsdatei unter

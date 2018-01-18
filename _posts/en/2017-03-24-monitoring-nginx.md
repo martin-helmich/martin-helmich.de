@@ -71,7 +71,7 @@ you can configure multiple "namespaces" -- there will then be exported as
 separate sets of metrics. Have a look at the following configuration file as an
 example:
 
-```hcl
+{% highlight tf linenos %}
 listen {
   port = 4040
   address = "0.0.0.0"
@@ -86,7 +86,7 @@ namespace "app1" {
     foo = "bar"
   }
 }
-```
+{% endhighlight %}
 
 The exporter starts its own HTTP server that listens on the configured IP
 address and port (by default, `0.0.0.0:4040`). Using the URL
@@ -110,7 +110,7 @@ To ensure that the exporter starts automatically on system startup, you can
 configure a systemd unit (starting at Debian 8, Ubuntu 16.04 or CentOS 7).
 Place this file at `/etc/systemd/system/prometheus-nginxlog-exporter.service`:
 
-```
+{% highlight ini linenos %}
 [Unit]
 Description=NGINX metrics exporter for Prometheus
 After=network-online.target
@@ -123,7 +123,7 @@ CapabilityBoundingSet=
 
 [Install]
 WantedBy=multi-user.target
-```
+{% endhighlight %}
 
 Note that this unit file expects the executable to be located at
 `/usr/local/bin/prometheus-nginxlog-exporter` and the configuration file to be
@@ -136,7 +136,7 @@ I have been operating the `prometheus-nginxlog-exporter` in production for some
 time,now. Especially together with [Grafana][grafana], you can easily create
 some excellent reports and monitoring dashboards:
 
-![NGINX-Monitoring in Aktion]({{ site.url }}/assets/posts/prometheus-nginx-monitoring.png)
+![NGINX monitoring in action]({{ site.url }}/assets/posts/prometheus-nginx-monitoring.png)
 
 The diagrams in the screenshot above were generated from the following
 Prometheus queries:
