@@ -56,6 +56,11 @@ tags_display:
   docker:
     name: Docker
     color: '#22b8eb'
+  kubernetes:
+    name: Kubernetes
+    color: '#3371e3'
+  golang:
+    name: Go
   varnish:
     name: Varnish
     color: '#1C75BC'
