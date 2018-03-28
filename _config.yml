@@ -76,7 +76,7 @@ tags_display:
 
 t:
   de:
-    more: weiterlesen!
+    more: Weiterlesen
     publications: Veröffentlichungen
     blog_articles: Blog-Artikel
     menu: Menü
@@ -86,7 +86,7 @@ t:
     written_on: Geschrieben am
     by: von
   en:
-    more: read more!
+    more: Read more
     publications: Publications
     blog_articles: Blog articles
     menu: Menu

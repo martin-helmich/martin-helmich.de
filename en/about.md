@@ -11,7 +11,7 @@ translations:
 {% capture left %}
   My name is Martin Helmich; I am 29 years old and am working as a software architect at the webhosting provider Mittwald in Espelkamp. I recently finished my Master's degree at the University of Appliced Sciences of Osnabrück.
 
-  Furthermore, I am regularly lecturing on "Data and information management" at my old university, the *Private Hochschule für Wirtschaft & Technik* in Vechta.
+  Furthermore, I am regularly giving courses on "Programming and Software Engineering" and "Database technologies" at my old university, the *Private Hochschule für Wirtschaft & Technik* in Vechta.
 
   <ul class="social-links">
     <li><a href="https://www.xing.com/profile/Martin_Helmich3"><img src="/assets/social/xing.svg"></a></li>
@@ -21,7 +21,8 @@ translations:
 {% endcapture %}
 
 {% capture right %}
-  <img src="/assets/martin-640.jpg" class="img-responsive" />
+  <img src="/assets/martin-grumpy.jpg" class="img-responsive z-depth-1" id="martin-grumpy" />
+  <img src="/assets/martin-happy.jpg" class="img-responsive z-depth-1 d-none" id="martin-happy" />
 {% endcapture %}
 
 {% include 2column.html %}

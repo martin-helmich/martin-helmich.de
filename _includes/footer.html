@@ -2,11 +2,11 @@
 {% if page.lang == 'de' %}
 {% assign publications_url = "/de/veroeffentlichungen.html" %}
 {% endif %}
-<div class="footer">
+<footer class="page-footer font-small stylish-color pt-4 mt-4">
   <div class="container">
     <div class="row">
       <div class="col-sm-4">
-        <h4>{{ site.t[page.lang].publications }}</h4>
+        <h5>{{ site.t[page.lang].publications }}</h5>
         <ul>
           {% assign latest_publications = site.publications | sort:"date" | reverse %}
           {% for publication in latest_publications limit:5 %}
@@ -18,9 +18,9 @@
         </ul>
       </div>
       <div class="col-sm-4">
-        <h4>
+        <h5>
           {{ site.t[page.lang].blog_articles }}
-        </h4>
+        </h5>
         <ul>
           {% assign latest_posts = site.posts | where:"lang",page.lang | sort:"date" | reverse %}
           {% for post in latest_posts limit:5 %}
@@ -32,9 +32,9 @@
         </ul>
       </div>
       <div class="col-sm-4">
-        <h4>
+        <h5>
           {{ site.t[page.lang].menu }}
-        </h4>
+        </h5>
         <ul>
           {% for item in site.footer_menu[page.lang] %}
             <li><a href="{{ item.url | prepend:site.baseurl }}">{{ item.title }}</a></li>
@@ -43,7 +43,20 @@
       </div>
     </div>
   </div>
-</div>
+  <div class="footer-copyright py-3 text-center">
+    Martin Helmich 2018
+  </div>
+</footer>
 
-<script type="text/javascript" src="{{ "/bower_components/jquery/dist/jquery.min.js" | prepend: site.baseurl }}"></script>
-<script type="text/javascript" src="{{ "/bower_components/bootstrap/dist/js/bootstrap.min.js" | prepend: site.baseurl }}"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/js/mdb.min.js"></script>
+<script type="text/javascript">
+$("#martin-grumpy").mouseover(function() {
+  $(this).attr("src", "/assets/martin-happy.jpg");
+});
+$("#martin-grumpy").mouseout(function() {
+  $(this).attr("src", "/assets/martin-grumpy.jpg");
+});
+</script>
