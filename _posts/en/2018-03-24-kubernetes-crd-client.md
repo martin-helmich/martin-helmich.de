@@ -143,9 +143,9 @@ import "k8s.io/apimachinery/pkg/runtime"
 // same type that is provided as a pointer.
 func (in *Project) DeepCopyInto(out *Project) {
     out.TypeMeta = in.TypeMeta
-    out.ObjectMeta = in.TypeMeta
+    out.ObjectMeta = in.ObjectMeta
     out.Spec = ProjectSpec{
-        Replicas: in.Spec.Replicas
+        Replicas: in.Spec.Replicas,
     }
 }
 
@@ -161,7 +161,7 @@ func (in *Project) DeepCopyObject() runtime.Object {
 func (in *ProjectList) DeepCopyObject() runtime.Object {
     out := ProjectList{}
     out.TypeMeta = in.TypeMeta
-    out.ObjectMeta = in.TypeMeta
+    out.ListMeta = in.ListMeta
 
     if in.Items != nil {
         out.Items = make([]Project, len(in.Items))
@@ -230,7 +230,7 @@ import (
     "k8s.io/apimachinery/pkg/runtime/schema"
     "k8s.io/apimachinery/pkg/runtime/serializer"
 
-    "github.com/martin-helmich/kubernetes-crd-example/types/v1alpha1"
+    "github.com/martin-helmich/kubernetes-crd-example/api/types/v1alpha1"
     "k8s.io/client-go/kubernetes/scheme"
     "k8s.io/client-go/rest"
     "k8s.io/client-go/tools/clientcmd"
@@ -290,9 +290,15 @@ In order to use your API in a more typesafe way, it is usually a good idea to wr
 {% highlight go linenos %}
 package v1alpha1
 
-import "k8s.io/client-go/rest"
+import (
+    "github.com/martin-helmich/kubernetes-crd-example/api/types/v1alpha1"
+    "k8s.io/apimachinery/pkg/runtime/schema"
+    "k8s.io/apimachinery/pkg/runtime/serializer"
+    "k8s.io/client-go/kubernetes/scheme"
+    "k8s.io/client-go/rest"
+)
 
-type ExampleV1Alpha1Interface {
+type ExampleV1Alpha1Interface interface {
     Projects(namespace string) ProjectInterface 
 }
 
@@ -317,7 +323,7 @@ func NewForConfig(c *rest.Config) (*ExampleV1Alpha1Client, error) {
 
 func (c *ExampleV1Alpha1Client) Projects(namespace string) ProjectInterface {
     return &projectClient{
-        restClient: c.client,
+        restClient: c.restClient,
         ns: namespace,
     }
 }
@@ -330,12 +336,15 @@ The `ExampleV1Alpha1Interface` and its implementation, the `ExampleV1Alpha1Clien
 Next, you'll need to implement a specific clientset for accessing the `Project` custom resource (note that the example above already uses the `ProjectInterface` and `projectClient` types that we still need to supply). Create a second file `projects.go` in the same package:
 
 {% highlight go linenos %}
-pacakge clientset
+package v1alpha1
 
-import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
-import "k8s.io/apimachinery/pkg/watch"
-import "k8s.io/client-go/rest"
-import "k8s.io/client-go/kubernetes/scheme"
+import (
+    "github.com/martin-helmich/kubernetes-crd-example/api/types/v1alpha1"
+    metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+    "k8s.io/apimachinery/pkg/watch"
+    "k8s.io/client-go/kubernetes/scheme"
+    "k8s.io/client-go/rest"
+)
 
 type ProjectInterface interface {
     List(opts metav1.ListOptions) (*v1alpha1.ProjectList, error)
@@ -346,8 +355,8 @@ type ProjectInterface interface {
 }
 
 type projectClient struct {
-    restClient: rest.Interface
-    namespace: string
+    restClient rest.Interface
+    ns         string
 }
 
 func (c *projectClient) List(opts metav1.ListOptions) (*v1alpha1.ProjectList, error) {
@@ -360,21 +369,21 @@ func (c *projectClient) List(opts metav1.ListOptions) (*v1alpha1.ProjectList, er
         Do().
         Into(&result)
 
-    return result, err
+    return &result, err
 }
 
-func (c *projectClient) Get(name string, metav1.GetOptions) (*v1alpha1.Project, error) {
+func (c *projectClient) Get(name string, opts metav1.GetOptions) (*v1alpha1.Project, error) {
     result := v1alpha1.Project{}
     err := c.restClient.
         Get().
         Namespace(c.ns).
         Resource("projects").
-        Name(name)
+        Name(name).
         VersionedParams(&opts, scheme.ParameterCodec).
         Do().
         Into(&result)
 
-    return result, err
+    return &result, err
 }
 
 func (c *projectClient) Create(project *v1alpha1.Project) (*v1alpha1.Project, error) {
@@ -383,11 +392,11 @@ func (c *projectClient) Create(project *v1alpha1.Project) (*v1alpha1.Project, er
         Post().
         Namespace(c.ns).
         Resource("projects").
-        Body(project)
+        Body(project).
         Do().
         Into(&result)
 
-    return result, err
+    return &result, err
 }
 
 func (c *projectClient) Watch(opts metav1.ListOptions) (watch.Interface, error) {
@@ -396,10 +405,9 @@ func (c *projectClient) Watch(opts metav1.ListOptions) (watch.Interface, error) 
         Get().
         Namespace(c.ns).
         Resource("projects").
-        Do().
+        VersionedParams(&opts, scheme.ParameterCodec).
         Watch()
 }
-
 {% endhighlight %}
 
 This client is obviously not yet complete and misses methods like `Delete`, `Update` and others. However, these can be implemented similar to the already existing methods. Have a look at the existing client sets (for example, the [`Pod` client set](https://github.com/kubernetes/client-go/blob/master/kubernetes/typed/core/v1/pod.go)) for inspiration. 
@@ -418,7 +426,11 @@ func main() {
         panic(err)
     }
 
-    projects, err := clientSet.Projects().List(metav1.ListOptions{})
+    projects, err := clientSet.Projects("default").List(metav1.ListOptions{})
+    if err != nil {
+        panic(err)
+    }
+
     fmt.Printf("projects found: %+v\n", projects)
 }
 {% endhighlight %}
@@ -434,14 +446,20 @@ This pattern is so common that the client-go library offers a helper for this: t
 {% highlight go linenos %}
 package main
 
-import "time"
-import "k8s.io/client-go/tools/cache"
-import client_v1alpha1 "github.com/martin-helmich/kubernetes-crd-example/clientset/v1alpha1"
-import "github.com/martin-helmich/kubernetes-crd-example/types/v1alpha1"
-import "k8s.io/apimachinery/pkg/util/wait"
+import (
+    "time"
+
+    "github.com/martin-helmich/kubernetes-crd-example/api/types/v1alpha1"
+    client_v1alpha1 "github.com/martin-helmich/kubernetes-crd-example/clientset/v1alpha1"
+    metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+    "k8s.io/apimachinery/pkg/runtime"
+    "k8s.io/apimachinery/pkg/util/wait"
+    "k8s.io/apimachinery/pkg/watch"
+    "k8s.io/client-go/tools/cache"
+)
 
 func WatchResources(clientSet client_v1alpha1.ExampleV1Alpha1Interface) cache.Store {
-    projectStore, projectController = cache.NewInformer(
+    projectStore, projectController := cache.NewInformer(
         &cache.ListWatch{
             ListFunc: func(lo metav1.ListOptions) (result runtime.Object, err error) {
                 return clientSet.Projects("some-namespace").List(lo)
@@ -451,7 +469,7 @@ func WatchResources(clientSet client_v1alpha1.ExampleV1Alpha1Interface) cache.St
             },
         },
         &v1alpha1.Project{},
-        1 * time.Minute,
+        1*time.Minute,
         cache.ResourceEventHandlerFuncs{},
     )
 
