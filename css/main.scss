@@ -3,317 +3,162 @@
 ---
 @charset "utf-8";
 
-$linkColor: #428bca;
-$darkBg: #202020;
-$mediumBg: #808080;
-
-$success: #5cb85c;
-
-$navLinkColor: white;
-$attentionColor: #d9534f;
-
 body {
-  background-color: $darkBg;
-  padding-bottom: 30px;
-}
-
-.navbar {
-  font-family: 'Source Sans Pro', sans-serif;
-  background-color: $darkBg;
-  margin-bottom: 0;
-  border-radius: 0;
-
-  a {
-    color: $navLinkColor;
-  }
-
-  li {
-    text-transform: uppercase;
-
-    .dropdown-menu {
-      a:hover {
-        background-color: #d0d0d0 !important;
-      }
-    }
-
-    a:hover,
-    a:focus,
-    a.open,
-    .open > a {
-      background-color: lighten($darkBg, 20%) !important;
-    }
-  }
-
-  li.active {
-    font-weight: bold;
-    border-bottom: 2px solid $navLinkColor;
-  }
-
-  .navbar-brand {
-    font-size: 18pt;
-  }
-
-  .icon-bar {
-    background-color: white;
-  }
-
-}
-
-.main {
   background-color: #d0d0d0;
-
-  h1, h2, h3, h4, h5, h6 {
-    font-family: 'Slabo 27px', serif;
-    text-align: center;
-  }
-
-  h1:first-of-type {
-    margin-top: 1em;
-    margin-bottom: 1em;
-  }
 
   .container.primary {
     background-color: white;
-    padding-bottom: 4em;
-  }
-
-  .blog-landing {
-    background-size: cover;
-    height: 300px;
-
-    .container.attribution {
-      text-align: right;
-      margin-top: 220px;
-
-      a {
-        color: white;
-      }
-    }
-
-    .navbar {
-      background-color: rgba(255,255,255,0.5);
-      a {
-        color: black;
-      }
-
-      li.active {
-        font-weight: bold;
-        border-bottom: 2px solid black;
-      }
-    }
-  }
-
-  .main-content {
-
-    padding-top: 1em;
-
-    p, li {
-      font-family: 'Source Sans Pro', sans-serif;
-      font-size: 12pt;
-    }
-
-    p img {
-      max-width: 100%;
-    }
-
-    figcaption {
-      font-style: italic;
-    }
-  }
-}
-
-article {
-  h2 {
-    margin-top: 1em;
-    margin-bottom: .5em;
-  }
-}
-
-.blog-teaser {
-  margin-bottom: 2em;
-
-  .tags {
-  }
-
-  .update {
-    background-color: $attentionColor;
-    padding: .2em .6em .3em;
-    font-size: 75%;
-    font-weight: 700;
-    color: #fff;
-    text-align: center;
-    text-transform: uppercase;
-  }
-
-  .img-header {
-    width: 100%;
-    height: 69px;
-    background-size: cover;
-    display: table;
-
-    & > div {
-      display: table-row;
-
-      &:first-child {
-        width: 100%;
-        display: table-cell;
-      }
-
-      .date {
-        background-color: $success;
-        color: white;
-        min-width: 69px;
-        height: 69px;
-        display: table-cell;
-        vertical-align: middle;
-        text-align: center;
-
-        font-family: 'Slabo 27px', serif;
-        font-size: 18pt;
-        line-height: 90%;
-        padding: 8px;
-      }
-    }
-  }
-}
-
-.blog-teaser,
-.publication,
-.project {
-  h1, h2, h3, h4, h5, h6 {
-    text-align: left;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
   }
 }
 
 .books {
-  img {
-    max-height: 320px;
-    width: auto;
-  }
-
-  .row {
-    margin-bottom: 2em;
+  .card .view {
+    height: 300px;
+    background-size: cover;
   }
 }
 
-.publication {
-  h1, h2, h3, h4, h5, h6 {
-    margin-top: 0;
+.talks {
+  .card .view {
+    height: 150px;
+    background-size: cover;
   }
-
-  margin-bottom: 2em;
 }
 
-.project {
-
-  &.project-l {
-    h2 {
-      margin-top: 0;
+.blog-index {
+  .card {
+    .view {
+      background-size: cover;
+      height: 150px;
     }
   }
 }
 
-.footer {
-  padding-top: 1em;
+.nav-link {
+  text-transform: uppercase;
+}
 
-  * {
-    color: #a0a0a0;
+.blog-landing {
+  background-size: cover;
+  height: 300px;
+
+  .container.attribution {
+    text-align: right;
+    margin-top: 220px;
+
+    a {
+      color: white;
+    }
   }
 
-  a {
-    color: white;
+  .navbar {
+    background-color: rgba(255,255,255,0.5) !important;
+    a {
+      color: black !important;
+    }
+
+    a.nav-link {
+      color: black !important;
+    }
+
+    li.active {
+      font-weight: bold;
+      border-bottom: 2px solid black;
+    }
+  }
+}
+
+.primary {
+  pre {
+    border: 0;
+    border-radius: .25rem;
+    box-shadow: 0 2px 5px 0 rgba(0,0,0,.16), 0 2px 10px 0 rgba(0,0,0,.12);
+    padding: 1em;
+
+    .lineno {
+      color: #ddd;
+    }
   }
 
-  h4 {
+  p img {
+    max-width: 100%;
+  }
+
+  .post-meta {
+    text-align: center;
+    font-style: italic;
+    color: #666;
+
+    padding-top: 1em;
+    padding-bottom: 1em;
+  }
+
+  article.post, .card {
+    h1, h2, h3, h4 {
+      font-family: 'Slabo 27px', serif;
+      text-align: center;
+    }
+
+    h1:first-of-type {
+      padding-top: 1em;
+      padding-bottom: 1em;
+    }
+    
+    h2, h3 {
+      margin-top: 2em;
+      margin-bottom: 1em;
+    }
+  }
+
+  article.post {
+    padding-left: 3em;
+    padding-right: 3em;
+    padding-bottom: 3em;
+  }
+}
+
+footer {
+  h5 {
     text-transform: uppercase;
-    font-family: 'Slabo 27px', serif;
   }
 
   ul {
     padding-left: 0;
-    list-style-type: square;
   }
 }
 
-.post-meta {
-  text-align: center;
-  font-style: italic;
+.row.equal-height {
+  display: flex;
+  flex-wrap: wrap;
+}
+.row.equal-height > [class*='col-'] {
+  display: flex;
+  flex-direction: column;
 }
 
 .my-alert {
-  font-family: 'Source Sans Pro', sans-serif;
-  font-size: larger;
-  padding: 1em 10%;
-  margin: 1em 0;
+  border-radius: .25rem;
 
-  .glyphicon {
-    font-size: 64px;
-    margin-right: 16px;
-    padding-right: 16px;
-    border-right: 1px solid #bce8f1;
-    color: #31708f;
+  .icon {
+    font-size: 96px;
+    margin: 0px 16px;
     float: left;
+    position: relative;
   }
 
-  strong {
-    margin-right: 1em;
-  }
+  .my-alert-body {
+    margin-top: 2em;
+    padding-left: 128px;
 
-  & > div {
-    min-height: 64px;
-  }
-
-  &.info {
-    background-color: #d9edf7;
-    strong {
-      color: #31708f;
+    a {
+      color: white;
+      text-decoration: underline;
     }
-    .glyphicon {
-      color: #31708f;
-      border-color: #bce8f1;
-    }
-  }
-
-  &.caution {
-    background-color: #fcf8e3;
-    strong {
-      color: #8a6d3b;
-    }
-    .glyphicon {
-      color: #8a6d3b;
-      border-color: #faebcc;
-    }
-  }
-
-  &.danger {
-    background-color: #f2dede;
-    strong {
-      color: #a94442;
-    }
-    .glyphicon {
-      color: #a94442;
-      border-color: #ebccd1;
-    }
-  }
-}
-
-ul.social-links {
-  padding: 0;
-  margin: 2em 0;
-  text-align: center;
-
-  img {
-    width: 64px;
-    height: 64px;
-  }
-
-  li {
-    display: inline;
-    list-style-type: none;
   }
 }
 
 // Import partials from `sass_dir` (defaults to `_sass`)
-@import
-        "syntax-highlighting"
-;
+@import "syntax-highlighting";
+@import "action-button";
+@import "social-links";

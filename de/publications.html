@@ -9,64 +9,80 @@ translations:
 ---
 
 {% assign books = site.publications | where:"type","book" | sort:"date" %}
+{% assign articles_talks = site.publications | where_exp:"item","item.type != 'book'" | sort:"date" %}
 {% assign articles = site.publications | where:"type","article" | sort:"date" %}
 {% assign talks = site.publications | where:"type","talk" | sort:"date" %}
 
-<div class="row">
-  <h2>Bücher</h2>
-</div>
+<h2>Bücher</h2>
 
 <div class="books">
   {% for book in books reversed %}
   {% capture mod %}{{ forloop.index0 | modulo:3 }}{% endcapture %}
   {% if mod == '0' or forloop.first %}
     {% unless forloop.first %}</div>{% endunless %}
-    <div class="row">
+    <div class="row equal-height">
   {% endif %}
 
-  <div class="col-md-4">
-    <div class="text-center">
-      <img src="{{ book.image }}" class="img-thumbnail"/>
-    </div>
-    <p class="text-center">
-      <em>
-        {% case book.type %}
-        {% when "book" %}{{ book.date | localize:"%B %Y" }}, {{ book.publisher }}, {{ book.publisher_location }}
-        {% endcase %}
-      </em>
-    </p>
-    <h3>{{ book.title }}</h3>
-    <p>
-      {{ book.excerpt }}
-    </p>
+  <div class="col-lg-4 mt-4">
+    <div class="card">
+      <div class="view overlay" style="background-image: url({{ book.image }})">
+        <a href="{{ post.url | prepend: site.baseurl }}">
+          <div class=mask rgba-white-slight></div>
+        </a>
+      </div>
+      {% if book.links.amazon %}
+      <a href="{{ book.links.amazon }}" target="_blank" class="btn-floating btn-action ml-auto mr-4 success-color-dark lighten-3"><i class="fa fa-shopping-cart"></i></a>
+      {% endif %}
+      <div class="card-body">
+        <h4 class="card-title">{{ book.title }}</h4>
+        <div class="font-italic grey-text">{{ book.date | localize:"%B %Y" }}, {{ book.publisher }}, {{ book.publisher_location }}</div>
+        <hr>
+        <p class="card-text">{{ book.excerpt | remove: '<p>' | remove: '</p>' }}</p>
 
-    {% if book.links.amazon %}
-    <a href="{{ book.links.amazon }}" class="btn btn-success" target="_blank">
-        <span class="glyphicon glyphicon-shopping-cart"></span>
-        Nimm mein Geld!
-    </a>
-    {% endif %}
+      </div>
+
+      {% if book.links.amazon %}
+      <a href="{{ book.links.amazon }}" class="btn btn-success" target="_blank">
+          <span class="fa fa-shopping-cart"></span>
+          Nimm mein Geld!
+      </a>
+      {% endif %}
+    </div>
   </div>
+
   {% if forloop.last %}</div>{% endif %}
   {% endfor %}
 </div>
 
-<div class="row">
-  <div class="col-lg-6">
-    <h2>Vorträge</h2>
-    {% for publication in talks reversed %}
-    <div class="row publication">
-      <div class="col-md-2 col-sm-3 col-xs-4">
-        {% if publication.speakerdeck_id %}
-        <img src="https://speakerd.s3.amazonaws.com/presentations/{{ publication.speakerdeck_id }}/slide_0.jpg" width="100%" />
-        {% else if publication.image %}
-        <img src="{{ publication.image }}" width="100%"/>
-        {% endif %}
-      </div>
-      <div class="col-md-10 col-sm-9 col-xs-8">
-        <h3>{{ publication.title }}</h3>
-        <p>
-          <em>
+<h2>Vorträge und Artikel</h2>
+
+<div class="talks">
+  {% for publication in articles_talks reversed %}
+  {% capture mod %}{{ forloop.index0 | modulo:3 }}{% endcapture %}
+  {% if mod == '0' or forloop.first %}
+    {% unless forloop.first %}</div>{% endunless %}
+    <div class="row equal-height">
+  {% endif %}
+
+  <div class="col-lg-4 mt-4">
+    <div class="card">
+      {% if publication.speakerdeck_id %}
+        <div class="view overlay" style="background-image: url(https://speakerd.s3.amazonaws.com/presentations/{{ publication.speakerdeck_id }}/slide_0.jpg)"></div>
+      {% else %}
+        <div class="view overlay" style="background-image: url({{ publication.image }})"></div>
+      {% endif %}
+      {% if publication.links.speakerdeck %}
+      <a href="{{ publication.links.speakerdeck }}" target="_blank" class="btn-floating btn-action ml-auto mr-4 mdb-color lighten-3"><i class="fa fa-desktop"></i></a>
+      {% endif %}
+      {% if publication.links.article %}
+      <a href="{{ publication.links.article }}" target="_blank" class="btn-floating btn-action ml-auto mr-4 mdb-color lighten-3"><i class="fa fa-book"></i></a>
+      {% endif %}
+      <div class="card-body">
+        <h4 class="card-title">{{ publication.title }}</h4>
+        <div class="font-italic grey-text">
+          {% case publication.type %}
+          {% when "article" %}veröffentlicht am {{ publication.date | localize:"%d. %B %Y" }} in {{ publication.magazine }}, Ausgabe {{ publication.issue }}
+          {% when "talk" %}
             gehalten am {{ publication.date | localize:"%d. %B %Y" }} auf der
             {% if publication.conference.link %}
             <a href="{{ publication.conference.link }}" target="_blank">
@@ -76,70 +92,22 @@ translations:
               {{ publication.conference.name }}
             {% endif %}
             in {{ publication.conference.location }}
-          </em>
-        </p>
-        <p>
-          {{ publication.excerpt }}
-        </p>
+          {% endcase %}
+        </div>
+        <hr>
+        <p class="card-text">{{ publication.excerpt | remove: '<p>' | remove: '</p>' }}</p>
 
-        {% if publication.links.amazon %}
-        <a href="{{ publication.links.amazon }}" class="btn btn-success" target="_blank">
-            <span class="glyphicon glyphicon-shopping-cart"></span>
-            Nimm mein Geld!
-        </a>
-        {% endif %}
-        {% if publication.links.speakerdeck %}
-        <a href="{{ publication.links.speakerdeck }}" class="btn btn-primary" target="_blank">
-            <span class="glyphicon glyphicon-blackboard"></span>
-            Speakerdeck
-        </a>
-        {% endif %}
-        {% if publication.links.paper %}
-        <a href="{{ publication.links.paper }}" class="btn btn-default" target="_blank">
-            <span class="glyphicon glyphicon-book"></span>
-            Paper herunterladen
-        </a>
-        {% endif %}
       </div>
+
+      {% if pub.links.amazon %}
+      <a href="{{ book.links.amazon }}" class="btn btn-success" target="_blank">
+          <span class="fa fa-shopping-cart"></span>
+          Nimm mein Geld!
+      </a>
+      {% endif %}
     </div>
-    {% endfor %}
   </div>
-  <div class="col-lg-6">
-    <h2>Artikel</h2>
 
-    {% for publication in articles reversed %}
-    <div class="row publication">
-      <div class="col-md-2 col-sm-3 col-xs-4">
-        <img src="{{ publication.image }}" width="100%"/>
-      </div>
-      <div class="col-md-10 col-sm-9 col-xs-8">
-        <h3>{{ publication.title }}</h3>
-        <p>
-          <em>
-            {% case publication.type %}
-            {% when "book" %}veröffentlicht am {{ publication.date | localize:"%d. %B %Y" }} im {{ publication.publisher }}, {{ publication.publisher_location }}
-            {% when "article" %}veröffentlicht am {{ publication.date | localize:"%d. %B %Y" }} im {{ publication.magazine }}, Ausgabe {{ publication.issue }}
-            {% endcase %}
-          </em>
-        </p>
-        <p>
-          {{ publication.excerpt }}
-        </p>
-
-        {% if publication.links.amazon %}
-        <a href="{{ publication.links.amazon }}" class="btn btn-success" target="_blank">
-            <span class="glyphicon glyphicon-shopping-cart"></span>
-            Nimm mein Geld!
-        </a>
-        {% endif %}
-        {% if publication.links.article %}
-        <a href="{{ publication.links.article }}" class="btn btn-default" target="_blank">
-          <span class="glyphicon glyphicon-book"></span>
-          Zum Artikel
-        </a>
-        {% endif %}
-      </div>
-    </div>
-    {% endfor %}
-  </div>
+  {% if forloop.last %}</div>{% endif %}
+  {% endfor %}
 </div>

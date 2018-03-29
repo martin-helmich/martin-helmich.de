@@ -10,10 +10,14 @@ class AlertTag < Liquid::Block
   def render(context)
     contents = super
     <<-MARKUP.strip
-    <div class="my-alert #{self.class::CLS}">
-      <i class="glyphicon glyphicon-#{self.class::ICON}"></i>
-      <div>
-        <strong>#{@heading}</strong> #{contents}
+    <div class="my-alert row #{self.class::CLS} white-text z-depth-1">
+      <div class="col-sm-12">
+        <span class="icon">
+          <i class="fa fa-#{self.class::ICON}"></i>
+        </span>
+        <div class="my-alert-body">
+          <strong>#{@heading}</strong> #{contents}
+        </div>
       </div>
     </div>
     MARKUP
@@ -21,22 +25,22 @@ class AlertTag < Liquid::Block
 end
 
 class CautionTag < AlertTag
-  CLS = 'caution'
-  ICON = 'alert'
+  CLS = 'warning-color-dark'
+  ICON = 'exclamation-triangle'
 end
 
 class I18nHintTag < AlertTag
-  CLS = 'info'
+  CLS = 'info-color-dark'
   ICON = 'globe'
 end
 
 class UpdateTag < AlertTag
-  CLS = 'info'
-  ICON = 'lamp'
+  CLS = 'default-color-dark'
+  ICON = 'lightbulb'
 end
 
 class DangerTag < AlertTag
-  CLS = 'danger'
+  CLS = 'danger-color-dark'
   ICON = 'fire'
 end
 

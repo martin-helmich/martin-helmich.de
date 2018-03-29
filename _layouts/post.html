@@ -1,10 +1,11 @@
 ---
 layout: trailer
 ---
+<div class="post-content">
 <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
 
   <header class="post-header">
-    <p class="post-meta">
+    <p class="post-meta text-center font-italic">
       {{ site.t[page.lang].written_on }}
       <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
         {{ page.date | localize:"%d. %B %Y" }}
@@ -15,16 +16,14 @@ layout: trailer
       {% endif %}
     </p>
 
-    {% if page.translations %}
-      {% if page.lang == "de" %}
-        {% i18nhint Hello! %}
-          This article is also <a href="{{ page.translations.en | prepend:site.baseurl }}">available in English</a>!
-        {% endi18nhint %}
-      {% elsif page.lang == "en" %}
-        {% i18nhint Hallo! %}
-          Dieser Artikel steht auch <a href="{{ page.translations.de | prepend:site.baseurl }}">auf Deutsch zur Verfügung</a>!
-        {% endi18nhint %}
-      {% endif %}
+    {% if page.lang == "de" and page.translations.en %}
+      {% i18nhint Hello! %}
+        This article is also <a href="{{ page.translations.en | prepend:site.baseurl }}">available in English</a>!
+      {% endi18nhint %}
+    {% elsif page.lang == "en" and page.translations.de %}
+      {% i18nhint Hallo! %}
+        Dieser Artikel steht auch <a href="{{ page.translations.de | prepend:site.baseurl }}">auf Deutsch zur Verfügung</a>!
+      {% endi18nhint %}
     {% endif %}
 
     <h1 class="post-title" itemprop="name headline">{{ page.title }}</h1>
@@ -59,3 +58,4 @@ var disqus_config = function () {
 Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments
 powered by Disqus.</a>
 </noscript>
+</div>
