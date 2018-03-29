@@ -1,4 +1,4 @@
-<div class="blog-index">
+<div class="blog-index pb-4">
 {% assign posts = site.posts | where:"lang",page.lang %}
 {% for post in posts %}
   {% capture mod %}{{ forloop.index0 | modulo:3 }}{% endcapture %}
@@ -30,10 +30,10 @@
         </div>
         <div class="mdb-color lighten-3 text-center">
             <ul class="list-unstyled list-inline font-small mt-3">
-                <li class="list-inline-item pr-2 white-text"><i class="fa fa-clock-o pr-1"></i> {{ post.date | localize: "%d. %b. %Y"}}</li>
+                <li class="list-inline-item pr-2 white-text"><i class="fa fa-calendar-alt pr-1"></i> {{ post.date | localize: "%d. %b. %Y"}}</li>
                 <li class="list-inline-item pr-2">
                   <a href="{{ post.url | prepend: site.baseurl }}#disqus_thread" class="white-text">
-                    <i class="fa fa-comments-o pr-1"></i>
+                    <i class="fa fa-comments pr-1"></i>
                     <span data-disqus-identifier="{{ post.disqus_id | default:post.id }}" class="disqus-comment-count">0 Comments</span>
                   </a>
                 </li>

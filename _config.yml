@@ -61,6 +61,7 @@ tags_display:
     color: '#3371e3'
   golang:
     name: Go
+    color: '#333'
   varnish:
     name: Varnish
     color: '#1C75BC'
