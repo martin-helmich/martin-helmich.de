@@ -33,11 +33,10 @@ layout: trailer
     {{ content }}
   </div>
 
+  <h2 id="comments">{{ site.t[page.lang].comments }}</h2>
+
+  <div id="disqus_thread"  class="helmich-homepage-blogarticle"></div>
 </article>
-
-<h2>{{ site.t[page.lang].comments }}</h2>
-
-<div id="disqus_thread"  class="helmich-homepage-blogarticle"></div>
 <script type="text/javascript">
 var disqus_config = function () {
     this.page.url = "{{ page.url | prepend:site.url }}";

@@ -32,7 +32,7 @@
             <ul class="list-unstyled list-inline font-small mt-3">
                 <li class="list-inline-item pr-2 white-text"><i class="fa fa-calendar-alt pr-1"></i> {{ post.date | localize: "%d. %b. %Y"}}</li>
                 <li class="list-inline-item pr-2">
-                  <a href="{{ post.url | prepend: site.baseurl }}#disqus_thread" class="white-text">
+                  <a href="{{ post.url | prepend: site.baseurl }}#comments" class="white-text">
                     <i class="fa fa-comments pr-1"></i>
                     <span data-disqus-identifier="{{ post.disqus_id | default:post.id }}" class="disqus-comment-count">0 Comments</span>
                   </a>
