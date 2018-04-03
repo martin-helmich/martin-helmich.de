@@ -1,23 +1,27 @@
 ---
 layout:     post
 title:      "Gut eingepackt: TYPO3 CMS in Docker betreiben"
-date:       2016-04-10 21:42:28 +0200
+originalDate: 2016-04-10 21:42:28 +0200
+date:       2018-04-03 13:42:28 +0200
 tags:       [typo3, docker]
-lang: de
+lang:       de
 image:      /assets/headers/containers.jpg
 image_license: CC BY
 image_author: Glyn Lowe
 image_source: https://www.flickr.com/photos/glynlowe/10039742285
 disqus_id: 2d781b1b-2cca-3912-9e45-81d22325ec90
 permalink: /de/blog/typo3-cms-docker.html
+translations:
+  de: /de/blog/typo3-cms-docker.html
+  en: /en/blog/typo3-cms-docker.html
 ---
 
-Für die 8. Auflage des Buchs *Praxiswissen TYPO3* (welches nächsten Monat im O'Reilly-Verlag erscheint), suchte ich nach einer Möglichkeit, allen Lesern einen schnellen Start mit TYPO3 zu ermöglichen - und das unter allen Betriebssystemen gleichermaßen. Die Windows-Installer, die früher in der TYPO3-Community kursierten, sind mittlerweile hoffnungslos veraltet und auch die manuelle Installation auf unixoiden Systemen war nichts für jeden.
+Für die 9. Auflage des Buchs *Praxiswissen TYPO3* (welches letzten Oktober im O'Reilly-Verlag erschien), suchte ich nach einer Möglichkeit, allen Lesern einen schnellen Start mit TYPO3 zu ermöglichen - und das unter allen Betriebssystemen gleichermaßen. Die Windows-Installer, die früher in der TYPO3-Community kursierten, sind mittlerweile hoffnungslos veraltet und auch die manuelle Installation auf unixoiden Systemen war nichts für jeden.
 
-Da ich mittlerweile sehr intensiv mit Docker arbeite und Docker über die Docker Toolbox auch unter Windows und MacOS gut von Einsteigern benutzbar ist, beschloss ich ein entsprechendes Docker-Image zu entwickeln.
+Da ich mittlerweile sehr intensiv mit Docker arbeite und Docker über die Docker Toolbox (bzw. *Docker for Windows* und *Docker for macOS*) auch unter Windows und MacOS gut von Einsteigern benutzbar ist, beschloss ich ein entsprechendes Docker-Image zu entwickeln.
 
 {% update Update %}
-  Seit kurzem steht auch ein Image für TYPO3 8.7 zur Verfügung. Dieser Artikel
+  Seit kurzem stehen auch Images für TYPO3 8.7 und 9.1 zur Verfügung. Dieser Artikel
   wurde an den entsprechenden Stellen wo nötig aktualisiert.
 {% endupdate %}
 
@@ -32,15 +36,16 @@ Darüber hinaus kann beim Pull auch eine spezielle Version herunter geladen werd
   - `martinhelmich/typo3:6` für die jeweils aktuellste 6.2 LTS-Version
   - `martinhelmich/typo3:7` für die jeweils aktuellste 7.6 LTS-Version
   - `martinhelmich/typo3:8` oder `martinhelmich/typo3:latest` für die aktuellste 8.7 LTS-Version
+  - `martinhelmich/typo3:9` für die jeweils aktuellste 9er-Version (aktuell 9.1)
 
-Das Image enthält lediglich eine PHP-FPM-Umgebung mit einem Webserver. Um die "Ein Container, eine Anwendung"-Philosophie von Docker zu befolgen, sollte für das Datenbanksystem folglich am besten ein eigener Container gestartet werden, wie hier beispielsweise ein MariaDB-Container:
+Das Image enthält lediglich eine PHP-FPM-Umgebung mit einem Webserver. Um die "Ein Container, eine Anwendung"-Philosophie von Docker zu befolgen, sollte für das Datenbanksystem folglich am besten ein eigener Container gestartet werden, wie hier beispielsweise ein MySQL-Container:
 
     $ docker run -d --name typo3-db \
         -e MYSQL_ROOT_PASSWORD=yoursupersecretpassword \
         -e MYSQL_USER=typo3 \
         -e MYSQL_PASSWORD=yourothersupersecretpassword \
         -e MYSQL_DATABASE=typo3 \
-      mariadb:latest \
+      mysql:5.7 \
         --character-set-server=utf8 \
         --collation-server=utf8_unicode_ci
 
@@ -93,7 +98,7 @@ Auf diese Weise sind sogar später einfache Versionsupdates und Deployments mög
 
 ## Unter der Haube
 
-Die Dockerfiles des hier vorgestellten Images finden sich [auf Github][github]. Anregungen in Form von Issues und Pull Requests sind stets willkommen. Alle Images basieren auf dem [offiziellen `php`-Image][hub-php] (genauer gesagt, dem `php:5.6-apache`- bzw. `php:7-apache`-Image) und enthalten alle notwendigen PHP-Extensions, die zum Betrieb von TYPO3 benötigt werden.
+Die Dockerfiles des hier vorgestellten Images finden sich [auf Github][github]. Anregungen in Form von Issues und Pull Requests sind stets willkommen. Alle Images basieren auf dem [offiziellen `php`-Image][hub-php] (genauer gesagt, dem `php:5.6-apache`- bzw. `php:7.2-apache`-Image) und enthalten alle notwendigen PHP-Extensions, die zum Betrieb von TYPO3 benötigt werden.
 
 [hub-typo3]: https://hub.docker.com/r/martinhelmich/typo3/
 [hub-php]: https://hub.docker.com/_/php/

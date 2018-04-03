@@ -85,6 +85,7 @@ t:
     en: Englisch
     comments: Kommentare
     written_on: Geschrieben am
+    updated_on: Aktualisiert am
     by: von
   en:
     more: Read more
@@ -95,6 +96,7 @@ t:
     en: English
     comments: Comments
     written_on: Written on
+    updated_on: Updated on
     by: by
 
 # Build settings

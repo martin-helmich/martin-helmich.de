@@ -7,9 +7,15 @@ layout: trailer
   <header class="post-header">
     <p class="post-meta text-center font-italic">
       {{ site.t[page.lang].written_on }}
+      {% if page.originalDate %}
+      <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
+        {{ page.originalDate | localize:"%d. %B %Y" }}, {{ site.t[page.lang].updated_on }} {{ page.date | localize:"%d. %B %Y" }}
+      </time>
+      {% else %}
       <time datetime="{{ page.date | date_to_xmlschema }}" itemprop="datePublished">
         {{ page.date | localize:"%d. %B %Y" }}
       </time>
+      {% endif %}
 
       {% if page.author %}
       {{ site.t[page.lang].by }} <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">{{ page.author }}</span></span>
