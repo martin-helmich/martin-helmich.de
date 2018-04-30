@@ -47,7 +47,7 @@ Um das Tracking durch Google Analytics oder Disqus zu verhindern, kannst du in d
     &bull;
     <a href="https://support.mozilla.org/de/kb/wie-verhindere-ich-dass-websites-mich-verfolgen">Firefox</a>
     &bull;
-    <a href="http://windows.microsoft.com/de-de/internet-explorer/use-tracking-protection#ie=ie-11">Internet Explorer</a>
+    <a href="https://support.microsoft.com/de-de/help/17288/windows-internet-explorer-11-use-do-not-track">Internet Explorer</a>
   </p>
 </center>
 
