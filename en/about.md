@@ -9,7 +9,7 @@ translations:
 ---
 
 {% capture left %}
-  My name is Martin Helmich; I am 29 years old and am working as a software architect at the webhosting provider Mittwald in Espelkamp. I recently finished my Master's degree at the University of Appliced Sciences of Osnabrück.
+  My name is Martin Helmich; I am 30 years old and am working as a software architect at the webhosting provider Mittwald in Espelkamp. I recently finished my Master's degree at the University of Appliced Sciences of Osnabrück.
 
   Furthermore, I am regularly giving courses on "Programming and Software Engineering" and "Database technologies" at my old university, the *Private Hochschule für Wirtschaft & Technik* in Vechta.
 

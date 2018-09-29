@@ -9,7 +9,7 @@ translations:
 ---
 
 {% capture left %}
-Mein Name ist Martin Helmich; ich bin 29 Jahre alt und arbeite seit längerem als Softwarearchitekt beim Espelkamper Webhosting-Unternehmen Mittwald CM Service. Außerdem habe ich vor kurzem mein Masterstudium in Informatik an der Hochschule Osnabrück abgeschlossen.
+Mein Name ist Martin Helmich; ich bin 30 Jahre alt und arbeite seit längerem als Softwarearchitekt beim Espelkamper Webhosting-Unternehmen Mittwald CM Service. Außerdem habe ich vor kurzem mein Masterstudium in Informatik an der Hochschule Osnabrück abgeschlossen.
 
 Darüber hinaus lehre ich an meiner alten Hochschule, der Privaten Hochschule für Wirtschaft & Technik in Vechta, die Fächer "Programmierung und Software-Engineering" und "Datenbanktechnik".
 

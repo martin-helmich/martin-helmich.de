@@ -54,7 +54,7 @@ For defining a Custom Resource Definition, you will need to think of an _API Gro
 
 Also, be careful when choosing your definition version (`spec.version` in the example above). As long as your definitions are still evolving, it's usually a good idea to declare your first definition with an _alpha_ API group version. To users of your custom resource, this will clearly communicate that the definitions might still change, later.
 
-Often, you want to validate which kind of data users supply for your custom resources. This is what the `spec.validation.openAPIV3Schema` is for: This contains a [JSON Schema][jsonschema] that describes the format that your resources should have.
+Often, you want to validate the data that users store in your custom resources against a certain schema. This is what the `spec.validation.openAPIV3Schema` is for: This contains a [JSON Schema][jsonschema] that describes the format that your resources should have.
 
 After saving the CRD in a file, you can use `kubectl` to create your resource definition:
 
@@ -63,7 +63,7 @@ After saving the CRD in a file, you can use `kubectl` to create your resource de
 customresourcedefinition "projects.example.martin-helmich.de" created
 {% endhighlight %}
 
-After you have created your Custom Resource Definition, you can create objects. These are defined like regular Kubernetes objects (like, for example, Pods, Deployments and others). Only the `kind` and `apiVersion` vary:
+After you have created your Custom Resource Definition, you can create instances of this new resource type. These are defined like regular Kubernetes objects (like, for example, Pods, Deployments and others). Only the `kind` and `apiVersion` vary:
 
 {% highlight yaml linenos %}
 apiVersion: "example.martin-helmich.de/v1alpha1"
@@ -95,12 +95,12 @@ example-project    2m
 Next, we'll use the [client-go][k8s-clientgo] package to access these custom resources. For this example, I'll assume that you are working in a Go project with the package name `github.com/martin-helmich/kubernetes-crd-example` (yes, that repository [actually exists](https://github.com/martin-helmich/kubernetes-crd-example)) and have the client-go library installed with [Glide](https://glide.sh).
 
 {% update Note %}
-Many documentations work working with CRDs will assume that you are working with some kind of code generation to generate client libraries automatically. However, this process is documented sparsely, and from reading a few heated discussions on Github, I got the impression that it's still very much a work-in-progress. We'll stick with a manually implemented client, for now.
+Many documentations working with CRDs will assume that you are working with some kind of code generation to generate client libraries automatically. However, this process is documented sparsely, and from reading a few heated discussions on Github, I got the impression that it's still very much a work-in-progress. We'll stick with a manually implemented client, for now.
 {% endupdate %}
 
 ### Step 1: Define types
 
-Start by defining the types for your custom resource. I've found it to be a good practice to organize these types by the API group version; so for example, you could create a file `api/types/v1alpha1/project.go` with the following contents:
+Start by defining the types for your custom resource. I've found it to be a good practice to organize these types by the API group version; for example, you could create a file `api/types/v1alpha1/project.go` with the following contents:
 
 {% highlight go linenos %}
 package v1alpha1

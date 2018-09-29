@@ -29,10 +29,10 @@ Linter gibt es für alle möglichen Programmiersprachen; Web-Entwickler kennen w
 page = PAGE
 page  {
   10 = FLUIDTEMPLATE
-  10 {
+   10 {
     templateName = Default
     templateRootPaths.10 = fileadmin/templates
-    templateRootPaths.20 = EXT:mysite/Resources/Private/Templates
+   templateRootPaths.20 = EXT:mysite/Resources/Private/Templates
 
     layoutRootPaths {
     }
