@@ -2,7 +2,7 @@
 layout:     post
 title:      "Well contained: Running TYPO3 in Docker"
 originalDate: 2016-04-10 21:42:28 +0200
-date:       2018-04-03 13:42:28 +0200
+date:       2019-03-22 17:25:28 +0100
 tags:       [typo3, docker]
 lang:       en
 image:      /assets/headers/containers.jpg
@@ -16,12 +16,12 @@ translations:
   en: /en/blog/typo3-cms-docker.html
 ---
 
-For the 9th edition of my book *Practical Knowledge in TYPO3* (original title *Praxiswissen TYPO3*) that was released last October, I was looking for a way to offer readers an easy quickstart with TYPO3 - for all operating systems. The Windows installers that used to circulate among the TYPO3 community are hopelessly outdated and a from-scratch installation on unixoid operating systems also had its pitfalls.
+For the 10th edition of my book *Practical Knowledge in TYPO3* (original title *Praxiswissen TYPO3*) that is going to be released end of this month, I was looking for a way to offer readers an easy quickstart with TYPO3 - for all operating systems. The Windows installers that used to circulate among the TYPO3 community are hopelessly outdated and a from-scratch installation on unixoid operating systems also had its pitfalls.
 
 Since I've been working intensively with Docker and seeing as Docker offers an easy installation on all operating systems (thanks to the *Docker Toolbox* or *Docker for Windows*  and *Docker for macOS*, respectively), I opted to build my own Docker image for TYPO3.
 
 {% update Update %}
-  Since recently, I've also been building images for TYPO3 8.7 and 9.1. This article has been updated where necessary to reflect this.
+  Since recently, I've also been building images for TYPO3 8.7 and 9.5. This article has been updated where necessary to reflect this.
 {% endupdate %}
 
 ## First steps
@@ -34,8 +34,8 @@ Furthermore, you can use the `docker pull` command to download a specific versio
 
   - `martinhelmich/typo3:6` for the current 6.2 LTS version
   - `martinhelmich/typo3:7` for the current 7.6 LTS version
-  - `martinhelmich/typo3:8` or `martinhelmich/typo3:latest` for the current 8.7 LTS version
-  - `martinhelmich/typo3:9` for the current version of the 9.* release branch (currently 9.1)
+  - `martinhelmich/typo3:8` for the current 8.7 LTS version
+  - `martinhelmich/typo3:9` or `martinhelmich/typo3:latest` for the current 9.5 LTS version
 
 The image only contains a web server with PHP. To follow Docker's *"One container, one service"* philosophy, the database management system should best be started in its own container, for example using the `mysql` image:
 
@@ -48,7 +48,7 @@ The image only contains a web server with PHP. To follow Docker's *"One containe
         --character-set-server=utf8 \
         --collation-server=utf8_unicode_ci
 
-{% danger Achtung %}
+{% danger Caution %}
   Remember to replace the password placeholders in the code snippets above with secure values!
 {% enddanger %}
 
@@ -57,7 +57,7 @@ Having a running database, you can start the actual application container:
     $ docker run -d --name typo3-web \
         --link typo3-db:db \
         -p 80:80 \
-      martinhelmich/typo3:8
+      martinhelmich/typo3:9
 
 After that, your TYPO3 installation can be reached at `http://localhost` (in case you are using the Docker Toolbox on Windows or macOS, use the IP address of the Docker VM instead. You can determine this IP address by running the `docker-machine ip` command).
 
@@ -78,7 +78,7 @@ These four directories usually store data that should be persistent. The `typo3t
 
 For storing persistent data, you can create a *data only* container, first. This container will not be running, but is only used to contain the volumes for persistent data (which is why it might be a good idea to override the container's `CMD` with `/bin/true`).
 
-    $ docker run --name typo3-data martinhelmich/typo3:8 /bin/true
+    $ docker run --name typo3-data martinhelmich/typo3:9 /bin/true
 
 The actual application container can then be started with the `--volumes-from` flag:
 
@@ -87,12 +87,12 @@ The actual application container can then be started with the `--volumes-from` f
         --link typo3-db:db \
         --volumes-from typo3-data \
         -p 80:80 \
-      martinhelmich/typo3:8
+      martinhelmich/typo3:9
 
 Using this kind of setup, version updates and deployments will become easy, later. For this, simply delete the `typo3-web` container. All the important persistent data will remain safely in their volumes managed by the `typo3-data` container, and a new `typo3-web` container can be created using the same way as before:
 
     $ docker rm -f typo3-web
-    $ docker pull martinhelmich/typo3:8
+    $ docker pull martinhelmich/typo3:9
     $ docker run --name typo3-web ...
 
 ## Under the hood
