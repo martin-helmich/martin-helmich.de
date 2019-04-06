@@ -140,7 +140,7 @@ Using the options `-f xml` and `-o outputfile.xml`, you can create an XML output
 
 ## Configuration
 
-Style in programming languages is often subjective and a matter of personal taste (best example probably being the ["Tabs or Spaces?"](https://www.youtube.com/watch?v=SsoOG6ZeyUI) question). Of course, the TypoScript linter can be adjusted to these kinds of preferences. For this, a configuration file called `tslint.yml` needs to be created in your project directory. In this file, you can for example configure the indentation (here, for using tabs for indentation instead of spaces):
+Style in programming languages is often subjective and a matter of personal taste (best example probably being the ["Tabs or Spaces?"](https://www.youtube.com/watch?v=SsoOG6ZeyUI) question). Of course, the TypoScript linter can be adjusted to these kinds of preferences. For this, a configuration file called `typoscript-lint.yml` needs to be created in your project directory (earlier versions of the liter used `tslint.yml` as file name, which lead to [obvious problems](https://palantir.github.io/tslint/)). In this file, you can for example configure the indentation (here, for using tabs for indentation instead of spaces):
 
 {% highlight yaml linenos %}
 sniffs:
