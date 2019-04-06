@@ -140,7 +140,7 @@ Mit den Optionen `-f xml` und `-o ausgabedatei.xml` kann auch eine XML-Ausgabeda
 
 ## Konfiguration
 
-Stilfragen in Programmiersprachen ist häufig subjektiv und abhängig von persönlichen Vorlieben. Bestes Beispiel ist wahrscheinlich die ["Tabs oder Spaces?"](https://www.youtube.com/watch?v=SsoOG6ZeyUI)-Frage. Natürlich kann der TypoScript-Linter an derartige Präferenzen angepasst werden. Hierzu muss im Projektverzeichnis eine Konfigurationsdatei `tslint.yml` hinterlegt werden. Hier kann beispielsweise die Einrückung konfiguriert werden (hier etwa für die Einrückung mit Tabs statt Spaces):
+Stilfragen in Programmiersprachen ist häufig subjektiv und abhängig von persönlichen Vorlieben. Bestes Beispiel ist wahrscheinlich die ["Tabs oder Spaces?"](https://www.youtube.com/watch?v=SsoOG6ZeyUI)-Frage. Natürlich kann der TypoScript-Linter an derartige Präferenzen angepasst werden. Hierzu muss im Projektverzeichnis eine Konfigurationsdatei `typoscript-lint.yml` hinterlegt werden (frühere Versionen des Linters benutzten `tslint.yml` als Dateiname für die Konfigurationsdatei, was allerdings zu einigen [offensichtlichen Konflikten](https://palantir.github.io/tslint/) führte). Hier kann beispielsweise die Einrückung konfiguriert werden (hier etwa für die Einrückung mit Tabs statt Spaces):
 
 {% highlight yaml linenos %}
 sniffs:
