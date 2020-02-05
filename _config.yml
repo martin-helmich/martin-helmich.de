@@ -74,10 +74,14 @@ tags_display:
   monitoring:
     name: Monitoring
     color: '#333333'
+  composer:
+    name: Composer
+    color: '#333'
 
 t:
   de:
     more: Weiterlesen
+    more_external: Externer Artikel
     publications: Veröffentlichungen
     blog_articles: Blog-Artikel
     menu: Menü
@@ -89,6 +93,7 @@ t:
     by: von
   en:
     more: Read more
+    more_external: External article
     publications: Publications
     blog_articles: Blog articles
     menu: Menu
