@@ -1,7 +1,8 @@
 ---
 layout: post
 title: Accessing Kubernetes CRDs from the client-go package
-date: 2018-03-28 20:00:00 +0100
+originalDate: 2018-03-28 20:00:00 +0100
+date: 2020-04-15 21:51:00 +0200
 author: Martin Helmich
 tags: [kubernetes, docker, golang]
 lang: en
@@ -15,7 +16,7 @@ translations:
   en: /en/blog/kubernetes-crd-client.html
 ---
 
-The Kubernetes API server is easily extendable by [Custom Resource Defintions][k8s-crd]. However, actually accessing these resources from the popular [client-go][k8s-clientgo] library is a bit more complex and not thoroughly documented. This article contains a short guide on how to access Kubernetes CRDs from your own Go code.
+The Kubernetes API server is easily extendable by [Custom Resource Defintions][k8s-crd]. However, actually accessing these resources from the popular [client-go][k8s-clientgo] library is a bit more complex and not thoroughly documented. This article contains a short guide on how to access Kubernetes CRDs from your own Go code (**UPDATED 2020/04** to adjust to API changes in recent `client-go` versions, using Go modules and doing (some) code generation with `controller-gen`).
 
 ## Motivation
 
@@ -92,10 +93,14 @@ example-project    2m
 
 ## Creating a Golang client
 
-Next, we'll use the [client-go][k8s-clientgo] package to access these custom resources. For this example, I'll assume that you are working in a Go project with the package name `github.com/martin-helmich/kubernetes-crd-example` (yes, that repository [actually exists](https://github.com/martin-helmich/kubernetes-crd-example)) and have the client-go library installed with [Glide](https://glide.sh).
+Next, we'll use the [client-go][k8s-clientgo] package to access these custom resources. For this example, I'll assume that you are working in a Go project with the package name `github.com/martin-helmich/kubernetes-crd-example` (yes, that repository [actually exists](https://github.com/martin-helmich/kubernetes-crd-example)) and have the `client-go` and `apimachinery` libraries installed as Go modules:
+
+    go mod init github.com/martin-helmich/kubernetes-crd-example
+    go get k8s.io/client-go@v0.17.0
+    go get k8s.io/apimachinery@v0.17.0
 
 {% update Note %}
-Many documentations working with CRDs will assume that you are working with some kind of code generation to generate client libraries automatically. However, this process is documented sparsely, and from reading a few heated discussions on Github, I got the impression that it's still very much a work-in-progress. We'll stick with a manually implemented client, for now.
+Many documentations working with CRDs will assume that you are working with some kind of code generation to generate client libraries automatically. However, this process is documented sparsely, and from reading a few heated discussions on Github, I got the impression that it's still very much a work-in-progress. We'll stick with a (mostly) manually implemented client, for now.
 {% endupdate %}
 
 ### Step 1: Define types
@@ -173,6 +178,42 @@ func (in *ProjectList) DeepCopyObject() runtime.Object {
     return &out
 }
 {% endhighlight %}
+
+### Interlude: Generate the `DeepCopy` methods automatically
+
+OK - you may have already noticed that defining all these various `DeepCopy` methods is not a lot of fun. There are many different tools and frameworks around to automatically generate these methods (all with very different levels of documentation and overall maturity). The one that I've found works best is the `controller-gen` tool, which is part of the [Kubebuilder](https://github.com/kubernetes-sigs/kubebuilder) framework:
+
+    $ go get -u github.com/kubernetes-sigs/controller-tools/cmd/controller-gen
+
+To use `controller-gen`, annotate your CRD types with a `+k8s:deepcopy-gen` annotation:
+
+{% highlight go %}
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+type Project struct {
+    // ...
+}
+
+// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object
+type ProjectList struct {
+    // ...
+}
+{% endhighlight %}
+
+Then, run `controller-gen object paths=./api/types/v1alpha1/project.go` to automatically generate the deepcopy methods.
+
+To make things even more easy, you could add a [`go:generate` statement](https://blog.golang.org/generate) to the entire file:
+
+{% highlight go %}
+package v1alpha1
+
+import metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
+
+//go:generate controller-gen object paths=$GOFILE
+
+// ...
+{% endhighlight %}
+
+Then, just run `go generate ./...` in your root directory to update the generated code.
 
 ### Step 3: Register types at the scheme builder
 
@@ -264,7 +305,7 @@ func main() {
     crdConfig := *config
     crdConfig.ContentConfig.GroupVersion = &schema.GroupVersion{Group: v1alpha1.GroupName, Version: v1alpha1.GroupVersion}
     crdConfig.APIPath = "/apis"
-    crdConfig.NegotiatedSerializer = serializer.DirectCodecFactory{CodecFactory: scheme.Codecs}
+    crdConfig.NegotiatedSerializer = serializer.NewCodecFactory(scheme.Scheme)
     crdConfig.UserAgent = rest.DefaultKubernetesUserAgent()
 
     exampleRestClient, err := rest.UnversionedRESTClientFor(&crdConfig)
@@ -310,7 +351,7 @@ func NewForConfig(c *rest.Config) (*ExampleV1Alpha1Client, error) {
     config := *c
     config.ContentConfig.GroupVersion = &schema.GroupVersion{Group: v1alpha1.GroupName, Version: v1alpha1.GroupVersion}
     config.APIPath = "/apis"
-    config.NegotiatedSerializer = serializer.DirectCodecFactory{CodecFactory: scheme.Codecs}
+    config.NegotiatedSerializer = serializer.NewCodecFactory(scheme.Scheme)
     config.UserAgent = rest.DefaultKubernetesUserAgent()
 
     client, err := rest.RESTClientFor(&config)
