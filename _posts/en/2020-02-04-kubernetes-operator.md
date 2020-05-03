@@ -15,4 +15,4 @@ translations:
   en: https://jaxenter.de/kubernetes/automatisierung-kubernetes-operators-88189
 ---
 
-In Kubernetes lingo, an _Operator_ is a piece of software that models operative knowledge (hence the name) on installing and running a certain program or system component in software itself. Learn, how you can build such an Operator by yourself in Go using the Operator SDK.
+In the Kubernetes language, an _Operator_ is a piece of software that maps operational knowledge (hence the name) about the operation and installation of a specific program or system component in software and can thus automate it. Learn how to program such an operator yourself in Go using the Operator SDK.
