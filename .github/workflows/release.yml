@@ -1,0 +1,31 @@
+name: Build & deploy
+on:
+  push:
+    branches: [master]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Use Node.js
+        uses: actions/setup-ruby@v1
+        with:
+          ruby-version: 2.4
+
+      - name: Build app
+        run: |
+          bundle install
+          jekyll build
+
+      - name: GitHub Pages
+        uses: crazy-max/ghaction-github-pages@v1.3.0
+        with:
+          target_branch: gh-pages
+          keep_history: true
+          build_dir: _site
+          committer_name: Helmich-Bot
+          committer_email: github-bot@helmich.me
+          fqdn: www.martin-helmich.mde
+        env:
+          GITHUB_TOKEN: ${{ secrets.githubToken }}
