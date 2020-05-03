@@ -26,6 +26,6 @@ jobs:
           build_dir: _site
           committer_name: Helmich-Bot
           committer_email: github-bot@helmich.me
-          fqdn: www.martin-helmich.mde
+          fqdn: www.martin-helmich.de
         env:
           GITHUB_TOKEN: ${{ secrets.githubToken }}
