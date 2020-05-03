@@ -8,12 +8,12 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Use Node.js
+      - name: Use Ruby
         uses: actions/setup-ruby@v1
         with:
           ruby-version: 2.4
 
-      - name: Build app
+      - name: Build site
         run: |
           bundle install
           jekyll build
