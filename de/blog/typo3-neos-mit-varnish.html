@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="de">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>CMS auf Speed: TYPO3 Neos mit Varnish</title>
+  <meta name="description" content="Nicht, dass TYPO3 Neos im Production-Modus nicht eigentlich schon schnell genug wäre. Aus keinem anderen Grund außer “Weil ich es kann!” habe ich einmal vers...">
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/css/mdb.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/fonts.css">
+
+  <link rel="canonical" href="https://www.martin-helmich.de/de/blog/typo3-neos-mit-varnish.html">
+
+  <link rel="alternate" type="application/rss+xml" title="martin-helmich.de" href="https://www.martin-helmich.de/feed.xml">
+
+  
+    <link rel="alternate" hreflang="en" href="/en/blog/typo3-neos-mit-varnish.html">
+  
+
+</head>
+
+
+  <body>
+
+    <div class="main">
+      <div  class="blog-landing" style="background-image: url(/assets/headers/flash.jpg)">
+      <nav class="navbar navbar-expand-lg navbar-dark elegant-color">
+  <div class="container">
+    <a class="navbar-brand" href="/">martin-helmich.de</a>
+
+    <!-- Collapse button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="basicExampleNav"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        
+          
+          
+          <li class="nav-item normal">
+            <a class="nav-link" href="/">Blog</a>
+          </li>
+        
+          
+          
+          <li class="nav-item normal">
+            <a class="nav-link" href="/de/ueber-mich.html">Über mich</a>
+          </li>
+        
+          
+          
+          <li class="nav-item normal">
+            <a class="nav-link" href="/de/veroeffentlichungen.html">Veröffentlichungen</a>
+          </li>
+        
+      </ul>
+
+      
+      <ul class="navbar-nav navbar-right">
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+            Deutsch
+            <span class="caret"></span>
+          </a>
+          <div class="dropdown-menu dropdown-primary">
+            <a class="active dropdown-item" href="/de/blog/typo3-neos-mit-varnish.html">Deutsch</a>
+            <a class="normal dropdown-item" href="/en/blog/typo3-neos-mit-varnish.html">Englisch</a>
+          </div>
+        </li>
+      </ul>
+      
+    </div>
+  </div>
+</nav>
+
+
+        <div class="container attribution">
+          
+          <a href="https://www.flickr.com/photos/jdhancock/4698846940" target="_blank">
+            CC BY, JD Hancock
+          </a>
+          
+        </div>
+      </div>
+
+      <div class="container primary">
+        <div class="content main-content">
+          <div class="post-content">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <p class="post-meta text-center font-italic">
+      Geschrieben am
+      
+      <time datetime="2015-04-14T19:42:28+00:00" itemprop="datePublished">
+        14. April 2015
+      </time>
+      
+
+      
+    </p>
+
+    
+      <div class="my-alert row info-color-dark white-text z-depth-1">
+      <div class="col-sm-12">
+        <span class="icon">
+          <i class="fa fa-globe"></i>
+        </span>
+        <div class="my-alert-body">
+          <strong>Hello! </strong> 
+        This article is also <a href="/en/blog/typo3-neos-mit-varnish.html">available in English</a>!
+      
+        </div>
+      </div>
+    </div>
+    
+
+    <h1 class="post-title" itemprop="name headline">CMS auf Speed: TYPO3 Neos mit Varnish</h1>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>Nicht, dass TYPO3 Neos im Production-Modus nicht eigentlich schon schnell genug wäre. Aus keinem anderen Grund außer “Weil ich es kann!” habe ich einmal versucht zu schauen, wie viel schneller ich diese Seite durch den Einsatz von Varnish noch machen kann. Vor allem hat mich dabei interessiert, wie gut TYPO3 Neos mit Varnish zusammenspielt.</p>
+
+<h2 id="überraschend-einfach">Überraschend einfach</h2>
+
+<p>Eins vorab: Ich war angenehm überrascht, wie gut sich TYPO3 Neos mit Varnish verträgt. Ich erinnere mich daran, dass ich - als ich anfing, mich mit Varnish zu beschäftigen - einmal mehrere Tage gebraucht habe, um einen Magento-Shop halbwegs vernünftig mit Varnish ans Laufen zu bekommen. Neos hingegen funktioniert mit Varnish. Einfach so. Ohne Extensions. Ohne eigenen VCL-Code. Gut, es gibt eine Extension für das Neos-Backend, die zum Beispiel automatisch den Cache leert, wenn ein Dokument bearbeitet wird. Aber das ist Luxus; das einfache Ausliefern und Cachen von Content funktioniert einfach.</p>
+
+<p>Der Grund dafür ist, dass Neos (im Unterschied zu anderer Software; ja, ich meine dich, Magento!) vernünftige HTTP-Header setzt, sodass Varnish von Haus aus damit zurecht kommt. Das Wichtigste ist, dass Neos erst tatsächlich dann einen Cookie im Browser setzt, wenn auch eine Sitzung gestartet wurde.</p>
+
+<h2 id="vorbereitungen">Vorbereitungen</h2>
+
+<div class="my-alert row warning-color-dark white-text z-depth-1">
+      <div class="col-sm-12">
+        <span class="icon">
+          <i class="fa fa-exclamation-triangle"></i>
+        </span>
+        <div class="my-alert-body">
+          <strong>Achtung </strong> 
+  Dieser Abschnitt betrifft euch nur, wenn ihr Varnish und euren Webserver (z.B. Apache, Nginx) auf demselben Server betreiben wollt.
+
+        </div>
+      </div>
+    </div>
+
+<p>Falls ihr vorhabt, den Varnish-Dienst auf demselben Server zu betreiben, wie euren Webserver, solltet ihr vorher noch ein paar kleinere Anpassungen vornehmen. In der Regel sollte der Varnish-Dienst als HTTP-Proxy direkt auf Port 80 lauschen. Läuft eurer Webserver nun auf demselben Host, wird dieser wahrscheinlich ebenfalls diesen Port beanspruchen. Bevor ihr Varnish installiert, solltet ihr also euren Webserver auf einen anderen Port umbiegen.</p>
+
+<p>Bei Nginx ändert ihr dazu in eurem VirtualHost (unter Debian-ähnlichen Systemen liegen die unter <code>/etc/nginx/sites-enabled</code>) folgendes:</p>
+
+<p>Vorher:</p>
+
+<pre><code class="language-nginx">listen 80;
+</code></pre>
+
+<p>Nachher:</p>
+
+<pre><code class="language-nginx">listen 127.0.0.1:8080;
+</code></pre>
+
+<p>Die Änderung bewirkt einerseits, dass Nginx nun auf Port 8080 statt vorher 80 lauscht, und andererseits dass dieser Port nur noch vom lokalen Rechner erreichbar ist (das hat seine Richtigkeit; der öffentliche Traffic aus dem Internet soll ja über Varnish laufen, der dann später auf Port 80 lauschen wird).</p>
+
+<p>Denkt anschließend daran, den Nginx neuzustarten:</p>
+
+<pre><code>service nginx restart
+</code></pre>
+
+<h2 id="varnish-installieren">Varnish installieren</h2>
+
+<p>Ich gehe in diesem Abschnitt davon aus, dass ihr Varnish z.B. auf einem Root-Server oder für ein Docker-Image selbst installieren möchtet. Falls ihr Varnish als Managed Service einsetzt, entfällt die Installation natürlich.</p>
+
+<p>Wenn ihr Ubuntu oder Debian nutzt, könnt ihr Varnish direkt aus den Paketquellen installieren. Unter Ubuntu 14.04 (und auch Debian Wheezy) bekommt ihr dabei Varnish in Version 3.0. Die ist nicht mehr ganz frisch, sollte für die meisten Fälle aber ausreichen. Für neuere Versionen gibt es auch ein <a href="https://www.varnish-cache.org/installation/ubuntu">eigenes Repository vom Hersteller</a>.</p>
+
+<pre><code>$ apt-get install varnish
+</code></pre>
+
+<h2 id="varnish-konfigurieren">Varnish konfigurieren</h2>
+
+<p>Die Konfigurationsdatei von Varnish ist im sogenannten VCL-Format (Varnish Configuration Language) geschrieben und liegt unter <code>/etc/varnish/default.vcl</code>. Sie enthält standardmäßig nur ein paar Kommentare, und eine Angabe, wie der eigentliche Webserver zu erreichen ist. Ich habe bei mir zusätzlich noch die <code>vcl_deliver</code>-Subroutine überschrieben (unten).</p>
+
+<figure class="highlight"><pre><code class="language-perl" data-lang="perl"><span></span><span class="lineno"> 1 </span><span class="n">backend</span> <span class="n">default</span> <span class="p">{</span>
+<span class="lineno"> 2 </span>  <span class="o">.</span><span class="n">host</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="p">;</span>
+<span class="lineno"> 3 </span>  <span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="s">&quot;8080&quot;</span><span class="p">;</span>
+<span class="lineno"> 4 </span><span class="p">}</span>
+<span class="lineno"> 5 </span>
+<span class="lineno"> 6 </span><span class="k">sub</span> <span class="nf">vcl_deliver</span> <span class="p">{</span>
+<span class="lineno"> 7 </span>  <span class="k">if</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">hits</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno"> 8 </span>    <span class="n">set</span> <span class="n">resp</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">X</span><span class="o">-</span><span class="n">Cache</span> <span class="o">=</span> <span class="s">&quot;HIT&quot;</span><span class="p">;</span>
+<span class="lineno"> 9 </span>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+<span class="lineno">10 </span>    <span class="n">set</span> <span class="n">resp</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">X</span><span class="o">-</span><span class="n">Cache</span> <span class="o">=</span> <span class="s">&quot;MISS&quot;</span><span class="p">;</span>
+<span class="lineno">11 </span>  <span class="p">}</span>
+<span class="lineno">12 </span><span class="p">}</span></code></pre></figure>
+
+<p>Die Backend-Definition sollte selbsterklärend sein; falls Varnish und der Webserver bei euch auf verschiedenen Server laufen, muss dort die IP-Adresse und der Port des Webservers eingetragen werden.</p>
+
+<p>Der X-Cache-Header macht das Debugging ein wenig einfacher; anhand dieses Headers könnt ihr später sicherstellen, dass die Antworten vom Server auch tatsächlich aus dem Cache beantwortet werden.</p>
+
+<p>Wenn ihr die VCL-Datei geändert habt, solltet ihr den Varnish noch einmal neustarten:</p>
+
+<pre><code>$ service varnish start
+</code></pre>
+
+<p>Ab diesem Zeitpunkt sollte Varnish bereits auf Port 80 lauschen und munter eure Webseite ausliefern. Wenn ihr möchtet, könnt ihr jetzt aufhören.</p>
+
+<h2 id="das-backend-anpassen">Das Backend anpassen</h2>
+
+<p>Aktuell bekommt der Varnish-Cache noch nichts davon mit, wenn sich am Content der Seite irgendetwas ändert. Dies bedeutet, dass der Cache gegebenenfalls immer munter weiter veralteten Content ausliefert. Diesen Zustand möchten wir nun ändern.</p>
+
+<p>Für Neos gibt es das Paket <em>moc/varnish</em>, welches das Leeren des Caches übernimmt, wenn im Backend Content verändert wird. Ihr könnt es einfach über Composer installieren:</p>
+
+<pre><code>$ composer require moc/varnish dev-master
+</code></pre>
+
+<p>Läuft eurer Varnish-Dienst nicht auf demselben Server wie der Webserver, müsst ihr das Paket nun noch ein wenig konfigurieren. Dies geht in der <code>Configuration/Settings.yaml</code> (unten).</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="lineno">1 </span><span class="l l-Scalar l-Scalar-Plain">MOC</span><span class="p p-Indicator">:</span>
+<span class="lineno">2 </span>  <span class="l l-Scalar l-Scalar-Plain">Varnish</span><span class="p p-Indicator">:</span>
+<span class="lineno">3 </span>    <span class="l l-Scalar l-Scalar-Plain">enableCacheBanningWhenNodePublished</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="lineno">4 </span>    <span class="l l-Scalar l-Scalar-Plain">cacheHeaders</span><span class="p p-Indicator">:</span>
+<span class="lineno">5 </span>      <span class="l l-Scalar l-Scalar-Plain">defaultSharedMaximumAge</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">86400</span>
+<span class="lineno">6 </span>    <span class="l l-Scalar l-Scalar-Plain">varnishUrl</span><span class="p p-Indicator">:</span> <span class="s">&quot;http://127.0.0.1/&quot;</span></code></pre></figure>
+
+<p>Wie ihr seht, muss das Neos-Package die Adresse des Varnish kennen, um gezielte BAN-Requests zum Leeren des Caches absetzen zu können. Per Konfiguration könnt ihr außerdem die standardmäßige Cache-Lebensdauer beeinflussen.</p>
+
+<p>Zum Leeren des Caches über das Backend wird zudem noch ein wenig eigener VCL-Code benötigt:</p>
+
+<figure class="highlight"><pre><code class="language-perl" data-lang="perl"><span></span><span class="lineno"> 1 </span><span class="k">sub</span> <span class="nf">vcl_recv</span> <span class="p">{</span>
+<span class="lineno"> 2 </span>  <span class="k">if</span> <span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">request</span> <span class="o">==</span> <span class="s">&quot;BAN&quot;</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno"> 3 </span>    <span class="k">if</span> <span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">Varnish</span><span class="o">-</span><span class="n">Ban</span><span class="o">-</span><span class="n">All</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno"> 4 </span>      <span class="n">ban</span><span class="p">(</span><span class="s">&quot;req.url ~ /&quot;</span><span class="p">);</span>
+<span class="lineno"> 5 </span>      <span class="n">error</span> <span class="mi">200</span> <span class="s">&quot;Banned all&quot;</span><span class="p">;</span>
+<span class="lineno"> 6 </span>    <span class="p">}</span>
+<span class="lineno"> 7 </span>
+<span class="lineno"> 8 </span>    <span class="k">if</span> <span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">X</span><span class="o">-</span><span class="n">Varnish</span><span class="o">-</span><span class="n">Ban</span><span class="o">-</span><span class="n">Neos</span><span class="o">-</span><span class="n">NodeIdentifier</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno"> 9 </span>      <span class="n">ban</span><span class="p">(</span><span class="s">&quot;obj.http.X-Neos-NodeIdentifier == &quot;</span> <span class="o">+</span> <span class="n">req</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">X</span><span class="o">-</span><span class="n">Varnish</span><span class="o">-</span><span class="n">Ban</span><span class="o">-</span><span class="n">Neos</span><span class="o">-</span><span class="n">NodeIdentifier</span><span class="p">);</span>
+<span class="lineno">10 </span>      <span class="n">error</span> <span class="mi">200</span> <span class="s">&quot;Banned TYPO3 pid &quot;</span> <span class="o">+</span> <span class="n">req</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">X</span><span class="o">-</span><span class="n">Varnish</span><span class="o">-</span><span class="n">Ban</span><span class="o">-</span><span class="n">Neos</span><span class="o">-</span><span class="n">NodeIdentifier</span><span class="p">;</span>
+<span class="lineno">11 </span>    <span class="p">}</span>
+<span class="lineno">12 </span>  <span class="p">}</span>
+<span class="lineno">13 </span><span class="p">}</span></code></pre></figure>
+
+
+  </div>
+
+  <h2 id="comments">Kommentare</h2>
+
+  <div id="disqus_thread"  class="helmich-homepage-blogarticle"></div>
+</article>
+<script type="text/javascript">
+var disqus_config = function () {
+    this.page.url = "https://www.martin-helmich.de/de/blog/typo3-neos-mit-varnish.html";
+    this.page.identifier = "1bdc76e0-21b1-3c24-3512-821f485cc91c";
+    this.page.title = "CMS auf Speed: TYPO3 Neos mit Varnish";
+};
+
+(function() {  // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    
+    s.src = 'https://martinhelmichde.disqus.com/embed.js';
+    
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>
+Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+powered by Disqus.</a>
+</noscript>
+</div>
+        </div>
+      </div>
+    </div>
+
+    
+
+<footer class="page-footer font-small stylish-color pt-4 z-depth-1">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <h5>Veröffentlichungen</h5>
+        <ul>
+          
+          
+            <li>
+              <strong><a href="/de/veroeffentlichungen.html">Automatisierung mit Kubernetes Operators</a></strong>
+              am 01. Mai 2019
+            </li>
+          
+            <li>
+              <strong><a href="/de/veroeffentlichungen.html">Praxiswissen TYPO3 CMS 9</a></strong>
+              am 28. März 2019
+            </li>
+          
+            <li>
+              <strong><a href="/de/veroeffentlichungen.html">Go Application Development - Tips, Tricks, and Techniques</a></strong>
+              am 28. Februar 2019
+            </li>
+          
+            <li>
+              <strong><a href="/de/veroeffentlichungen.html">TYPO3 CMS für Redakteure</a></strong>
+              am 10. Dezember 2018
+            </li>
+          
+            <li>
+              <strong><a href="/de/veroeffentlichungen.html">Continuous Delivery mit Kubernetes</a></strong>
+              am 28. November 2018
+            </li>
+          
+        </ul>
+      </div>
+      <div class="col-sm-4">
+        <h5>
+          Blog-Artikel
+        </h5>
+        <ul>
+          
+          
+            <li>
+              <strong><a href="/https:/jaxenter.de/kubernetes/automatisierung-kubernetes-operators-88189">Automatisierung mit Kubernetes Operators</a></strong>
+              am 04. Februar 2020
+            </li>
+          
+            <li>
+              <strong><a href="/de/blog/typo3-cms-docker.html">Gut eingepackt: TYPO3 CMS in Docker betreiben</a></strong>
+              am 22. März 2019
+            </li>
+          
+            <li>
+              <strong><a href="/en/blog/kubernetes-crd-client.html">Kubernetes-CRDs über die client-go-Bibliothek auslesen</a></strong>
+              am 28. März 2018
+            </li>
+          
+            <li>
+              <strong><a href="/de/blog/codequality-typo3.html">Codequalität in TYPO3-Projekten</a></strong>
+              am 18. Januar 2018
+            </li>
+          
+            <li>
+              <strong><a href="/de/blog/monitoring-nginx.html">NGINX-Performancemetriken mit Prometheus</a></strong>
+              am 24. März 2017
+            </li>
+          
+        </ul>
+      </div>
+      <div class="col-sm-4">
+        <h5>
+          Menü
+        </h5>
+        <ul>
+          
+            <li><a href="/de/impressum.html">Impressum</a></li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-copyright py-3 text-center">
+    Martin Helmich 2018
+  </div>
+</footer>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/js/mdb.min.js"></script>
+<script type="text/javascript">
+$("#martin-grumpy").mouseover(function() {
+  $(this).attr("src", "/assets/martin-happy.jpg");
+});
+$("#martin-grumpy").mouseout(function() {
+  $(this).attr("src", "/assets/martin-grumpy.jpg");
+});
+</script>
+
+  </body>
+
+</html>

@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="de">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>NGINX-Performancemetriken mit Prometheus</title>
+  <meta name="description" content="Prometheus ist eine Kombination aus Monitoring-Werkzeug undZeitreihen-Datenbank, die ich in den letzten Monaten sehr zu schätzen gelernthabe. Dieser Artikel ...">
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/css/mdb.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/fonts.css">
+
+  <link rel="canonical" href="https://www.martin-helmich.de/de/blog/monitoring-nginx.html">
+
+  <link rel="alternate" type="application/rss+xml" title="martin-helmich.de" href="https://www.martin-helmich.de/feed.xml">
+
+  
+    <link rel="alternate" hreflang="en" href="/en/blog/monitoring-nginx.html">
+  
+
+</head>
+
+
+  <body>
+
+    <div class="main">
+      <div  class="blog-landing" style="background-image: url(/assets/headers/seismograph.jpg)">
+      <nav class="navbar navbar-expand-lg navbar-dark elegant-color">
+  <div class="container">
+    <a class="navbar-brand" href="/">martin-helmich.de</a>
+
+    <!-- Collapse button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="basicExampleNav"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        
+          
+          
+          <li class="nav-item normal">
+            <a class="nav-link" href="/">Blog</a>
+          </li>
+        
+          
+          
+          <li class="nav-item normal">
+            <a class="nav-link" href="/de/ueber-mich.html">Über mich</a>
+          </li>
+        
+          
+          
+          <li class="nav-item normal">
+            <a class="nav-link" href="/de/veroeffentlichungen.html">Veröffentlichungen</a>
+          </li>
+        
+      </ul>
+
+      
+      <ul class="navbar-nav navbar-right">
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+            Deutsch
+            <span class="caret"></span>
+          </a>
+          <div class="dropdown-menu dropdown-primary">
+            <a class="active dropdown-item" href="/de/blog/monitoring-nginx.html">Deutsch</a>
+            <a class="normal dropdown-item" href="/en/blog/monitoring-nginx.html">Englisch</a>
+          </div>
+        </li>
+      </ul>
+      
+    </div>
+  </div>
+</nav>
+
+
+        <div class="container attribution">
+          
+          <a href="https://www.flickr.com/photos/raybouk/8201310617/" target="_blank">
+            CC BY, Ray Bouknight
+          </a>
+          
+        </div>
+      </div>
+
+      <div class="container primary">
+        <div class="content main-content">
+          <div class="post-content">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <p class="post-meta text-center font-italic">
+      Geschrieben am
+      
+      <time datetime="2017-03-24T10:05:00+00:00" itemprop="datePublished">
+        24. März 2017
+      </time>
+      
+
+      
+    </p>
+
+    
+      <div class="my-alert row info-color-dark white-text z-depth-1">
+      <div class="col-sm-12">
+        <span class="icon">
+          <i class="fa fa-globe"></i>
+        </span>
+        <div class="my-alert-body">
+          <strong>Hello! </strong> 
+        This article is also <a href="/en/blog/monitoring-nginx.html">available in English</a>!
+      
+        </div>
+      </div>
+    </div>
+    
+
+    <h1 class="post-title" itemprop="name headline">NGINX-Performancemetriken mit Prometheus</h1>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p><a href="http://prometheus.io">Prometheus</a> ist eine Kombination aus Monitoring-Werkzeug und
+Zeitreihen-Datenbank, die ich in den letzten Monaten sehr zu schätzen gelernt
+habe. Dieser Artikel zeigt, wie Prometheus genutzt werden kann, um verschiedene
+Webserver-Metriken (ohne Konfigurationseingriff) in Prometheus nutzbar zu
+machen.</p>
+
+<p>Grundsätzlich werden Metriken nach dem Pull-Prinzip in Prometheus importiert.
+Dies bedeutet, dass ein zu überwachender Service einen HTTP-Endpunkt anbieten
+muss, der von Prometheus dann in regelmäßigen Intervallen (standardmäßig 15
+Sekunden) abgefragt werden kann. Dieser Endpunkt (beispielsweise
+<code>http://&lt;service-name&gt;/metrics</code>) muss dann eine Antwort mit entsprechenden
+Zeitreihendaten ausliefern:</p>
+
+<pre><code>http_response_count_total{application="my-application"} 12423
+http_response_time_seconds{application="my-application"} 1832745
+</code></pre>
+
+<p>Dies funktioniert ausgezeichnet in Microservice-Architekturen – hier kann jeder
+Service einen einzelnen <code>/metrics</code>-Endpunkt implementieren, der alle denkbaren
+Kennzahlen auswirft.</p>
+
+<h2 id="das-problem">Das Problem</h2>
+
+<p>Nicht so gut funktioniert dieser Ansatz, wenn Prometheus
+zur Überwachung von Performance-Metriken einer (älteren) Web-Applikation genutzt
+werden soll, die in einem “klassischen” LEMP-Stack (Linux, NGINX, MySQL, PHP)
+betrieben wird. Dies liegt daran, dass eine PHP-Applikation üblicherweise nicht
+über solche Metriken wie Anzahl der verarbeiteten Requests oder die
+durchschnittliche Request-Dauer verfügt (oder sie selbst erheben und dann in
+einer Datenbank persistieren müsste).</p>
+
+<p>Für die Integration von NGINX-Webservern mit Prometheus gibt es bereits mehrere
+Konnektoren im Internet – diese werten jedoch entweder nur die Informationen
+der NGINX-Statusseite aus, die über das Modul <code>ngx_http_stub_status_module</code>
+angeboten wird (nicht detailliert genug für meinen Anwendungsfall), oder
+erfordern eine Umkonfiguration des Webservers, um einen neuen Logging-Server
+anzusprechen (zu invasiv für meine gehegte und gepflegte Alt-Applikation).</p>
+
+<h2 id="meine-lösung">Meine Lösung</h2>
+
+<p>Meine Lösung des Problems besteht nun in einem eigenen Exporter, der
+Performance-Metriken aus bestehenden NGINX-Accesslogs generieren kann. Dieser
+steht als <a href="https://github.com/martin-helmich/prometheus-nginxlog-exporter">Open Source auf Github zur Verfügung</a>, und stellt einem
+Prometheus-Server auf Grundlage einer bestehenden <code>access.log</code>-Datei diverse
+Metriken zur Verfügung:</p>
+
+<ul>
+  <li>Anzahl der verarbeiteten Requests pro Request-Methode und Status</li>
+  <li>Summe der für die bisher verarbeiteten Requests notwendige Zeit, pro Methode
+und Status (zusammen mit der Anzahl kann hieraus die durchschnittliche
+Antwortzeit über den zeitlichen Verlauf ermittelt werden)</li>
+  <li>Summe der “Upstream Time”, also der Zeit, die NGINX damit zugebracht hat, auf
+PHP-FPM oder andere FastCGI-Module zu warten</li>
+  <li>Diverse Quantile der Antwortzeit und Upstream Time</li>
+</ul>
+
+<h2 id="konfiguration">Konfiguration</h2>
+
+<p>Der NGINX-Exporter wird über eine HCL-Konfigurationsdatei konfiguriert. In der
+Konfigurationsdatei können mehrere “Namespaces” konfiguriert werden – diese
+werden dann als separate Metriken exportiert. Nachfolgend ein kurzes Beispiel
+für eine solche Konfigurationsdatei:</p>
+
+<figure class="highlight"><pre><code class="language-tf" data-lang="tf"><span></span><span class="lineno"> 1 </span><span class="err">listen</span> <span class=" -Punctuation">{</span>
+<span class="lineno"> 2 </span><span class="na">  port</span> <span class="o">=</span> <span class="m">4040</span>
+<span class="lineno"> 3 </span><span class="na">  address</span> <span class="o">=</span> <span class="s2">&quot;0.0.0.0&quot;</span>
+<span class="lineno"> 4 </span><span class=" -Punctuation">}</span>
+<span class="lineno"> 5 </span>
+<span class="lineno"> 6 </span><span class="err">namespace</span> <span class="s2">&quot;app1&quot;</span> <span class=" -Punctuation">{</span>
+<span class="lineno"> 7 </span><span class="na">  format</span> <span class="o">=</span> <span class="s2">&quot;$remote_addr - $remote_user [$time_local] \&quot;$request\&quot; $status $body_bytes_sent \&quot;$http_referer\&quot; \&quot;$http_user_agent\&quot; \&quot;$http_x_forwarded_for\&quot;&quot;</span>
+<span class="lineno"> 8 </span><span class="na">  source_files</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;/var/log/nginx/access.log&quot;</span><span class="p">]</span>
+<span class="lineno"> 9 </span>  <span class="err">labels</span> <span class=" -Punctuation">{</span>
+<span class="lineno">10 </span><span class="na">    app</span> <span class="o">=</span> <span class="s2">&quot;my-application&quot;</span>
+<span class="lineno">11 </span><span class="na">    environment</span> <span class="o">=</span> <span class="s2">&quot;production&quot;</span>
+<span class="lineno">12 </span><span class="na">    foo</span> <span class="o">=</span> <span class="s2">&quot;bar&quot;</span>
+<span class="lineno">13 </span>  <span class=" -Punctuation">}</span>
+<span class="lineno">14 </span><span class=" -Punctuation">}</span></code></pre></figure>
+
+<p>Beim Start des Exporters startet dieser einen eigenen HTTP-Server, der auf der
+konfigurierten IP-Adresse und Port lauscht (standardmäßig <code>0.0.0.0:4040</code>). Über
+die URL <code>http://&lt;IP&gt;:4040/metrics</code> können dann von Prometheus die entsprechenden
+Performance-Metriken abgegriffen werden.</p>
+
+<p>Der Namespace-Name (hier <code>app1</code>) wird später in den Namen der exportierten
+Metriken übernommen – also beispielsweise <code>app1_http_response_time_seconds</code>.
+Das Format (<code>format</code>) gibt das Format an, in dem NGINX die Access-Logs schreibt
+(für mehr Informationen dazu sei <a href="http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format">auf die Dokumentation</a> verwiesen).</p>
+
+<h2 id="start-des-exporters">Start des Exporters</h2>
+
+<p>Der eigentliche Exporter ist ein statisch kompiliertes Go-Binary, welches nach
+dem Herunterladen sofort installiert werden kann:</p>
+
+<pre><code>wget https://github.com/martin-helmich/prometheus-nginxlog-exporter/releases/download/v1.0.0/prometheus-nginxlog-exporter
+./prometheus-nginxlog-exporter -config-file /pfad/zur/config.hcl
+</code></pre>
+
+<p>Um sicherzustellen, dass der Exporter beim Systemstart automatisch startet,
+kann eine entsprechende systemd-Unit konfiguriert werden (ab Debian 8, Ubuntu
+16.04 oder CentOS 7). Diese kann platziert werden unter <code>/etc/systemd/system/prometheus-nginxlog-exporter.service</code>:</p>
+
+<figure class="highlight"><pre><code class="language-ini" data-lang="ini"><span></span><span class="lineno"> 1 </span><span class="k">[Unit]</span>
+<span class="lineno"> 2 </span><span class="na">Description</span><span class="o">=</span><span class="s">NGINX metrics exporter for Prometheus</span>
+<span class="lineno"> 3 </span><span class="na">After</span><span class="o">=</span><span class="s">network-online.target</span>
+<span class="lineno"> 4 </span>
+<span class="lineno"> 5 </span><span class="k">[Service]</span>
+<span class="lineno"> 6 </span><span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/local/bin/prometheus-nginxlog-exporter -config-file /etc/prometheus-nginxlog-exporter.hcl</span>
+<span class="lineno"> 7 </span><span class="na">Restart</span><span class="o">=</span><span class="s">always</span>
+<span class="lineno"> 8 </span><span class="na">ProtectSystem</span><span class="o">=</span><span class="s">full</span>
+<span class="lineno"> 9 </span><span class="na">CapabilityBoundingSet</span><span class="o">=</span>
+<span class="lineno">10 </span>
+<span class="lineno">11 </span><span class="k">[Install]</span>
+<span class="lineno">12 </span><span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span></code></pre></figure>
+
+<p>Beachtet, dass diese Unitfile davon ausgeht, dass das Binary unter
+<code>/usr/local/bin/prometheus-nginxlog-exporter</code> und die Konfigurationsdatei unter
+<code>/etc/prometheus-nginxlog-exporter.hcl</code> liegt. Diese Pfade können natürlich nach
+Bedarf angepasst werden.</p>
+
+<h2 id="das-ergebnis">Das Ergebnis</h2>
+
+<p>Ich betreibe den <code>prometheus-nginxlog-exporter</code> nun seit einiger Zeit schon
+produktiv. Insbesondere zusammen mit <a href="https://grafana.com/">Grafana</a> lassen sich wunderbare
+Auswertungen und Monitoring-Dashboards erstellen:</p>
+
+<p><img src="https://www.martin-helmich.de/assets/posts/prometheus-nginx-monitoring.png" alt="NGINX-Monitoring in Aktion" /></p>
+
+<p>Die Diagramme im obigen Screenshot wurden aus den folgenden Prometheus-Queries
+generiert:</p>
+
+<ul>
+  <li>Durchschnittliche Antwortzeit: <code>sum(rate(app_http_response_time_seconds_sum[5m])) by (instance) / sum(rate(app_http_response_time_seconds_count[5m])) by (instance)</code></li>
+  <li>Anfragen pro Sekunde: <code>sum(rate(app_http_response_time_seconds_count[1m])) by (instance)</code></li>
+  <li>Antwortzeit (90%-Quantil): <code>app_http_response_time_seconds{quantile="0.9",method="GET",status="200"}</code></li>
+  <li>HTTP-Traffic: <code>sum(rate(app_http_response_size_bytes[5m])) by (instance)</code></li>
+  <li>Statuscodes pro Sekunde: <code>sum(rate(app_http_response_count_total[1m])) by (status)</code></li>
+</ul>
+
+
+  </div>
+
+  <h2 id="comments">Kommentare</h2>
+
+  <div id="disqus_thread"  class="helmich-homepage-blogarticle"></div>
+</article>
+<script type="text/javascript">
+var disqus_config = function () {
+    this.page.url = "https://www.martin-helmich.de/de/blog/monitoring-nginx.html";
+    this.page.identifier = "0106ee21-38c1-4ab2-a62e-c7bc3892d653";
+    this.page.title = "NGINX-Performancemetriken mit Prometheus";
+};
+
+(function() {  // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    
+    s.src = 'https://martinhelmichde.disqus.com/embed.js';
+    
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>
+Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+powered by Disqus.</a>
+</noscript>
+</div>
+        </div>
+      </div>
+    </div>
+
+    
+
+<footer class="page-footer font-small stylish-color pt-4 z-depth-1">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <h5>Veröffentlichungen</h5>
+        <ul>
+          
+          
+            <li>
+              <strong><a href="/de/veroeffentlichungen.html">Automatisierung mit Kubernetes Operators</a></strong>
+              am 01. Mai 2019
+            </li>
+          
+            <li>
+              <strong><a href="/de/veroeffentlichungen.html">Praxiswissen TYPO3 CMS 9</a></strong>
+              am 28. März 2019
+            </li>
+          
+            <li>
+              <strong><a href="/de/veroeffentlichungen.html">Go Application Development - Tips, Tricks, and Techniques</a></strong>
+              am 28. Februar 2019
+            </li>
+          
+            <li>
+              <strong><a href="/de/veroeffentlichungen.html">TYPO3 CMS für Redakteure</a></strong>
+              am 10. Dezember 2018
+            </li>
+          
+            <li>
+              <strong><a href="/de/veroeffentlichungen.html">Continuous Delivery mit Kubernetes</a></strong>
+              am 28. November 2018
+            </li>
+          
+        </ul>
+      </div>
+      <div class="col-sm-4">
+        <h5>
+          Blog-Artikel
+        </h5>
+        <ul>
+          
+          
+            <li>
+              <strong><a href="/https:/jaxenter.de/kubernetes/automatisierung-kubernetes-operators-88189">Automatisierung mit Kubernetes Operators</a></strong>
+              am 04. Februar 2020
+            </li>
+          
+            <li>
+              <strong><a href="/de/blog/typo3-cms-docker.html">Gut eingepackt: TYPO3 CMS in Docker betreiben</a></strong>
+              am 22. März 2019
+            </li>
+          
+            <li>
+              <strong><a href="/en/blog/kubernetes-crd-client.html">Kubernetes-CRDs über die client-go-Bibliothek auslesen</a></strong>
+              am 28. März 2018
+            </li>
+          
+            <li>
+              <strong><a href="/de/blog/codequality-typo3.html">Codequalität in TYPO3-Projekten</a></strong>
+              am 18. Januar 2018
+            </li>
+          
+            <li>
+              <strong><a href="/de/blog/monitoring-nginx.html">NGINX-Performancemetriken mit Prometheus</a></strong>
+              am 24. März 2017
+            </li>
+          
+        </ul>
+      </div>
+      <div class="col-sm-4">
+        <h5>
+          Menü
+        </h5>
+        <ul>
+          
+            <li><a href="/de/impressum.html">Impressum</a></li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-copyright py-3 text-center">
+    Martin Helmich 2018
+  </div>
+</footer>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/js/mdb.min.js"></script>
+<script type="text/javascript">
+$("#martin-grumpy").mouseover(function() {
+  $(this).attr("src", "/assets/martin-happy.jpg");
+});
+$("#martin-grumpy").mouseout(function() {
+  $(this).attr("src", "/assets/martin-grumpy.jpg");
+});
+</script>
+
+  </body>
+
+</html>

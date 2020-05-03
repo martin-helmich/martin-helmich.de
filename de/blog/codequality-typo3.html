@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="de">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Codequalität in TYPO3-Projekten</title>
+  <meta name="description" content="Vor einiger Zeit schrieb ich (ursprünglich als Teil eines größeren Artikels für das t3n-Magazin) ein kleines Tool zur Analyse der Codequalität in TypoScript-...">
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/css/mdb.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/fonts.css">
+
+  <link rel="canonical" href="https://www.martin-helmich.de/de/blog/codequality-typo3.html">
+
+  <link rel="alternate" type="application/rss+xml" title="martin-helmich.de" href="https://www.martin-helmich.de/feed.xml">
+
+  
+    <link rel="alternate" hreflang="en" href="/en/blog/codequality-typo3.html">
+  
+
+</head>
+
+
+  <body>
+
+    <div class="main">
+      <div  class="blog-landing" style="background-image: url(/assets/headers/tools.jpg)">
+      <nav class="navbar navbar-expand-lg navbar-dark elegant-color">
+  <div class="container">
+    <a class="navbar-brand" href="/">martin-helmich.de</a>
+
+    <!-- Collapse button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="basicExampleNav"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        
+          
+          
+          <li class="nav-item normal">
+            <a class="nav-link" href="/">Blog</a>
+          </li>
+        
+          
+          
+          <li class="nav-item normal">
+            <a class="nav-link" href="/de/ueber-mich.html">Über mich</a>
+          </li>
+        
+          
+          
+          <li class="nav-item normal">
+            <a class="nav-link" href="/de/veroeffentlichungen.html">Veröffentlichungen</a>
+          </li>
+        
+      </ul>
+
+      
+      <ul class="navbar-nav navbar-right">
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+            Deutsch
+            <span class="caret"></span>
+          </a>
+          <div class="dropdown-menu dropdown-primary">
+            <a class="active dropdown-item" href="/de/blog/codequality-typo3.html">Deutsch</a>
+            <a class="normal dropdown-item" href="/en/blog/codequality-typo3.html">Englisch</a>
+          </div>
+        </li>
+      </ul>
+      
+    </div>
+  </div>
+</nav>
+
+
+        <div class="container attribution">
+          
+          <a href="https://pixabay.com/en/tool-repair-work-metal-roulette-2820951/" target="_blank">
+            CC-0, falconp4
+          </a>
+          
+        </div>
+      </div>
+
+      <div class="container primary">
+        <div class="content main-content">
+          <div class="post-content">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <p class="post-meta text-center font-italic">
+      Geschrieben am
+      
+      <time datetime="2018-01-18T20:45:00+00:00" itemprop="datePublished">
+        18. Januar 2018
+      </time>
+      
+
+      
+    </p>
+
+    
+      <div class="my-alert row info-color-dark white-text z-depth-1">
+      <div class="col-sm-12">
+        <span class="icon">
+          <i class="fa fa-globe"></i>
+        </span>
+        <div class="my-alert-body">
+          <strong>Hello! </strong> 
+        This article is also <a href="/en/blog/codequality-typo3.html">available in English</a>!
+      
+        </div>
+      </div>
+    </div>
+    
+
+    <h1 class="post-title" itemprop="name headline">Codequalität in TYPO3-Projekten</h1>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>Vor einiger Zeit schrieb ich (ursprünglich als Teil eines größeren <a href="https://t3n.de/magazin/continuous-integration-typo3-236672/">Artikels für das t3n-Magazin</a>) ein <a href="https://github.com/martin-helmich/typo3-typoscript-lint">kleines Tool zur Analyse der Codequalität in TypoScript-Dateien</a>, welches sich auch nach einigen Jahren noch einer gewissen Beliebtheit erfreut. Aus diesem Grund gibt es hier noch einmal eine kurze Zusammenfassung und einen Überblick über die Benutzung.</p>
+
+<script src="https://asciinema.org/a/1jOJv3Z6onWSdIkTAxAWsGgoy.js" id="asciicast-1jOJv3Z6onWSdIkTAxAWsGgoy" async=""></script>
+
+<h2 id="was-ist-ein-linter">Was ist ein Linter?</h2>
+
+<p>Der Begriff des “Lintings” geht auf das betagte Unix-Tool <em>lint</em> zurück. Dieses diente ursprünglich dazu, Programmierfehler in C-Quelltexten zu finden. Mittlerweile versteht man unter einem “Linter” ein Tool, das Fehler (einschließlich stilistischer Fehler) in Programmquelltexten erkennt und meldet (Quelle: <a href="https://en.wikipedia.org/wiki/Lint_(software)">Wikipedia</a>). Linter helfen Entwicklern, in Projekten einen einheitlichen Programmierstil einzuhalten, und mögliche Fehler möglichst früh durch statische Codeanalyse zu erkennen.</p>
+
+<p>Linter gibt es für alle möglichen Programmiersprachen; Web-Entwickler kennen womöglich <a href="http://jslint.com/">JSLint</a>, <a href="http://csslint.net/">CSSLint</a> oder <a href="http://htmlhint.com/">HTMLLint</a>. In diese Liste reiht sich nun auch <a href="https://github.com/martin-helmich/typo3-typoscript-lint">TypoScript Lint</a> ein, welches ähnliche Funktionen für das in TYPO3-Projekten gebräuchliche TypoScript anbietet. Als kleines Beispiel sei folgender TypoScript-Quelltext betrachtet:</p>
+
+<figure class="highlight"><pre><code class="language-typoscript" data-lang="typoscript"><span></span><span class="lineno"> 1 </span><span class="nb">page</span> <span class="o">=</span> <span class="nc">PAGE</span>
+<span class="lineno"> 2 </span><span class="nb">page</span>  <span class="ss">{</span>
+<span class="lineno"> 3 </span>  <span class="mi">10</span> <span class="o">=</span> <span class="nc">FLUIDTEMPLATE</span>
+<span class="lineno"> 4 </span>   <span class="mi">10</span> <span class="ss">{</span>
+<span class="lineno"> 5 </span>    templateName <span class="o">=</span> Default
+<span class="lineno"> 6 </span>    templateRootPaths<span class="p">.</span><span class="mi">10</span> <span class="o">=</span> <span class="s">fileadmin/templates</span>
+<span class="lineno"> 7 </span>   templateRootPaths<span class="p">.</span><span class="mi">20</span> <span class="o">=</span> <span class="s">EXT:mysite/Resources/Private/Templates</span>
+<span class="lineno"> 8 </span>
+<span class="lineno"> 9 </span>    layoutRootPaths <span class="ss">{</span>
+<span class="lineno">10 </span>    <span class="ss">}</span>
+<span class="lineno">11 </span>  <span class="ss">}</span>
+<span class="lineno">12 </span><span class="ss">}</span>
+<span class="lineno">13 </span>
+<span class="lineno">14 </span><span class="c">#page.includeJS.main = fileadmin/js/app.js</span>
+<span class="lineno">15 </span><span class="nb">page</span><span class="p">.</span>includeJS<span class="p">.</span>main <span class="o">=</span> <span class="s">fileadmin/js/app.min.js</span>
+<span class="lineno">16 </span>
+<span class="lineno">17 </span><span class="nb">page</span><span class="p">.</span><span class="mi">10</span><span class="p">.</span>templateRootPaths<span class="p">.</span><span class="mi">10</span> <span class="o">=</span> <span class="s">fileadmin/templates2</span></code></pre></figure>
+
+<p>In diesem Code-Abschnitt gibt es einige offensichtliche stilistische Punkte zu bemängeln (sortiert nach Schwere):</p>
+
+<ol>
+  <li>In Zeile 6 wird die Eigenschaft <code>page.10.templateRootPaths.10</code> zugewiesen. Allerdings wird genau diese Eigenschaft in Zeile 17 wieder überschrieben. Dies ist eine gefährliche Falle: Ein unbedachter Entwickler könnte nun im guten Glauben Zeile 6 verändern, ohne dass dies irgendeine Auswirkung hätte – ein Fehler, den zu debuggen dann im Anschluss wertvolle Zeit kosten würde.</li>
+  <li>Nachdem der erste Zuweisungsblock zu <code>page</code> geschlossen wurde, folgt noch eine zweite Zuweisung zu einem Unterobjekt von <code>page</code>. Dies könnte überraschen, da ein Leser des Quelltextes nicht unbedingt damit rechnet, dass nach dem Zuweisungsblock noch einzelne Unterattribute des <code>page</code>-Objekts zugewiesen werden.</li>
+  <li>Die Kommentarzeile in Zeile 14 enthält offensichtlich auskommentierten Code. Dieser stört die Lesbarkeit und sollte komplett entfernt werden. Dafür gibt es ja schließlich Versionsverwaltung!</li>
+  <li>Die Einrückung der Datei ist nicht konsistent. Die <code>10</code> in den Zeilen 3 und 4 sollten gleich weit eingerückt sein, sind es aber nicht. Gleiches gilt in Zeile 7. Gerade in größeren Dateien können solche Einrückungsfehler der Lesbarkeit des Quelltextes enorm schaden.</li>
+  <li>Die Zuweisungen zu <code>templateRootPaths</code> in den Zeilen 6 und 7 beginnen mit demselben Pfad-Segment. Zur besseren Lesbarkeit könnten diese beiden Zuweisungen in einen Block ausgelagert werden.</li>
+  <li>Die Zuweisung zu <code>layoutRootPaths</code> ist komplett leer.</li>
+</ol>
+
+<p>Und tatsächlich generiert der TypoScript-Linter bei einer Eingabedatei mit obigem Inhalt folgende Ausgabe, welche alle oben angemerkten Fehler (und sogar noch ein paar mehr) ankreidet:</p>
+
+<pre><code class="language-txt">Completed with 8 issues
+
+CHECKSTYLE REPORT
+=&gt; /Users/mhelmich/Git/Github/typo3-ci-example/test.typoscript.
+   2 Accessor should be followed by single space.
+   4 Expected indent of 2 spaces.
+   6 Value of object "page.10.templateRootPaths.10" is overwritten in line 17.
+   6 Common path prefix "templateRootPaths" with assignment to "templateRootPaths.20" in line 7. Consider merging them into a nested assignment.
+   7 Expected indent of 4 spaces.
+   7 Common path prefix "templateRootPaths" with assignment to "templateRootPaths.10" in line 6. Consider merging them into a nested assignment.
+   9 Empty assignment block
+  14 Found commented code (page.includeJS.main = fileadmin/js/app.js).
+  15 Assignment to value "page.includeJS.main", altough nested statement for path "page" exists at line 2.
+  17 Assignment to value "page.10.templateRootPaths.10", altough nested statement for path "page" exists at line 2.
+  17 Common path prefix "page" with assignment to "page.includeJS.main" in line 15. Consider merging them into a nested assignment.
+
+SUMMARY
+12 issues in total. (11 warnings, 1 infos)
+</code></pre>
+
+<p>Eine vollständige Liste aller vom TypoScript-Linter erkannten Fehler findet sich in der <a href="https://github.com/martin-helmich/typo3-typoscript-lint#features">README des Projekts</a>.</p>
+
+<h2 id="installation">Installation</h2>
+
+<p>Der Typoscript-Linter wird per <a href="https://getcomposer.org/">Composer</a> installiert. Das funktioniert natürlich am besten, wenn das TYPO3-Projekt, in dem der Linter genutzt werden soll, selbst ebenfalls mit Composer verwaltet wird (zum Setup von TYPO3 mit Composer sei auf die <a href="https://github.com/TYPO3/TYPO3.CMS.BaseDistribution">zugehörige README verwiesen</a>). In diesem Fall reicht ein einfaches <code>composer require --dev</code> im Projektverzeichnis:</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span></span><span class="gp">&gt;</span> composer require --dev helmich/typo3-typoscript-lint
+<span class="go">Using version ^1.4 for helmich/typo3-typoscript-lint</span>
+<span class="go">./composer.json has been updated</span>
+<span class="go">Loading composer repositories with package information</span>
+<span class="go">Updating dependencies (including require-dev)</span>
+<span class="go">Package operations: 7 installs, 0 updates, 0 removals</span>
+<span class="go">  - Installing symfony/filesystem (v4.0.3): Downloading (100%)</span>
+<span class="go">  - Installing symfony/config (v4.0.3): Downloading (100%)</span>
+<span class="go">  - Installing psr/container (1.0.0): Downloading (100%)</span>
+<span class="go">  - Installing symfony/dependency-injection (v4.0.3): Downloading (100%)</span>
+<span class="go">  - Installing helmich/typo3-typoscript-parser (v1.1.2): Downloading (100%)</span>
+<span class="go">  - Installing symfony/event-dispatcher (v4.0.3): Downloading (100%)</span>
+<span class="go">  - Installing helmich/typo3-typoscript-lint (v1.4.4): Downloading (100%)</span>
+<span class="go">Writing lock file</span>
+<span class="go">Generating autoload files</span>
+<span class="go">Generating  class alias map file</span>
+<span class="go">Inserting class alias loader into main autoload.php file</span></code></pre></figure>
+
+<p>Das <code>--dev</code>-Flag stellt sicher, dass der Linter nicht mit installiert wird, wenn das Projekt auf einem Produktivsystem installiert wird. Der Linter steht im Anschluss im Verzeichnis <code>vendor/bin</code> zur Verfügung und kann mit <code>vendor/bin/typoscript-lint</code> aufgerufen werden.</p>
+
+<p>Falls euer TYPO3-Projekt nicht mit Composer verwaltet wird, kann auch der <code>composer global</code>-Befehl genutzt werden, um den Linter global zu installieren. In diesem Fall steht der Linter dann nicht im Projektverzeichnis, sondern im Home-Verzeichnis eures Nutzers unter <code>$HOME/.composer/vendor/bin/typoscript-lint</code> zur Verfügung (wenn ihr das Verzeichnis <code>$HOME/.composer/vendor/bin</code> in euren Suchpfad eintragt, reicht anschließend auch ein einfaches <code>typoscript-lint</code> zum Aufruf).</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span></span><span class="gp">&gt;</span> composer global require helmich/typo3-typoscript-lint
+<span class="go">Changed current directory to /Users/mhelmich/.composer</span>
+<span class="go">Using version ^1.4 for helmich/typo3-typoscript-lint</span>
+<span class="go">./composer.json has been created</span>
+<span class="go">Loading composer repositories with package information</span>
+<span class="go">Updating dependencies (including require-dev)</span>
+<span class="go">Package operations: 11 installs, 0 updates, 0 removals</span>
+<span class="go">  - Installing symfony/yaml (v4.0.3): Loading from cache</span>
+<span class="go">  - Installing symfony/filesystem (v4.0.3): Loading from cache</span>
+<span class="go">  - Installing symfony/config (v4.0.3): Loading from cache</span>
+<span class="go">  - Installing psr/container (1.0.0): Loading from cache</span>
+<span class="go">  - Installing symfony/dependency-injection (v4.0.3): Loading from cache</span>
+<span class="go">  - Installing helmich/typo3-typoscript-parser (v1.1.2): Loading from cache</span>
+<span class="go">  - Installing symfony/event-dispatcher (v4.0.3): Loading from cache</span>
+<span class="go">  - Installing symfony/finder (v4.0.3): Loading from cache</span>
+<span class="go">  - Installing symfony/polyfill-mbstring (v1.6.0): Loading from cache</span>
+<span class="go">  - Installing symfony/console (v4.0.3): Loading from cache</span>
+<span class="go">  - Installing helmich/typo3-typoscript-lint (v1.4.4): Loading from cache</span>
+<span class="go">Writing lock file</span>
+<span class="go">Generating autoload files</span></code></pre></figure>
+
+<h2 id="nutzung">Nutzung</h2>
+
+<p>Nach der Installation kann <code>typoscript-lint</code> auf beliebige Typoscript-Dateien aufgerufen werden. Die Dateien werden analyisiert, und das Tool wird euch auf Stilfehler (und auch echte Fehler) im Quelltext hinweisen. Die Ausgabe des Tools könnte beispielsweise aussehen wie folgt:</p>
+
+<p><img src="/assets/posts/typoscript-lint-output.png" alt="Ausgabe von `typoscript-lint`" /></p>
+
+<p>Mit den Optionen <code>-f xml</code> und <code>-o ausgabedatei.xml</code> kann auch eine XML-Ausgabedatei generiert werden, die dem verbreiteten <a href="http://checkstyle.sourceforge.net/">Checkstyle-Format</a> folgt. Auf diese Weise kann der Typoscript-Linter bequem in <em>Continuous Integration</em>-Umgebungen wie etwa Jenkins integriert werden (für das ein <a href="https://wiki.jenkins.io/display/JENKINS/Checkstyle+Plugin">Plugin für Checkstyle</a> existiert).</p>
+
+<h2 id="konfiguration">Konfiguration</h2>
+
+<p>Stilfragen in Programmiersprachen ist häufig subjektiv und abhängig von persönlichen Vorlieben. Bestes Beispiel ist wahrscheinlich die <a href="https://www.youtube.com/watch?v=SsoOG6ZeyUI">“Tabs oder Spaces?”</a>-Frage. Natürlich kann der TypoScript-Linter an derartige Präferenzen angepasst werden. Hierzu muss im Projektverzeichnis eine Konfigurationsdatei <code>typoscript-lint.yml</code> hinterlegt werden (frühere Versionen des Linters benutzten <code>tslint.yml</code> als Dateiname für die Konfigurationsdatei, was allerdings zu einigen <a href="https://palantir.github.io/tslint/">offensichtlichen Konflikten</a> führte). Hier kann beispielsweise die Einrückung konfiguriert werden (hier etwa für die Einrückung mit Tabs statt Spaces):</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="lineno">1 </span><span class="l l-Scalar l-Scalar-Plain">sniffs</span><span class="p p-Indicator">:</span>
+<span class="lineno">2 </span>  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">class</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Indentation</span>
+<span class="lineno">3 </span>    <span class="l l-Scalar l-Scalar-Plain">parameters</span><span class="p p-Indicator">:</span>
+<span class="lineno">4 </span>      <span class="l l-Scalar l-Scalar-Plain">useSpaces</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="lineno">5 </span>      <span class="l l-Scalar l-Scalar-Plain">indentPerLevel</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span></code></pre></figure>
+
+<p>Auch das Deaktivieren einzelner Überprüfungen ist möglich. Wenn euch beispielsweise die Empfehlungen für das Verschachteln von Statements nerven, kann diese Überprüfung einfach deaktiviert werden:</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="lineno">1 </span><span class="l l-Scalar l-Scalar-Plain">sniffs</span><span class="p p-Indicator">:</span>
+<span class="lineno">2 </span>  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">class</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">NestingConsistency</span>
+<span class="lineno">3 </span>    <span class="l l-Scalar l-Scalar-Plain">disabled</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span></code></pre></figure>
+
+<h2 id="fragen--feedback">Fragen &amp; Feedback?</h2>
+
+<p>Der TypoScript-Linter ist <a href="https://github.com/martin-helmich/typo3-typoscript-lint">auf GitHub verfügbar</a> und steht unter der MIT-Lizenz zur Verfügung. Fällt euch bei der Nutzung des Linters ein Fehler auf, nutzt gerne den <a href="https://github.com/martin-helmich/typo3-typoscript-lint/issues">Bugtracker auf GitHub</a>. Auch Verbesserungsvorschläge in Form von Pull Requests sind stets willkommen.</p>
+
+
+  </div>
+
+  <h2 id="comments">Kommentare</h2>
+
+  <div id="disqus_thread"  class="helmich-homepage-blogarticle"></div>
+</article>
+<script type="text/javascript">
+var disqus_config = function () {
+    this.page.url = "https://www.martin-helmich.de/de/blog/codequality-typo3.html";
+    this.page.identifier = "3f3a070e-5770-46c1-9337-4edc91dcc927";
+    this.page.title = "Codequalität in TYPO3-Projekten";
+};
+
+(function() {  // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    
+    s.src = 'https://martinhelmichde.disqus.com/embed.js';
+    
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>
+Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+powered by Disqus.</a>
+</noscript>
+</div>
+        </div>
+      </div>
+    </div>
+
+    
+
+<footer class="page-footer font-small stylish-color pt-4 z-depth-1">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <h5>Veröffentlichungen</h5>
+        <ul>
+          
+          
+            <li>
+              <strong><a href="/de/veroeffentlichungen.html">Automatisierung mit Kubernetes Operators</a></strong>
+              am 01. Mai 2019
+            </li>
+          
+            <li>
+              <strong><a href="/de/veroeffentlichungen.html">Praxiswissen TYPO3 CMS 9</a></strong>
+              am 28. März 2019
+            </li>
+          
+            <li>
+              <strong><a href="/de/veroeffentlichungen.html">Go Application Development - Tips, Tricks, and Techniques</a></strong>
+              am 28. Februar 2019
+            </li>
+          
+            <li>
+              <strong><a href="/de/veroeffentlichungen.html">TYPO3 CMS für Redakteure</a></strong>
+              am 10. Dezember 2018
+            </li>
+          
+            <li>
+              <strong><a href="/de/veroeffentlichungen.html">Continuous Delivery mit Kubernetes</a></strong>
+              am 28. November 2018
+            </li>
+          
+        </ul>
+      </div>
+      <div class="col-sm-4">
+        <h5>
+          Blog-Artikel
+        </h5>
+        <ul>
+          
+          
+            <li>
+              <strong><a href="/https:/jaxenter.de/kubernetes/automatisierung-kubernetes-operators-88189">Automatisierung mit Kubernetes Operators</a></strong>
+              am 04. Februar 2020
+            </li>
+          
+            <li>
+              <strong><a href="/de/blog/typo3-cms-docker.html">Gut eingepackt: TYPO3 CMS in Docker betreiben</a></strong>
+              am 22. März 2019
+            </li>
+          
+            <li>
+              <strong><a href="/en/blog/kubernetes-crd-client.html">Kubernetes-CRDs über die client-go-Bibliothek auslesen</a></strong>
+              am 28. März 2018
+            </li>
+          
+            <li>
+              <strong><a href="/de/blog/codequality-typo3.html">Codequalität in TYPO3-Projekten</a></strong>
+              am 18. Januar 2018
+            </li>
+          
+            <li>
+              <strong><a href="/de/blog/monitoring-nginx.html">NGINX-Performancemetriken mit Prometheus</a></strong>
+              am 24. März 2017
+            </li>
+          
+        </ul>
+      </div>
+      <div class="col-sm-4">
+        <h5>
+          Menü
+        </h5>
+        <ul>
+          
+            <li><a href="/de/impressum.html">Impressum</a></li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-copyright py-3 text-center">
+    Martin Helmich 2018
+  </div>
+</footer>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/js/mdb.min.js"></script>
+<script type="text/javascript">
+$("#martin-grumpy").mouseover(function() {
+  $(this).attr("src", "/assets/martin-happy.jpg");
+});
+$("#martin-grumpy").mouseout(function() {
+  $(this).attr("src", "/assets/martin-grumpy.jpg");
+});
+</script>
+
+  </body>
+
+</html>

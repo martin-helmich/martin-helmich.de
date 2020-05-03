@@ -1,0 +1,748 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Accessing Kubernetes CRDs from the client-go package</title>
+  <meta name="description" content="The Kubernetes API server is easily extendable by Custom Resource Defintions. However, actually accessing these resources from the popular client-go library ...">
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/css/mdb.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/fonts.css">
+
+  <link rel="canonical" href="https://www.martin-helmich.de/en/blog/kubernetes-crd-client.html">
+
+  <link rel="alternate" type="application/rss+xml" title="martin-helmich.de" href="https://www.martin-helmich.de/feed.xml">
+
+  
+
+</head>
+
+
+  <body>
+
+    <div class="main">
+      <div  class="blog-landing" style="background-image: url(/assets/headers/boat.jpg)">
+      <nav class="navbar navbar-expand-lg navbar-dark elegant-color">
+  <div class="container">
+    <a class="navbar-brand" href="/en/blog.html">martin-helmich.de</a>
+
+    <!-- Collapse button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="basicExampleNav"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        
+          
+          
+          <li class="nav-item normal">
+            <a class="nav-link" href="/en/blog.html">Blog</a>
+          </li>
+        
+          
+          
+          <li class="nav-item normal">
+            <a class="nav-link" href="/en/about-me.html">About me</a>
+          </li>
+        
+          
+          
+          <li class="nav-item normal">
+            <a class="nav-link" href="/en/publications.html">Publications</a>
+          </li>
+        
+      </ul>
+
+      
+      <ul class="navbar-nav navbar-right">
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+            English
+            <span class="caret"></span>
+          </a>
+          <div class="dropdown-menu dropdown-primary">
+            <a class="normal dropdown-item" href="">German</a>
+            <a class="active dropdown-item" href="/en/blog/kubernetes-crd-client.html">English</a>
+          </div>
+        </li>
+      </ul>
+      
+    </div>
+  </div>
+</nav>
+
+
+        <div class="container attribution">
+          
+          <a href="https://pixabay.com/en/boat-clouds-rustic-rusty-sky-1834397" target="_blank">
+            CC-0, Pexels
+          </a>
+          
+        </div>
+      </div>
+
+      <div class="container primary">
+        <div class="content main-content">
+          <div class="post-content">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <p class="post-meta text-center font-italic">
+      Written on
+      
+      <time datetime="2020-04-15T19:51:00+00:00" itemprop="datePublished">
+        28. März 2018, Updated on 15. April 2020
+      </time>
+      
+
+      
+      by <span itemprop="author" itemscope itemtype="http://schema.org/Person"><span itemprop="name">Martin Helmich</span></span>
+      
+    </p>
+
+    
+
+    <h1 class="post-title" itemprop="name headline">Accessing Kubernetes CRDs from the client-go package</h1>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>The Kubernetes API server is easily extendable by <a href="https://kubernetes.io/docs/tasks/access-kubernetes-api/extend-api-custom-resource-definitions/">Custom Resource Defintions</a>. However, actually accessing these resources from the popular <a href="https://github.com/kubernetes/client-go">client-go</a> library is a bit more complex and not thoroughly documented. This article contains a short guide on how to access Kubernetes CRDs from your own Go code (<strong>UPDATED 2020/04</strong> to adjust to API changes in recent <code>client-go</code> versions, using Go modules and doing (some) code generation with <code>controller-gen</code>).</p>
+
+<h2 id="motivation">Motivation</h2>
+
+<p>I came across this challenge while wanting to integrate a third-party storage vendor into a Kubernetes cluster in my day job at <a href="https://karriere.mittwald.de">Mittwald</a>. The plan was to use Custom Resource Definitions to define things like <em>Filesystem Pools</em> and <em>Filesystems</em>. Then, a custom Operator could listen for these resources being created and deleted and take care of the actual provisioning of these resources.</p>
+
+<h2 id="defining-and-creating-a-custom-resource">Defining and creating a Custom Resource</h2>
+
+<p>For this article, we’ll work with an easy example: Custom Resource Definitions can be easily created using <code>kubectl</code>, and for this example, we will start with a single simple resource definition:</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="lineno"> 1 </span><span class="l l-Scalar l-Scalar-Plain">apiVersion</span><span class="p p-Indicator">:</span> <span class="s">&quot;apiextensions.k8s.io/v1beta1&quot;</span>
+<span class="lineno"> 2 </span><span class="l l-Scalar l-Scalar-Plain">kind</span><span class="p p-Indicator">:</span> <span class="s">&quot;CustomResourceDefinition&quot;</span>
+<span class="lineno"> 3 </span><span class="l l-Scalar l-Scalar-Plain">metadata</span><span class="p p-Indicator">:</span>
+<span class="lineno"> 4 </span>  <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="s">&quot;projects.example.martin-helmich.de&quot;</span>
+<span class="lineno"> 5 </span><span class="l l-Scalar l-Scalar-Plain">spec</span><span class="p p-Indicator">:</span>
+<span class="lineno"> 6 </span>  <span class="l l-Scalar l-Scalar-Plain">group</span><span class="p p-Indicator">:</span> <span class="s">&quot;example.martin-helmich.de&quot;</span>
+<span class="lineno"> 7 </span>  <span class="l l-Scalar l-Scalar-Plain">version</span><span class="p p-Indicator">:</span> <span class="s">&quot;v1alpha1&quot;</span>
+<span class="lineno"> 8 </span>  <span class="l l-Scalar l-Scalar-Plain">scope</span><span class="p p-Indicator">:</span> <span class="s">&quot;Namespaced&quot;</span>
+<span class="lineno"> 9 </span>  <span class="l l-Scalar l-Scalar-Plain">names</span><span class="p p-Indicator">:</span>
+<span class="lineno">10 </span>    <span class="l l-Scalar l-Scalar-Plain">plural</span><span class="p p-Indicator">:</span> <span class="s">&quot;projects&quot;</span>
+<span class="lineno">11 </span>    <span class="l l-Scalar l-Scalar-Plain">singular</span><span class="p p-Indicator">:</span> <span class="s">&quot;project&quot;</span>
+<span class="lineno">12 </span>    <span class="l l-Scalar l-Scalar-Plain">kind</span><span class="p p-Indicator">:</span> <span class="s">&quot;Project&quot;</span>
+<span class="lineno">13 </span>  <span class="l l-Scalar l-Scalar-Plain">validation</span><span class="p p-Indicator">:</span>
+<span class="lineno">14 </span>    <span class="l l-Scalar l-Scalar-Plain">openAPIV3Schema</span><span class="p p-Indicator">:</span>
+<span class="lineno">15 </span>      <span class="l l-Scalar l-Scalar-Plain">required</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="s">&quot;spec&quot;</span><span class="p p-Indicator">]</span>
+<span class="lineno">16 </span>      <span class="l l-Scalar l-Scalar-Plain">properties</span><span class="p p-Indicator">:</span>
+<span class="lineno">17 </span>        <span class="l l-Scalar l-Scalar-Plain">spec</span><span class="p p-Indicator">:</span>
+<span class="lineno">18 </span>          <span class="l l-Scalar l-Scalar-Plain">required</span><span class="p p-Indicator">:</span> <span class="p p-Indicator">[</span><span class="s">&quot;replicas&quot;</span><span class="p p-Indicator">]</span>
+<span class="lineno">19 </span>          <span class="l l-Scalar l-Scalar-Plain">properties</span><span class="p p-Indicator">:</span>
+<span class="lineno">20 </span>            <span class="l l-Scalar l-Scalar-Plain">replicas</span><span class="p p-Indicator">:</span>
+<span class="lineno">21 </span>              <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="s">&quot;integer&quot;</span>
+<span class="lineno">22 </span>              <span class="l l-Scalar l-Scalar-Plain">minimum</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span></code></pre></figure>
+
+<p>For defining a Custom Resource Definition, you will need to think of an <em>API Group Name</em> (in this case, <code>example.martin-helmich.de</code>). By convention, this is usually the Domain Name of a domain that you control (for example, your organization’s domain) in order to prevent naming conflicts. The CRD’s name then follows the pattern <code>&lt;plural-resource-name&gt;.&lt;api-group-name&gt;</code>, so in this case <code>projects.example.martin-helmich.de</code>.</p>
+
+<p>Also, be careful when choosing your definition version (<code>spec.version</code> in the example above). As long as your definitions are still evolving, it’s usually a good idea to declare your first definition with an <em>alpha</em> API group version. To users of your custom resource, this will clearly communicate that the definitions might still change, later.</p>
+
+<p>Often, you want to validate the data that users store in your custom resources against a certain schema. This is what the <code>spec.validation.openAPIV3Schema</code> is for: This contains a <a href="http://json-schema.org/">JSON Schema</a> that describes the format that your resources should have.</p>
+
+<p>After saving the CRD in a file, you can use <code>kubectl</code> to create your resource definition:</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span></span><span class="gp">&gt;</span> kubectl apply -f projects-crd.yaml
+<span class="go">customresourcedefinition &quot;projects.example.martin-helmich.de&quot; created</span></code></pre></figure>
+
+<p>After you have created your Custom Resource Definition, you can create instances of this new resource type. These are defined like regular Kubernetes objects (like, for example, Pods, Deployments and others). Only the <code>kind</code> and <code>apiVersion</code> vary:</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="lineno">1 </span><span class="l l-Scalar l-Scalar-Plain">apiVersion</span><span class="p p-Indicator">:</span> <span class="s">&quot;example.martin-helmich.de/v1alpha1&quot;</span>
+<span class="lineno">2 </span><span class="l l-Scalar l-Scalar-Plain">kind</span><span class="p p-Indicator">:</span> <span class="s">&quot;Project&quot;</span>
+<span class="lineno">3 </span><span class="l l-Scalar l-Scalar-Plain">metadata</span><span class="p p-Indicator">:</span>
+<span class="lineno">4 </span>  <span class="l l-Scalar l-Scalar-Plain">name</span><span class="p p-Indicator">:</span> <span class="s">&quot;example-project&quot;</span>
+<span class="lineno">5 </span>  <span class="l l-Scalar l-Scalar-Plain">namespace</span><span class="p p-Indicator">:</span> <span class="s">&quot;default&quot;</span>
+<span class="lineno">6 </span><span class="l l-Scalar l-Scalar-Plain">spec</span><span class="p p-Indicator">:</span>
+<span class="lineno">7 </span>  <span class="l l-Scalar l-Scalar-Plain">replicas</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span></code></pre></figure>
+
+<p>You can create custom resources like any other object with <code>kubectl</code>:</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span></span><span class="gp">&gt;</span> kubectl apply -f project.yaml
+<span class="go">project &quot;example-project&quot; created</span></code></pre></figure>
+
+<p>You can even use <code>kubectl get</code> to retrieve your custom resources back from the Kubernetes API. Most other commands like <code>kubectl edit</code>, <code>apply</code> or <code>delete</code> will work, as well:</p>
+
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span></span><span class="gp">&gt;</span> kubectl get projects
+<span class="go">NAME               AGE</span>
+<span class="go">example-project    2m</span></code></pre></figure>
+
+<h2 id="creating-a-golang-client">Creating a Golang client</h2>
+
+<p>Next, we’ll use the <a href="https://github.com/kubernetes/client-go">client-go</a> package to access these custom resources. For this example, I’ll assume that you are working in a Go project with the package name <code>github.com/martin-helmich/kubernetes-crd-example</code> (yes, that repository <a href="https://github.com/martin-helmich/kubernetes-crd-example">actually exists</a>) and have the <code>client-go</code> and <code>apimachinery</code> libraries installed as Go modules:</p>
+
+<pre><code>go mod init github.com/martin-helmich/kubernetes-crd-example
+go get k8s.io/client-go@v0.17.0
+go get k8s.io/apimachinery@v0.17.0
+</code></pre>
+
+<div class="my-alert row default-color-dark white-text z-depth-1">
+      <div class="col-sm-12">
+        <span class="icon">
+          <i class="fa fa-lightbulb"></i>
+        </span>
+        <div class="my-alert-body">
+          <strong>Note </strong> 
+Many documentations working with CRDs will assume that you are working with some kind of code generation to generate client libraries automatically. However, this process is documented sparsely, and from reading a few heated discussions on Github, I got the impression that it's still very much a work-in-progress. We'll stick with a (mostly) manually implemented client, for now.
+
+        </div>
+      </div>
+    </div>
+
+<h3 id="step-1-define-types">Step 1: Define types</h3>
+
+<p>Start by defining the types for your custom resource. I’ve found it to be a good practice to organize these types by the API group version; for example, you could create a file <code>api/types/v1alpha1/project.go</code> with the following contents:</p>
+
+<figure class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="lineno"> 1 </span><span class="kn">package</span> <span class="nx">v1alpha1</span>
+<span class="lineno"> 2 </span>
+<span class="lineno"> 3 </span><span class="kn">import</span> <span class="nx">metav1</span> <span class="s">&quot;k8s.io/apimachinery/pkg/apis/meta/v1&quot;</span>
+<span class="lineno"> 4 </span>
+<span class="lineno"> 5 </span><span class="kd">type</span> <span class="nx">ProjectSpec</span> <span class="kd">struct</span> <span class="p">{</span>
+<span class="lineno"> 6 </span>    <span class="nx">Replicas</span> <span class="kt">int</span> <span class="s">`json:&quot;replicas&quot;`</span>
+<span class="lineno"> 7 </span><span class="p">}</span>
+<span class="lineno"> 8 </span>
+<span class="lineno"> 9 </span><span class="kd">type</span> <span class="nx">Project</span> <span class="kd">struct</span> <span class="p">{</span>
+<span class="lineno">10 </span>	<span class="nx">metav1</span><span class="p">.</span><span class="nx">TypeMeta</span>   <span class="s">`json:&quot;,inline&quot;`</span>
+<span class="lineno">11 </span>	<span class="nx">metav1</span><span class="p">.</span><span class="nx">ObjectMeta</span> <span class="s">`json:&quot;metadata,omitempty&quot;`</span>
+<span class="lineno">12 </span>
+<span class="lineno">13 </span>    <span class="nx">Spec</span> <span class="nx">ProjectSpec</span> <span class="s">`json:&quot;spec&quot;`</span>
+<span class="lineno">14 </span><span class="p">}</span>
+<span class="lineno">15 </span>
+<span class="lineno">16 </span><span class="kd">type</span> <span class="nx">ProjectList</span> <span class="kd">struct</span> <span class="p">{</span>
+<span class="lineno">17 </span>	<span class="nx">metav1</span><span class="p">.</span><span class="nx">TypeMeta</span> <span class="s">`json:&quot;,inline&quot;`</span>
+<span class="lineno">18 </span>	<span class="nx">metav1</span><span class="p">.</span><span class="nx">ListMeta</span> <span class="s">`json:&quot;metadata,omitempty&quot;`</span>
+<span class="lineno">19 </span>
+<span class="lineno">20 </span>	<span class="nx">Items</span> <span class="p">[]</span><span class="nx">Project</span> <span class="s">`json:&quot;items&quot;`</span>
+<span class="lineno">21 </span><span class="p">}</span></code></pre></figure>
+
+<p>The <code>metav1.ObjectMeta</code> type contains the typical <code>metadata</code> properties that you can find in any Kubernetes resource (like for example, the <code>name</code>, <code>namespace</code>, <code>labels</code> and <code>annotations</code>).</p>
+
+<h3 id="step-2-define-deepcopy-methods">Step 2: Define DeepCopy methods</h3>
+
+<p>Each type that is being served by the Kubernetes API (in this case, <code>Project</code> and <code>ProjectList</code>) needs to implement the <code>k8s.io/apimachinery/pkg/runtime.Object</code> interface. This interface defines the two methods <code>GetObjectKind()</code> and <code>DeepCopyObject()</code>. The first method is already provided by the embedded <code>metav1.TypeMeta</code> struct; the second you’ll have to implement yourself.</p>
+
+<p>The <code>DeepCopyObject</code> method is intended to generate a <a href="https://en.wikipedia.org/wiki/Object_copying#Deep_copy">deep copy</a> of an object. Since this involves a lot of boilerplate code, these methods are often automatically generated. For the sake of this article, we’ll do it manually. Continue by adding a second file <code>deepcopy.go</code> to the same package:</p>
+
+<figure class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="lineno"> 1 </span><span class="kn">package</span> <span class="nx">v1alpha1</span>
+<span class="lineno"> 2 </span>
+<span class="lineno"> 3 </span><span class="kn">import</span> <span class="s">&quot;k8s.io/apimachinery/pkg/runtime&quot;</span>
+<span class="lineno"> 4 </span>
+<span class="lineno"> 5 </span><span class="c1">// DeepCopyInto copies all properties of this object into another object of the</span>
+<span class="lineno"> 6 </span><span class="c1">// same type that is provided as a pointer.</span>
+<span class="lineno"> 7 </span><span class="kd">func</span> <span class="p">(</span><span class="nx">in</span> <span class="o">*</span><span class="nx">Project</span><span class="p">)</span> <span class="nx">DeepCopyInto</span><span class="p">(</span><span class="nx">out</span> <span class="o">*</span><span class="nx">Project</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno"> 8 </span>    <span class="nx">out</span><span class="p">.</span><span class="nx">TypeMeta</span> <span class="p">=</span> <span class="nx">in</span><span class="p">.</span><span class="nx">TypeMeta</span>
+<span class="lineno"> 9 </span>    <span class="nx">out</span><span class="p">.</span><span class="nx">ObjectMeta</span> <span class="p">=</span> <span class="nx">in</span><span class="p">.</span><span class="nx">ObjectMeta</span>
+<span class="lineno">10 </span>    <span class="nx">out</span><span class="p">.</span><span class="nx">Spec</span> <span class="p">=</span> <span class="nx">ProjectSpec</span><span class="p">{</span>
+<span class="lineno">11 </span>        <span class="nx">Replicas</span><span class="p">:</span> <span class="nx">in</span><span class="p">.</span><span class="nx">Spec</span><span class="p">.</span><span class="nx">Replicas</span><span class="p">,</span>
+<span class="lineno">12 </span>    <span class="p">}</span>
+<span class="lineno">13 </span><span class="p">}</span>
+<span class="lineno">14 </span>
+<span class="lineno">15 </span><span class="c1">// DeepCopyObject returns a generically typed copy of an object</span>
+<span class="lineno">16 </span><span class="kd">func</span> <span class="p">(</span><span class="nx">in</span> <span class="o">*</span><span class="nx">Project</span><span class="p">)</span> <span class="nx">DeepCopyObject</span><span class="p">()</span> <span class="nx">runtime</span><span class="p">.</span><span class="nx">Object</span> <span class="p">{</span>
+<span class="lineno">17 </span>    <span class="nx">out</span> <span class="o">:=</span> <span class="nx">Project</span><span class="p">{}</span>
+<span class="lineno">18 </span>    <span class="nx">in</span><span class="p">.</span><span class="nx">DeepCopyInto</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">out</span><span class="p">)</span>
+<span class="lineno">19 </span>
+<span class="lineno">20 </span>    <span class="k">return</span> <span class="o">&amp;</span><span class="nx">out</span>
+<span class="lineno">21 </span><span class="p">}</span>
+<span class="lineno">22 </span>
+<span class="lineno">23 </span><span class="c1">// DeepCopyObject returns a generically typed copy of an object</span>
+<span class="lineno">24 </span><span class="kd">func</span> <span class="p">(</span><span class="nx">in</span> <span class="o">*</span><span class="nx">ProjectList</span><span class="p">)</span> <span class="nx">DeepCopyObject</span><span class="p">()</span> <span class="nx">runtime</span><span class="p">.</span><span class="nx">Object</span> <span class="p">{</span>
+<span class="lineno">25 </span>    <span class="nx">out</span> <span class="o">:=</span> <span class="nx">ProjectList</span><span class="p">{}</span>
+<span class="lineno">26 </span>    <span class="nx">out</span><span class="p">.</span><span class="nx">TypeMeta</span> <span class="p">=</span> <span class="nx">in</span><span class="p">.</span><span class="nx">TypeMeta</span>
+<span class="lineno">27 </span>    <span class="nx">out</span><span class="p">.</span><span class="nx">ListMeta</span> <span class="p">=</span> <span class="nx">in</span><span class="p">.</span><span class="nx">ListMeta</span>
+<span class="lineno">28 </span>
+<span class="lineno">29 </span>    <span class="k">if</span> <span class="nx">in</span><span class="p">.</span><span class="nx">Items</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+<span class="lineno">30 </span>        <span class="nx">out</span><span class="p">.</span><span class="nx">Items</span> <span class="p">=</span> <span class="nb">make</span><span class="p">([]</span><span class="nx">Project</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="nx">in</span><span class="p">.</span><span class="nx">Items</span><span class="p">))</span>
+<span class="lineno">31 </span>        <span class="k">for</span> <span class="nx">i</span> <span class="o">:=</span> <span class="k">range</span> <span class="nx">in</span><span class="p">.</span><span class="nx">Items</span> <span class="p">{</span>
+<span class="lineno">32 </span>            <span class="nx">in</span><span class="p">.</span><span class="nx">Items</span><span class="p">[</span><span class="nx">i</span><span class="p">].</span><span class="nx">DeepCopyInto</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">out</span><span class="p">.</span><span class="nx">Items</span><span class="p">[</span><span class="nx">i</span><span class="p">])</span>
+<span class="lineno">33 </span>        <span class="p">}</span>
+<span class="lineno">34 </span>    <span class="p">}</span>
+<span class="lineno">35 </span>
+<span class="lineno">36 </span>    <span class="k">return</span> <span class="o">&amp;</span><span class="nx">out</span>
+<span class="lineno">37 </span><span class="p">}</span></code></pre></figure>
+
+<h3 id="interlude-generate-the-deepcopy-methods-automatically">Interlude: Generate the <code>DeepCopy</code> methods automatically</h3>
+
+<p>OK - you may have already noticed that defining all these various <code>DeepCopy</code> methods is not a lot of fun. There are many different tools and frameworks around to automatically generate these methods (all with very different levels of documentation and overall maturity). The one that I’ve found works best is the <code>controller-gen</code> tool, which is part of the <a href="https://github.com/kubernetes-sigs/kubebuilder">Kubebuilder</a> framework:</p>
+
+<pre><code>$ go get -u github.com/kubernetes-sigs/controller-tools/cmd/controller-gen
+</code></pre>
+
+<p>To use <code>controller-gen</code>, annotate your CRD types with a <code>+k8s:deepcopy-gen</code> annotation:</p>
+
+<figure class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="c1">// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object</span>
+<span class="kd">type</span> <span class="nx">Project</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+
+<span class="c1">// +k8s:deepcopy-gen:interfaces=k8s.io/apimachinery/pkg/runtime.Object</span>
+<span class="kd">type</span> <span class="nx">ProjectList</span> <span class="kd">struct</span> <span class="p">{</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span></code></pre></figure>
+
+<p>Then, run <code>controller-gen object paths=./api/types/v1alpha1/project.go</code> to automatically generate the deepcopy methods.</p>
+
+<p>To make things even more easy, you could add a <a href="https://blog.golang.org/generate"><code>go:generate</code> statement</a> to the entire file:</p>
+
+<figure class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="kn">package</span> <span class="nx">v1alpha1</span>
+
+<span class="kn">import</span> <span class="nx">metav1</span> <span class="s">&quot;k8s.io/apimachinery/pkg/apis/meta/v1&quot;</span>
+
+<span class="c1">//go:generate controller-gen object paths=$GOFILE</span>
+
+<span class="c1">// ...</span></code></pre></figure>
+
+<p>Then, just run <code>go generate ./...</code> in your root directory to update the generated code.</p>
+
+<h3 id="step-3-register-types-at-the-scheme-builder">Step 3: Register types at the scheme builder</h3>
+
+<p>Next, you’ll need to make your new types known to the client library. This will allow the client to (more or less) automatically process your new types when communicating with the API server.</p>
+
+<p>For this, add a new file <code>register.go</code> to your package:</p>
+
+<figure class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="lineno"> 1 </span><span class="kn">package</span> <span class="nx">v1alpha1</span>
+<span class="lineno"> 2 </span>
+<span class="lineno"> 3 </span><span class="kn">import</span> <span class="p">(</span>
+<span class="lineno"> 4 </span>    <span class="nx">metav1</span> <span class="s">&quot;k8s.io/apimachinery/pkg/apis/meta/v1&quot;</span>
+<span class="lineno"> 5 </span>    <span class="s">&quot;k8s.io/apimachinery/pkg/runtime&quot;</span>
+<span class="lineno"> 6 </span>    <span class="s">&quot;k8s.io/apimachinery/pkg/runtime/schema&quot;</span>
+<span class="lineno"> 7 </span><span class="p">)</span>
+<span class="lineno"> 8 </span>
+<span class="lineno"> 9 </span><span class="kd">const</span> <span class="nx">GroupName</span> <span class="p">=</span> <span class="s">&quot;example.martin-helmich.de&quot;</span>
+<span class="lineno">10 </span><span class="kd">const</span> <span class="nx">GroupVersion</span> <span class="p">=</span> <span class="s">&quot;v1alpha1&quot;</span>
+<span class="lineno">11 </span>
+<span class="lineno">12 </span><span class="kd">var</span> <span class="nx">SchemeGroupVersion</span> <span class="p">=</span> <span class="nx">schema</span><span class="p">.</span><span class="nx">GroupVersion</span><span class="p">{</span><span class="nx">Group</span><span class="p">:</span> <span class="nx">GroupName</span><span class="p">,</span> <span class="nx">Version</span><span class="p">:</span> <span class="nx">GroupVersion</span><span class="p">}</span>
+<span class="lineno">13 </span>
+<span class="lineno">14 </span><span class="kd">var</span> <span class="p">(</span>
+<span class="lineno">15 </span>    <span class="nx">SchemeBuilder</span> <span class="p">=</span> <span class="nx">runtime</span><span class="p">.</span><span class="nx">NewSchemeBuilder</span><span class="p">(</span><span class="nx">addKnownTypes</span><span class="p">)</span>
+<span class="lineno">16 </span>    <span class="nx">AddToScheme</span>   <span class="p">=</span> <span class="nx">SchemeBuilder</span><span class="p">.</span><span class="nx">AddToScheme</span>
+<span class="lineno">17 </span><span class="p">)</span>
+<span class="lineno">18 </span>
+<span class="lineno">19 </span><span class="kd">func</span> <span class="nx">addKnownTypes</span><span class="p">(</span><span class="nx">scheme</span> <span class="o">*</span><span class="nx">runtime</span><span class="p">.</span><span class="nx">Scheme</span><span class="p">)</span> <span class="kt">error</span> <span class="p">{</span>
+<span class="lineno">20 </span>    <span class="nx">scheme</span><span class="p">.</span><span class="nx">AddKnownTypes</span><span class="p">(</span><span class="nx">SchemeGroupVersion</span><span class="p">,</span>
+<span class="lineno">21 </span>        <span class="o">&amp;</span><span class="nx">Project</span><span class="p">{},</span>
+<span class="lineno">22 </span>        <span class="o">&amp;</span><span class="nx">ProjectList</span><span class="p">{},</span>
+<span class="lineno">23 </span>    <span class="p">)</span>
+<span class="lineno">24 </span>
+<span class="lineno">25 </span>    <span class="nx">metav1</span><span class="p">.</span><span class="nx">AddToGroupVersion</span><span class="p">(</span><span class="nx">scheme</span><span class="p">,</span> <span class="nx">SchemeGroupVersion</span><span class="p">)</span>
+<span class="lineno">26 </span>    <span class="k">return</span> <span class="kc">nil</span>
+<span class="lineno">27 </span><span class="p">}</span></code></pre></figure>
+
+<p>As you may notice, this code does not really do anything, yet (except for creating a new <code>runtime.SchemeBuilder</code> instance).
+The important part is the <code>AddToScheme</code> function (line 16), which is an exported struct member of the <code>runtime.SchemeBuilder</code> type created in line 15. You can call this function later from any part of your client code as soon as the Kubernetes client is initialized to register your type definitions.</p>
+
+<h3 id="step-4-build-a-http-client">Step 4: Build a HTTP client</h3>
+
+<p>After defining types and adding a method to register them at the global scheme builder, you can now create a HTTP client that is capable of loading your custom resource.</p>
+
+<p>For this, add the following code to your package’s <code>main.go</code> file (for now):</p>
+
+<figure class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="lineno"> 1 </span><span class="kn">package</span> <span class="nx">main</span>
+<span class="lineno"> 2 </span>
+<span class="lineno"> 3 </span><span class="kn">import</span> <span class="p">(</span>
+<span class="lineno"> 4 </span>    <span class="s">&quot;flag&quot;</span>
+<span class="lineno"> 5 </span>    <span class="s">&quot;log&quot;</span>
+<span class="lineno"> 6 </span>    <span class="s">&quot;time&quot;</span>
+<span class="lineno"> 7 </span>
+<span class="lineno"> 8 </span>    <span class="s">&quot;k8s.io/apimachinery/pkg/runtime/schema&quot;</span>
+<span class="lineno"> 9 </span>    <span class="s">&quot;k8s.io/apimachinery/pkg/runtime/serializer&quot;</span>
+<span class="lineno">10 </span>
+<span class="lineno">11 </span>    <span class="s">&quot;github.com/martin-helmich/kubernetes-crd-example/api/types/v1alpha1&quot;</span>
+<span class="lineno">12 </span>    <span class="s">&quot;k8s.io/client-go/kubernetes/scheme&quot;</span>
+<span class="lineno">13 </span>    <span class="s">&quot;k8s.io/client-go/rest&quot;</span>
+<span class="lineno">14 </span>    <span class="s">&quot;k8s.io/client-go/tools/clientcmd&quot;</span>
+<span class="lineno">15 </span><span class="p">)</span>
+<span class="lineno">16 </span>
+<span class="lineno">17 </span><span class="kd">var</span> <span class="nx">kubeconfig</span> <span class="kt">string</span>
+<span class="lineno">18 </span>
+<span class="lineno">19 </span><span class="kd">func</span> <span class="nx">init</span><span class="p">()</span> <span class="p">{</span>
+<span class="lineno">20 </span>    <span class="nx">flag</span><span class="p">.</span><span class="nx">StringVar</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">kubeconfig</span><span class="p">,</span> <span class="s">&quot;kubeconfig&quot;</span><span class="p">,</span> <span class="s">&quot;&quot;</span><span class="p">,</span> <span class="s">&quot;path to Kubernetes config file&quot;</span><span class="p">)</span>
+<span class="lineno">21 </span>    <span class="nx">flag</span><span class="p">.</span><span class="nx">Parse</span><span class="p">()</span>
+<span class="lineno">22 </span><span class="p">}</span>
+<span class="lineno">23 </span>
+<span class="lineno">24 </span><span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="lineno">25 </span>    <span class="kd">var</span> <span class="nx">config</span> <span class="o">*</span><span class="nx">rest</span><span class="p">.</span><span class="nx">Config</span>
+<span class="lineno">26 </span>    <span class="kd">var</span> <span class="nx">err</span> <span class="kt">error</span>
+<span class="lineno">27 </span>
+<span class="lineno">28 </span>    <span class="k">if</span> <span class="nx">kubeconfig</span> <span class="o">==</span> <span class="s">&quot;&quot;</span> <span class="p">{</span>
+<span class="lineno">29 </span>        <span class="nx">log</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;using in-cluster configuration&quot;</span><span class="p">)</span>
+<span class="lineno">30 </span>        <span class="nx">config</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">rest</span><span class="p">.</span><span class="nx">InClusterConfig</span><span class="p">()</span>
+<span class="lineno">31 </span>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+<span class="lineno">32 </span>        <span class="nx">log</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;using configuration from &#39;%s&#39;&quot;</span><span class="p">,</span> <span class="nx">kubeconfig</span><span class="p">)</span>
+<span class="lineno">33 </span>        <span class="nx">config</span><span class="p">,</span> <span class="nx">err</span> <span class="p">=</span> <span class="nx">clientcmd</span><span class="p">.</span><span class="nx">BuildConfigFromFlags</span><span class="p">(</span><span class="s">&quot;&quot;</span><span class="p">,</span> <span class="nx">kubeconfig</span><span class="p">)</span>
+<span class="lineno">34 </span>    <span class="p">}</span>
+<span class="lineno">35 </span>
+<span class="lineno">36 </span>    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+<span class="lineno">37 </span>        <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="lineno">38 </span>    <span class="p">}</span>
+<span class="lineno">39 </span>
+<span class="lineno">40 </span>    <span class="nx">v1alpha1</span><span class="p">.</span><span class="nx">AddToScheme</span><span class="p">(</span><span class="nx">scheme</span><span class="p">.</span><span class="nx">Scheme</span><span class="p">)</span>
+<span class="lineno">41 </span>
+<span class="lineno">42 </span>    <span class="nx">crdConfig</span> <span class="o">:=</span> <span class="o">*</span><span class="nx">config</span>
+<span class="lineno">43 </span>    <span class="nx">crdConfig</span><span class="p">.</span><span class="nx">ContentConfig</span><span class="p">.</span><span class="nx">GroupVersion</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">schema</span><span class="p">.</span><span class="nx">GroupVersion</span><span class="p">{</span><span class="nx">Group</span><span class="p">:</span> <span class="nx">v1alpha1</span><span class="p">.</span><span class="nx">GroupName</span><span class="p">,</span> <span class="nx">Version</span><span class="p">:</span> <span class="nx">v1alpha1</span><span class="p">.</span><span class="nx">GroupVersion</span><span class="p">}</span>
+<span class="lineno">44 </span>    <span class="nx">crdConfig</span><span class="p">.</span><span class="nx">APIPath</span> <span class="p">=</span> <span class="s">&quot;/apis&quot;</span>
+<span class="lineno">45 </span>    <span class="nx">crdConfig</span><span class="p">.</span><span class="nx">NegotiatedSerializer</span> <span class="p">=</span> <span class="nx">serializer</span><span class="p">.</span><span class="nx">NewCodecFactory</span><span class="p">(</span><span class="nx">scheme</span><span class="p">.</span><span class="nx">Scheme</span><span class="p">)</span>
+<span class="lineno">46 </span>    <span class="nx">crdConfig</span><span class="p">.</span><span class="nx">UserAgent</span> <span class="p">=</span> <span class="nx">rest</span><span class="p">.</span><span class="nx">DefaultKubernetesUserAgent</span><span class="p">()</span>
+<span class="lineno">47 </span>
+<span class="lineno">48 </span>    <span class="nx">exampleRestClient</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">rest</span><span class="p">.</span><span class="nx">UnversionedRESTClientFor</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">crdConfig</span><span class="p">)</span>
+<span class="lineno">49 </span>    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+<span class="lineno">50 </span>        <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="lineno">51 </span>    <span class="p">}</span>
+<span class="lineno">52 </span><span class="p">}</span></code></pre></figure>
+
+<p>You can now use the <code>exampleRestClient</code> created in line 48 to query all custom resources within the <code>example.martin-helmich.de/v1alpha1</code> API group. An example might look like this:</p>
+
+<figure class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="lineno">1 </span><span class="nx">result</span> <span class="o">:=</span> <span class="nx">v1alpha1</span><span class="p">.</span><span class="nx">ProjectList</span><span class="p">{}</span>
+<span class="lineno">2 </span><span class="nx">err</span> <span class="o">:=</span> <span class="nx">exampleRestClient</span><span class="p">.</span>
+<span class="lineno">3 </span>    <span class="nx">Get</span><span class="p">().</span>
+<span class="lineno">4 </span>    <span class="nx">Resource</span><span class="p">(</span><span class="s">&quot;projects&quot;</span><span class="p">).</span>
+<span class="lineno">5 </span>    <span class="nx">Do</span><span class="p">().</span>
+<span class="lineno">6 </span>    <span class="nx">Into</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">result</span><span class="p">)</span></code></pre></figure>
+
+<p>In order to use your API in a more typesafe way, it is usually a good idea to wrap these operations within your own clientset. For this, create a new subpackage <code>clientset/v1alpha1</code>. To start, implement an interface that defines the types of your API group and move the configuration setup from your <code>main</code> method into that clientset’s constructor function (<code>NewForConfig</code> in the example below):</p>
+
+<figure class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="lineno"> 1 </span><span class="kn">package</span> <span class="nx">v1alpha1</span>
+<span class="lineno"> 2 </span>
+<span class="lineno"> 3 </span><span class="kn">import</span> <span class="p">(</span>
+<span class="lineno"> 4 </span>    <span class="s">&quot;github.com/martin-helmich/kubernetes-crd-example/api/types/v1alpha1&quot;</span>
+<span class="lineno"> 5 </span>    <span class="s">&quot;k8s.io/apimachinery/pkg/runtime/schema&quot;</span>
+<span class="lineno"> 6 </span>    <span class="s">&quot;k8s.io/apimachinery/pkg/runtime/serializer&quot;</span>
+<span class="lineno"> 7 </span>    <span class="s">&quot;k8s.io/client-go/kubernetes/scheme&quot;</span>
+<span class="lineno"> 8 </span>    <span class="s">&quot;k8s.io/client-go/rest&quot;</span>
+<span class="lineno"> 9 </span><span class="p">)</span>
+<span class="lineno">10 </span>
+<span class="lineno">11 </span><span class="kd">type</span> <span class="nx">ExampleV1Alpha1Interface</span> <span class="kd">interface</span> <span class="p">{</span>
+<span class="lineno">12 </span>    <span class="nx">Projects</span><span class="p">(</span><span class="nx">namespace</span> <span class="kt">string</span><span class="p">)</span> <span class="nx">ProjectInterface</span> 
+<span class="lineno">13 </span><span class="p">}</span>
+<span class="lineno">14 </span>
+<span class="lineno">15 </span><span class="kd">type</span> <span class="nx">ExampleV1Alpha1Client</span> <span class="kd">struct</span> <span class="p">{</span>
+<span class="lineno">16 </span>    <span class="nx">restClient</span> <span class="nx">rest</span><span class="p">.</span><span class="nx">Interface</span>
+<span class="lineno">17 </span><span class="p">}</span>
+<span class="lineno">18 </span>
+<span class="lineno">19 </span><span class="kd">func</span> <span class="nx">NewForConfig</span><span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">rest</span><span class="p">.</span><span class="nx">Config</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">ExampleV1Alpha1Client</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">20 </span>    <span class="nx">config</span> <span class="o">:=</span> <span class="o">*</span><span class="nx">c</span>
+<span class="lineno">21 </span>    <span class="nx">config</span><span class="p">.</span><span class="nx">ContentConfig</span><span class="p">.</span><span class="nx">GroupVersion</span> <span class="p">=</span> <span class="o">&amp;</span><span class="nx">schema</span><span class="p">.</span><span class="nx">GroupVersion</span><span class="p">{</span><span class="nx">Group</span><span class="p">:</span> <span class="nx">v1alpha1</span><span class="p">.</span><span class="nx">GroupName</span><span class="p">,</span> <span class="nx">Version</span><span class="p">:</span> <span class="nx">v1alpha1</span><span class="p">.</span><span class="nx">GroupVersion</span><span class="p">}</span>
+<span class="lineno">22 </span>    <span class="nx">config</span><span class="p">.</span><span class="nx">APIPath</span> <span class="p">=</span> <span class="s">&quot;/apis&quot;</span>
+<span class="lineno">23 </span>    <span class="nx">config</span><span class="p">.</span><span class="nx">NegotiatedSerializer</span> <span class="p">=</span> <span class="nx">scheme</span><span class="p">.</span><span class="nx">Codecs</span><span class="p">.</span><span class="nx">WithoutConversion</span><span class="p">()</span>
+<span class="lineno">24 </span>    <span class="nx">config</span><span class="p">.</span><span class="nx">UserAgent</span> <span class="p">=</span> <span class="nx">rest</span><span class="p">.</span><span class="nx">DefaultKubernetesUserAgent</span><span class="p">()</span>
+<span class="lineno">25 </span>
+<span class="lineno">26 </span>    <span class="nx">client</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">rest</span><span class="p">.</span><span class="nx">RESTClientFor</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">config</span><span class="p">)</span>
+<span class="lineno">27 </span>    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+<span class="lineno">28 </span>        <span class="k">return</span> <span class="kc">nil</span><span class="p">,</span> <span class="nx">err</span>
+<span class="lineno">29 </span>    <span class="p">}</span>
+<span class="lineno">30 </span>
+<span class="lineno">31 </span>    <span class="k">return</span> <span class="o">&amp;</span><span class="nx">ExampleV1Alpha1Client</span><span class="p">{</span><span class="nx">restClient</span><span class="p">:</span> <span class="nx">client</span><span class="p">},</span> <span class="kc">nil</span>
+<span class="lineno">32 </span><span class="p">}</span>
+<span class="lineno">33 </span>
+<span class="lineno">34 </span><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">ExampleV1Alpha1Client</span><span class="p">)</span> <span class="nx">Projects</span><span class="p">(</span><span class="nx">namespace</span> <span class="kt">string</span><span class="p">)</span> <span class="nx">ProjectInterface</span> <span class="p">{</span>
+<span class="lineno">35 </span>    <span class="k">return</span> <span class="o">&amp;</span><span class="nx">projectClient</span><span class="p">{</span>
+<span class="lineno">36 </span>        <span class="nx">restClient</span><span class="p">:</span> <span class="nx">c</span><span class="p">.</span><span class="nx">restClient</span><span class="p">,</span>
+<span class="lineno">37 </span>        <span class="nx">ns</span><span class="p">:</span> <span class="nx">namespace</span><span class="p">,</span>
+<span class="lineno">38 </span>    <span class="p">}</span>
+<span class="lineno">39 </span><span class="p">}</span></code></pre></figure>
+
+<p>The code below will not compile yet, as it’s still missing the <code>ProjectInterface</code> and <code>projectClient</code> types. We’ll get to those in a moment.</p>
+
+<p>The <code>ExampleV1Alpha1Interface</code> and its implementation, the <code>ExampleV1Alpha1Client</code> struct are now the central point of entry for accessing your custom resources. You can now easily create a new clientset in your <code>main.go</code> by simply calling <code>clientset, err := v1alpha1.NewForConfig(config)</code>.</p>
+
+<p>Next, you’ll need to implement a specific clientset for accessing the <code>Project</code> custom resource (note that the example above already uses the <code>ProjectInterface</code> and <code>projectClient</code> types that we still need to supply). Create a second file <code>projects.go</code> in the same package:</p>
+
+<figure class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="lineno"> 1 </span><span class="kn">package</span> <span class="nx">v1alpha1</span>
+<span class="lineno"> 2 </span>
+<span class="lineno"> 3 </span><span class="kn">import</span> <span class="p">(</span>
+<span class="lineno"> 4 </span>    <span class="s">&quot;github.com/martin-helmich/kubernetes-crd-example/api/types/v1alpha1&quot;</span>
+<span class="lineno"> 5 </span>    <span class="nx">metav1</span> <span class="s">&quot;k8s.io/apimachinery/pkg/apis/meta/v1&quot;</span>
+<span class="lineno"> 6 </span>    <span class="s">&quot;k8s.io/apimachinery/pkg/watch&quot;</span>
+<span class="lineno"> 7 </span>    <span class="s">&quot;k8s.io/client-go/kubernetes/scheme&quot;</span>
+<span class="lineno"> 8 </span>    <span class="s">&quot;k8s.io/client-go/rest&quot;</span>
+<span class="lineno"> 9 </span><span class="p">)</span>
+<span class="lineno">10 </span>
+<span class="lineno">11 </span><span class="kd">type</span> <span class="nx">ProjectInterface</span> <span class="kd">interface</span> <span class="p">{</span>
+<span class="lineno">12 </span>    <span class="nx">List</span><span class="p">(</span><span class="nx">opts</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">ListOptions</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">v1alpha1</span><span class="p">.</span><span class="nx">ProjectList</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+<span class="lineno">13 </span>    <span class="nx">Get</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">options</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">GetOptions</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">v1alpha1</span><span class="p">.</span><span class="nx">Project</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+<span class="lineno">14 </span>    <span class="nx">Create</span><span class="p">(</span><span class="o">*</span><span class="nx">v1alpha1</span><span class="p">.</span><span class="nx">Project</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">v1alpha1</span><span class="p">.</span><span class="nx">Project</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+<span class="lineno">15 </span>    <span class="nx">Watch</span><span class="p">(</span><span class="nx">opts</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">ListOptions</span><span class="p">)</span> <span class="p">(</span><span class="nx">watch</span><span class="p">.</span><span class="nx">Interface</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span>
+<span class="lineno">16 </span>    <span class="c1">// ...</span>
+<span class="lineno">17 </span><span class="p">}</span>
+<span class="lineno">18 </span>
+<span class="lineno">19 </span><span class="kd">type</span> <span class="nx">projectClient</span> <span class="kd">struct</span> <span class="p">{</span>
+<span class="lineno">20 </span>    <span class="nx">restClient</span> <span class="nx">rest</span><span class="p">.</span><span class="nx">Interface</span>
+<span class="lineno">21 </span>    <span class="nx">ns</span>         <span class="kt">string</span>
+<span class="lineno">22 </span><span class="p">}</span>
+<span class="lineno">23 </span>
+<span class="lineno">24 </span><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">projectClient</span><span class="p">)</span> <span class="nx">List</span><span class="p">(</span><span class="nx">opts</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">ListOptions</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">v1alpha1</span><span class="p">.</span><span class="nx">ProjectList</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">25 </span>    <span class="nx">result</span> <span class="o">:=</span> <span class="nx">v1alpha1</span><span class="p">.</span><span class="nx">ProjectList</span><span class="p">{}</span>
+<span class="lineno">26 </span>    <span class="nx">err</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">restClient</span><span class="p">.</span>
+<span class="lineno">27 </span>        <span class="nx">Get</span><span class="p">().</span>
+<span class="lineno">28 </span>        <span class="nx">Namespace</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">ns</span><span class="p">).</span>
+<span class="lineno">29 </span>        <span class="nx">Resource</span><span class="p">(</span><span class="s">&quot;projects&quot;</span><span class="p">).</span>
+<span class="lineno">30 </span>        <span class="nx">VersionedParams</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">opts</span><span class="p">,</span> <span class="nx">scheme</span><span class="p">.</span><span class="nx">ParameterCodec</span><span class="p">).</span>
+<span class="lineno">31 </span>        <span class="nx">Do</span><span class="p">().</span>
+<span class="lineno">32 </span>        <span class="nx">Into</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">result</span><span class="p">)</span>
+<span class="lineno">33 </span>
+<span class="lineno">34 </span>    <span class="k">return</span> <span class="o">&amp;</span><span class="nx">result</span><span class="p">,</span> <span class="nx">err</span>
+<span class="lineno">35 </span><span class="p">}</span>
+<span class="lineno">36 </span>
+<span class="lineno">37 </span><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">projectClient</span><span class="p">)</span> <span class="nx">Get</span><span class="p">(</span><span class="nx">name</span> <span class="kt">string</span><span class="p">,</span> <span class="nx">opts</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">GetOptions</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">v1alpha1</span><span class="p">.</span><span class="nx">Project</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">38 </span>    <span class="nx">result</span> <span class="o">:=</span> <span class="nx">v1alpha1</span><span class="p">.</span><span class="nx">Project</span><span class="p">{}</span>
+<span class="lineno">39 </span>    <span class="nx">err</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">restClient</span><span class="p">.</span>
+<span class="lineno">40 </span>        <span class="nx">Get</span><span class="p">().</span>
+<span class="lineno">41 </span>        <span class="nx">Namespace</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">ns</span><span class="p">).</span>
+<span class="lineno">42 </span>        <span class="nx">Resource</span><span class="p">(</span><span class="s">&quot;projects&quot;</span><span class="p">).</span>
+<span class="lineno">43 </span>        <span class="nx">Name</span><span class="p">(</span><span class="nx">name</span><span class="p">).</span>
+<span class="lineno">44 </span>        <span class="nx">VersionedParams</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">opts</span><span class="p">,</span> <span class="nx">scheme</span><span class="p">.</span><span class="nx">ParameterCodec</span><span class="p">).</span>
+<span class="lineno">45 </span>        <span class="nx">Do</span><span class="p">().</span>
+<span class="lineno">46 </span>        <span class="nx">Into</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">result</span><span class="p">)</span>
+<span class="lineno">47 </span>
+<span class="lineno">48 </span>    <span class="k">return</span> <span class="o">&amp;</span><span class="nx">result</span><span class="p">,</span> <span class="nx">err</span>
+<span class="lineno">49 </span><span class="p">}</span>
+<span class="lineno">50 </span>
+<span class="lineno">51 </span><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">projectClient</span><span class="p">)</span> <span class="nx">Create</span><span class="p">(</span><span class="nx">project</span> <span class="o">*</span><span class="nx">v1alpha1</span><span class="p">.</span><span class="nx">Project</span><span class="p">)</span> <span class="p">(</span><span class="o">*</span><span class="nx">v1alpha1</span><span class="p">.</span><span class="nx">Project</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">52 </span>    <span class="nx">result</span> <span class="o">:=</span> <span class="nx">v1alpha1</span><span class="p">.</span><span class="nx">Project</span><span class="p">{}</span>
+<span class="lineno">53 </span>    <span class="nx">err</span> <span class="o">:=</span> <span class="nx">c</span><span class="p">.</span><span class="nx">restClient</span><span class="p">.</span>
+<span class="lineno">54 </span>        <span class="nx">Post</span><span class="p">().</span>
+<span class="lineno">55 </span>        <span class="nx">Namespace</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">ns</span><span class="p">).</span>
+<span class="lineno">56 </span>        <span class="nx">Resource</span><span class="p">(</span><span class="s">&quot;projects&quot;</span><span class="p">).</span>
+<span class="lineno">57 </span>        <span class="nx">Body</span><span class="p">(</span><span class="nx">project</span><span class="p">).</span>
+<span class="lineno">58 </span>        <span class="nx">Do</span><span class="p">().</span>
+<span class="lineno">59 </span>        <span class="nx">Into</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">result</span><span class="p">)</span>
+<span class="lineno">60 </span>
+<span class="lineno">61 </span>    <span class="k">return</span> <span class="o">&amp;</span><span class="nx">result</span><span class="p">,</span> <span class="nx">err</span>
+<span class="lineno">62 </span><span class="p">}</span>
+<span class="lineno">63 </span>
+<span class="lineno">64 </span><span class="kd">func</span> <span class="p">(</span><span class="nx">c</span> <span class="o">*</span><span class="nx">projectClient</span><span class="p">)</span> <span class="nx">Watch</span><span class="p">(</span><span class="nx">opts</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">ListOptions</span><span class="p">)</span> <span class="p">(</span><span class="nx">watch</span><span class="p">.</span><span class="nx">Interface</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">65 </span>    <span class="nx">opts</span><span class="p">.</span><span class="nx">Watch</span> <span class="p">=</span> <span class="kc">true</span>
+<span class="lineno">66 </span>    <span class="k">return</span> <span class="nx">c</span><span class="p">.</span><span class="nx">restClient</span><span class="p">.</span>
+<span class="lineno">67 </span>        <span class="nx">Get</span><span class="p">().</span>
+<span class="lineno">68 </span>        <span class="nx">Namespace</span><span class="p">(</span><span class="nx">c</span><span class="p">.</span><span class="nx">ns</span><span class="p">).</span>
+<span class="lineno">69 </span>        <span class="nx">Resource</span><span class="p">(</span><span class="s">&quot;projects&quot;</span><span class="p">).</span>
+<span class="lineno">70 </span>        <span class="nx">VersionedParams</span><span class="p">(</span><span class="o">&amp;</span><span class="nx">opts</span><span class="p">,</span> <span class="nx">scheme</span><span class="p">.</span><span class="nx">ParameterCodec</span><span class="p">).</span>
+<span class="lineno">71 </span>        <span class="nx">Watch</span><span class="p">()</span>
+<span class="lineno">72 </span><span class="p">}</span></code></pre></figure>
+
+<p>This client is obviously not yet complete and misses methods like <code>Delete</code>, <code>Update</code> and others. However, these can be implemented similar to the already existing methods. Have a look at the existing client sets (for example, the <a href="https://github.com/kubernetes/client-go/blob/master/kubernetes/typed/core/v1/pod.go"><code>Pod</code> client set</a>) for inspiration.</p>
+
+<p>After creating your client set, using it to list your existing resources becomes quite easy:</p>
+
+<figure class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="lineno"> 1 </span><span class="kn">import</span> <span class="nx">clientV1alpha1</span> <span class="s">&quot;github.com/martin-helmich/kubernetes-crd-example/clientset/v1alpha1&quot;</span>
+<span class="lineno"> 2 </span><span class="c1">// ...</span>
+<span class="lineno"> 3 </span>
+<span class="lineno"> 4 </span><span class="kd">func</span> <span class="nx">main</span><span class="p">()</span> <span class="p">{</span>
+<span class="lineno"> 5 </span>    <span class="c1">// ...</span>
+<span class="lineno"> 6 </span>
+<span class="lineno"> 7 </span>    <span class="nx">clientSet</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">clientV1alpha1</span><span class="p">.</span><span class="nx">NewForConfig</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span>
+<span class="lineno"> 8 </span>    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+<span class="lineno"> 9 </span>        <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="lineno">10 </span>    <span class="p">}</span>
+<span class="lineno">11 </span>
+<span class="lineno">12 </span>    <span class="nx">projects</span><span class="p">,</span> <span class="nx">err</span> <span class="o">:=</span> <span class="nx">clientSet</span><span class="p">.</span><span class="nx">Projects</span><span class="p">(</span><span class="s">&quot;default&quot;</span><span class="p">).</span><span class="nx">List</span><span class="p">(</span><span class="nx">metav1</span><span class="p">.</span><span class="nx">ListOptions</span><span class="p">{})</span>
+<span class="lineno">13 </span>    <span class="k">if</span> <span class="nx">err</span> <span class="o">!=</span> <span class="kc">nil</span> <span class="p">{</span>
+<span class="lineno">14 </span>        <span class="nb">panic</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span>
+<span class="lineno">15 </span>    <span class="p">}</span>
+<span class="lineno">16 </span>
+<span class="lineno">17 </span>    <span class="nx">fmt</span><span class="p">.</span><span class="nx">Printf</span><span class="p">(</span><span class="s">&quot;projects found: %+v\n&quot;</span><span class="p">,</span> <span class="nx">projects</span><span class="p">)</span>
+<span class="lineno">18 </span><span class="p">}</span></code></pre></figure>
+
+<h3 id="step-5-build-an-informer">Step 5: Build an informer</h3>
+
+<p>When building a Kubernetes Operator, you’ll typically want to be able to react on newly created or updated resources. In theory, you could just periodically call the <code>List()</code> method and check if new resources were added. In practice, this is a sub-optimal solution, especially when you have lots of these resources.</p>
+
+<p>Most operators work by initially loading all relevant instances of a resource by using an initial <code>List()</code> call, and then subscribing to updates using a <code>Watch()</code> call. The initial object list and the updates received from the watch are then used to construct a local cache that allows quick access to any custom resources without having to hit the API server every time.</p>
+
+<p>This pattern is so common that the client-go library offers a helper for this: the <em>Informer</em> from the <code>k8s.io/client-go/tools/cache</code> package. You can construct a new Informer for your custom resource as follows:</p>
+
+<figure class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="lineno"> 1 </span><span class="kn">package</span> <span class="nx">main</span>
+<span class="lineno"> 2 </span>
+<span class="lineno"> 3 </span><span class="kn">import</span> <span class="p">(</span>
+<span class="lineno"> 4 </span>    <span class="s">&quot;time&quot;</span>
+<span class="lineno"> 5 </span>
+<span class="lineno"> 6 </span>    <span class="s">&quot;github.com/martin-helmich/kubernetes-crd-example/api/types/v1alpha1&quot;</span>
+<span class="lineno"> 7 </span>    <span class="nx">client_v1alpha1</span> <span class="s">&quot;github.com/martin-helmich/kubernetes-crd-example/clientset/v1alpha1&quot;</span>
+<span class="lineno"> 8 </span>    <span class="nx">metav1</span> <span class="s">&quot;k8s.io/apimachinery/pkg/apis/meta/v1&quot;</span>
+<span class="lineno"> 9 </span>    <span class="s">&quot;k8s.io/apimachinery/pkg/runtime&quot;</span>
+<span class="lineno">10 </span>    <span class="s">&quot;k8s.io/apimachinery/pkg/util/wait&quot;</span>
+<span class="lineno">11 </span>    <span class="s">&quot;k8s.io/apimachinery/pkg/watch&quot;</span>
+<span class="lineno">12 </span>    <span class="s">&quot;k8s.io/client-go/tools/cache&quot;</span>
+<span class="lineno">13 </span><span class="p">)</span>
+<span class="lineno">14 </span>
+<span class="lineno">15 </span><span class="kd">func</span> <span class="nx">WatchResources</span><span class="p">(</span><span class="nx">clientSet</span> <span class="nx">client_v1alpha1</span><span class="p">.</span><span class="nx">ExampleV1Alpha1Interface</span><span class="p">)</span> <span class="nx">cache</span><span class="p">.</span><span class="nx">Store</span> <span class="p">{</span>
+<span class="lineno">16 </span>    <span class="nx">projectStore</span><span class="p">,</span> <span class="nx">projectController</span> <span class="o">:=</span> <span class="nx">cache</span><span class="p">.</span><span class="nx">NewInformer</span><span class="p">(</span>
+<span class="lineno">17 </span>        <span class="o">&amp;</span><span class="nx">cache</span><span class="p">.</span><span class="nx">ListWatch</span><span class="p">{</span>
+<span class="lineno">18 </span>            <span class="nx">ListFunc</span><span class="p">:</span> <span class="kd">func</span><span class="p">(</span><span class="nx">lo</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">ListOptions</span><span class="p">)</span> <span class="p">(</span><span class="nx">result</span> <span class="nx">runtime</span><span class="p">.</span><span class="nx">Object</span><span class="p">,</span> <span class="nx">err</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">19 </span>                <span class="k">return</span> <span class="nx">clientSet</span><span class="p">.</span><span class="nx">Projects</span><span class="p">(</span><span class="s">&quot;some-namespace&quot;</span><span class="p">).</span><span class="nx">List</span><span class="p">(</span><span class="nx">lo</span><span class="p">)</span>
+<span class="lineno">20 </span>            <span class="p">},</span>
+<span class="lineno">21 </span>            <span class="nx">WatchFunc</span><span class="p">:</span> <span class="kd">func</span><span class="p">(</span><span class="nx">lo</span> <span class="nx">metav1</span><span class="p">.</span><span class="nx">ListOptions</span><span class="p">)</span> <span class="p">(</span><span class="nx">watch</span><span class="p">.</span><span class="nx">Interface</span><span class="p">,</span> <span class="kt">error</span><span class="p">)</span> <span class="p">{</span>
+<span class="lineno">22 </span>                <span class="k">return</span> <span class="nx">clientSet</span><span class="p">.</span><span class="nx">Projects</span><span class="p">(</span><span class="s">&quot;some-namespace&quot;</span><span class="p">).</span><span class="nx">Watch</span><span class="p">(</span><span class="nx">lo</span><span class="p">)</span>
+<span class="lineno">23 </span>            <span class="p">},</span>
+<span class="lineno">24 </span>        <span class="p">},</span>
+<span class="lineno">25 </span>        <span class="o">&amp;</span><span class="nx">v1alpha1</span><span class="p">.</span><span class="nx">Project</span><span class="p">{},</span>
+<span class="lineno">26 </span>        <span class="mi">1</span><span class="o">*</span><span class="nx">time</span><span class="p">.</span><span class="nx">Minute</span><span class="p">,</span>
+<span class="lineno">27 </span>        <span class="nx">cache</span><span class="p">.</span><span class="nx">ResourceEventHandlerFuncs</span><span class="p">{},</span>
+<span class="lineno">28 </span>    <span class="p">)</span>
+<span class="lineno">29 </span>
+<span class="lineno">30 </span>    <span class="k">go</span> <span class="nx">projectController</span><span class="p">.</span><span class="nx">Run</span><span class="p">(</span><span class="nx">wait</span><span class="p">.</span><span class="nx">NeverStop</span><span class="p">)</span>
+<span class="lineno">31 </span>    <span class="k">return</span> <span class="nx">projectStore</span>
+<span class="lineno">32 </span><span class="p">}</span></code></pre></figure>
+
+<p>The <code>NewInformer</code> method returns two objects: The second return value, the <em>controller</em> controls the <code>List()</code> and <code>Watch()</code> calls and fills the first return value, the <em>store</em> with a (more or less) recent cache of the watched resource’s state on the API server (in this case, the <em>project</em> CRD).</p>
+
+<p>You can now use the <em>store</em> to easily access your CRDs, either listing them all or accessing them by name. Keep in mind that the store functions return generic <code>interface{}</code> types, so you’ll have to typecast them back to your CRD type:</p>
+
+<figure class="highlight"><pre><code class="language-go" data-lang="go"><span></span><span class="lineno">1 </span><span class="nx">store</span> <span class="o">:=</span> <span class="nx">WatchResource</span><span class="p">(</span><span class="nx">clientSet</span><span class="p">)</span>
+<span class="lineno">2 </span>
+<span class="lineno">3 </span><span class="nx">project</span> <span class="o">:=</span> <span class="nx">store</span><span class="p">.</span><span class="nx">GetByKey</span><span class="p">(</span><span class="s">&quot;some-namespace/some-project&quot;</span><span class="p">).(</span><span class="o">*</span><span class="nx">v1alpha1</span><span class="p">.</span><span class="nx">Project</span><span class="p">)</span></code></pre></figure>
+
+<h2 id="conclusion">Conclusion</h2>
+
+<p>Building clients for Custom Resources is something that is (at least, currently) only sparsely documented and can be a bit tricky at times.</p>
+
+<p>A client library for your Custom Resource as shown in this article, along with a respective Informer is a good starting point for building your own Kubernetes operator that reacts on changes made to Custom Resources. Check the <a href="https://github.com/martin-helmich/kubernetes-crd-example">Github project for this article</a> for a complete and working version.</p>
+
+
+  </div>
+
+  <h2 id="comments">Comments</h2>
+
+  <div id="disqus_thread"  class="helmich-homepage-blogarticle"></div>
+</article>
+<script type="text/javascript">
+var disqus_config = function () {
+    this.page.url = "https://www.martin-helmich.de/en/blog/kubernetes-crd-client.html";
+    this.page.identifier = "d90027ae-f4b8-4c48-84c6-37992e420786";
+    this.page.title = "Accessing Kubernetes CRDs from the client-go package";
+};
+
+(function() {  // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    
+    s.src = 'https://martinhelmichde.disqus.com/embed.js';
+    
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>
+Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+powered by Disqus.</a>
+</noscript>
+</div>
+        </div>
+      </div>
+    </div>
+
+    
+
+<footer class="page-footer font-small stylish-color pt-4 z-depth-1">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <h5>Publications</h5>
+        <ul>
+          
+          
+            <li>
+              <strong><a href="/en/publications.html">Automatisierung mit Kubernetes Operators</a></strong>
+              am 01. Mai 2019
+            </li>
+          
+            <li>
+              <strong><a href="/en/publications.html">Praxiswissen TYPO3 CMS 9</a></strong>
+              am 28. März 2019
+            </li>
+          
+            <li>
+              <strong><a href="/en/publications.html">Go Application Development - Tips, Tricks, and Techniques</a></strong>
+              am 28. Februar 2019
+            </li>
+          
+            <li>
+              <strong><a href="/en/publications.html">TYPO3 CMS für Redakteure</a></strong>
+              am 10. Dezember 2018
+            </li>
+          
+            <li>
+              <strong><a href="/en/publications.html">Continuous Delivery mit Kubernetes</a></strong>
+              am 28. November 2018
+            </li>
+          
+        </ul>
+      </div>
+      <div class="col-sm-4">
+        <h5>
+          Blog articles
+        </h5>
+        <ul>
+          
+          
+            <li>
+              <strong><a href="/en/blog/typo3-cms-docker.html">Well contained: Running TYPO3 in Docker</a></strong>
+              am 03. Mai 2020
+            </li>
+          
+            <li>
+              <strong><a href="/en/blog/kubernetes-crd-client.html">Accessing Kubernetes CRDs from the client-go package</a></strong>
+              am 15. April 2020
+            </li>
+          
+            <li>
+              <strong><a href="/https:/jaxenter.de/kubernetes/automatisierung-kubernetes-operators-88189">Automation with Kubernetes operators</a></strong>
+              am 04. Februar 2020
+            </li>
+          
+            <li>
+              <strong><a href="/en/blog/codequality-typo3.html">Code quality in TYPO3 projects</a></strong>
+              am 18. Januar 2018
+            </li>
+          
+            <li>
+              <strong><a href="/en/blog/monitoring-nginx.html">NGINX Performance Metrics with Prometheus</a></strong>
+              am 24. März 2017
+            </li>
+          
+        </ul>
+      </div>
+      <div class="col-sm-4">
+        <h5>
+          Menu
+        </h5>
+        <ul>
+          
+            <li><a href="/de/impressum.html">Legal</a></li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-copyright py-3 text-center">
+    Martin Helmich 2018
+  </div>
+</footer>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/js/mdb.min.js"></script>
+<script type="text/javascript">
+$("#martin-grumpy").mouseover(function() {
+  $(this).attr("src", "/assets/martin-happy.jpg");
+});
+$("#martin-grumpy").mouseout(function() {
+  $(this).attr("src", "/assets/martin-grumpy.jpg");
+});
+</script>
+
+  </body>
+
+</html>

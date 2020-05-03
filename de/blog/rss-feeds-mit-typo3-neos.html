@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="de">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>RSS-Feeds mit TYPO3 Neos</title>
+  <meta name="description" content="RSS (für Really Simple Syndication) ist ein XML-basiertes Dateiformat, über das Veränderungen an Websites bekannt gemacht werden können. Speziell für Blog- u...">
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/css/mdb.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/fonts.css">
+
+  <link rel="canonical" href="https://www.martin-helmich.de/de/blog/rss-feeds-mit-typo3-neos.html">
+
+  <link rel="alternate" type="application/rss+xml" title="martin-helmich.de" href="https://www.martin-helmich.de/feed.xml">
+
+  
+    <link rel="alternate" hreflang="en" href="/en/blog/rss-feeds-mit-typo3-neos.html">
+  
+
+</head>
+
+
+  <body>
+
+    <div class="main">
+      <div  class="blog-landing" style="background-image: url(/assets/headers/newspaper.jpg)">
+      <nav class="navbar navbar-expand-lg navbar-dark elegant-color">
+  <div class="container">
+    <a class="navbar-brand" href="/">martin-helmich.de</a>
+
+    <!-- Collapse button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="basicExampleNav"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        
+          
+          
+          <li class="nav-item normal">
+            <a class="nav-link" href="/">Blog</a>
+          </li>
+        
+          
+          
+          <li class="nav-item normal">
+            <a class="nav-link" href="/de/ueber-mich.html">Über mich</a>
+          </li>
+        
+          
+          
+          <li class="nav-item normal">
+            <a class="nav-link" href="/de/veroeffentlichungen.html">Veröffentlichungen</a>
+          </li>
+        
+      </ul>
+
+      
+      <ul class="navbar-nav navbar-right">
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+            Deutsch
+            <span class="caret"></span>
+          </a>
+          <div class="dropdown-menu dropdown-primary">
+            <a class="active dropdown-item" href="/de/blog/rss-feeds-mit-typo3-neos.html">Deutsch</a>
+            <a class="normal dropdown-item" href="/en/blog/rss-feeds-mit-typo3-neos.html">Englisch</a>
+          </div>
+        </li>
+      </ul>
+      
+    </div>
+  </div>
+</nav>
+
+
+        <div class="container attribution">
+          
+          <a href="https://www.flickr.com/photos/62693815@N03/6277209256/" target="_blank">
+            CC BY, John S.
+          </a>
+          
+        </div>
+      </div>
+
+      <div class="container primary">
+        <div class="content main-content">
+          <div class="post-content">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <p class="post-meta text-center font-italic">
+      Geschrieben am
+      
+      <time datetime="2015-04-15T19:42:28+00:00" itemprop="datePublished">
+        15. April 2015
+      </time>
+      
+
+      
+    </p>
+
+    
+      <div class="my-alert row info-color-dark white-text z-depth-1">
+      <div class="col-sm-12">
+        <span class="icon">
+          <i class="fa fa-globe"></i>
+        </span>
+        <div class="my-alert-body">
+          <strong>Hello! </strong> 
+        This article is also <a href="/en/blog/rss-feeds-mit-typo3-neos.html">available in English</a>!
+      
+        </div>
+      </div>
+    </div>
+    
+
+    <h1 class="post-title" itemprop="name headline">RSS-Feeds mit TYPO3 Neos</h1>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>RSS (für <em>Really Simple Syndication</em>) ist ein XML-basiertes Dateiformat, über das Veränderungen an Websites bekannt gemacht werden können. Speziell für Blog- und Nachrichtenseiten bieten sich solche RSS-Feeds an; Leser können diesen einfach in einen Feed-Reader einbinden, um auf dem Laufenden zu bleiben. In diesem Artikel erkläre ich euch, wie ihr in TYPO3 Neos solch einen Feed erstellen könnt.</p>
+
+<h2 id="routing-konfigurieren">Routing konfigurieren</h2>
+
+<p>Zunächst definieren wir ein alternatives Request-Format. Dies geschieht in der Datei Routes.yaml (entweder einfach in der globalen, oder in eurem Package, welches dann aber explizit in der globalen Datei eingebunden werden muss):</p>
+
+<noscript><pre>-
+  name: &#39;RSS feed&#39;
+  uriPattern: &#39;{node}.xml&#39;
+  defaults:
+    &#39;@package&#39;: TYPO3.Neos
+    &#39;@controller&#39;: Frontend\Node
+    &#39;@action&#39;: show
+    &#39;@format&#39;: rss
+  routeParts:
+    node:
+      handler: TYPO3\Neos\Routing\FrontendNodeRoutePartHandlerInterface
+  appendExceedingArguments: true</pre></noscript>
+<script src="https://gist.github.com/martin-helmich/aab1c83379063d4beba5.js?file=Routes.yaml"> </script>
+
+<p>Diese Konfiguration entspricht übrigens nahezu der Standard-Konfiguration, die Neos für das Ausliefern von Content mitliefert. Lediglich das Format ist geändert.</p>
+
+<h2 id="ab-ins-typoscript">Ab ins TypoScript</h2>
+
+<p>Die Standard-TypoScript-Konfiguration von Neos sieht bereits vor, dass bei einem Format, das anders lautet als <code>html</code> einfach das TypoScript-Objekt mit dem entsprechenden Namen gerendert wird. Wir müssen an dieser Stelle also nur noch das Objekt mit dem Namen <code>rss</code> implementieren. Da hier z.B. auch HTTP-Header verändert werden müssen (wir haben ja schließlich einen anderen Content-Type), kann hier am besten gleich die <code>TYPO3.TypoScript:Http.Message</code>-Klasse genutzt werden. Das Endergebnis ist recht komplex; anstatt es nach und nach aufzubauen, präsentiere ich erstmal den ganzen Block:</p>
+
+<noscript><pre>rss = TYPO3.TypoScript:Http.Message {
+	@override.defaultAuthor = &#39;Martin Helmich&#39;
+
+	httpResponseHead {
+		headers.Content-Type = &#39;application/rss+xml&#39;
+	}
+
+	content = TYPO3.TypoScript:Template {
+		@override.articles = ${q(site).find(&#39;[instanceof Helmich.Homepage:BlogArticle]&#39;)}
+
+		templatePath = &#39;resource://Helmich.Homepage/Private/Templates/Page/Rss.xml&#39;
+		sectionName = &#39;main&#39;
+
+		language = ${node.context.targetDimensions[&#39;language&#39;]}
+		title    = ${q(site).property(&#39;title&#39;)}
+		author   = ${defaultAuthor}
+		date     = ${articles.first().property(&#39;date&#39;)}
+
+		items = TYPO3.TypoScript:Collection {
+			collection = ${articles}
+			itemName = &#39;article&#39;
+			itemRenderer = TYPO3.TypoScript:Template {
+				templatePath = &#39;resource://Helmich.Homepage/Private/Templates/Page/Rss.xml&#39;
+				sectionName = &#39;item&#39;
+
+				article = ${article}
+				author = ${q(article).property(&#39;author&#39;) ? q(article).property(&#39;author&#39;) : defaultAuthor}
+
+				abstract = TYPO3.TypoScript:Collection {
+					collection = ${q(article).children(&#39;main&#39;).children(&#39;[instanceof TYPO3.Neos.NodeTypes:Text]&#39;).first().get()}
+					itemName = &#39;node&#39;
+					itemRenderer = TYPO3.Neos:ContentCase
+				}
+			}
+		}
+
+		@process.tidy = Helmich.Homepage:TidyXml
+
+		@cache {
+			mode = &#39;cached&#39;
+			entryTags {
+				1 = &#39;NodeType_Helmich.Homepage:BlogArticle&#39;
+			}
+		}
+	}
+}</pre></noscript>
+<script src="https://gist.github.com/martin-helmich/aab1c83379063d4beba5.js?file=Rss.ts2"> </script>
+
+<p>Nun im Detail: Der Inhalt des Feeds wird von einem Fluid-Template gerendert. Dem Template werden einige Variablen zugewiesen, die aus der aktuellen Content Node, bzw. dem Kontext geladen werden (z.B. die Sprache). Die Variable <code>items</code> ist schließlich eine ContentCollection, die in diesem Fall von einer Eel-Expression befüllt wird (hier sind das alle Nodes vom Typ <code>Helmich.Homepage:BlogArticle</code>; das ist aber hochindividuell und muss je nach Usecase angepasst werden).</p>
+
+<p>Jedes Element dieser ContentCollection wird dann mit einem bestimmten Abschnitt des Templates gerendert. Die meisten Variablen werden auch hier aus der jeweiligen Node bezogen. Als <code>abstract</code>-Variable wird der Inhalt des ersten Text-Elements unterhalb der jeweiligen Node ausgewählt.</p>
+
+<p>Der <code>@cache</code>-Parameter definiert schließlich, dass die Ausgabe gecached werden soll. Die Tag-Konfiguration bewirkt, dass der Cache jedes Mal invalidiert wird, wenn eine Node vom Typ <code>Helmich.Homepage:BlogArticle</code> bearbeitet wird. Aber auch diese Konfiguration muss wahrscheinlich individuell angepasst werden.</p>
+
+<h2 id="der-fluid-view">Der Fluid-View</h2>
+
+<p>Abschließend noch das Fluid-Template. Dieses ist recht unspannend, da lediglich die Variablen, die zuvor im TypoScript zugewiesen wurden, in eine XML-Struktur regendert werden.</p>
+
+<noscript><pre>{namespace ts=TYPO3\TypoScript\ViewHelpers}
+{namespace neos=TYPO3\Neos\ViewHelpers}
+
+&lt;f:section name=&quot;main&quot;&gt;&lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-8&quot;?&gt;
+&lt;rss version=&quot;2.0&quot;&gt;
+    &lt;channel&gt;
+        &lt;title&gt;{title}&lt;/title&gt;
+        &lt;link&gt;&lt;neos:uri.node node=&quot;{node}&quot; absolute=&quot;true&quot; /&gt;&lt;/link&gt;
+        &lt;description&gt;Kurze Beschreibung des Feeds&lt;/description&gt;
+        &lt;language&gt;{language}&lt;/language&gt;
+        &lt;copyright&gt;{author}&lt;/copyright&gt;
+        &lt;pubDate&gt;{date -&gt; f:format.date(format: &#39;r&#39;)}&lt;/pubDate&gt;
+        &lt;image&gt;
+            &lt;url&gt;URL einer einzubindenden Grafik&lt;/url&gt;
+            &lt;title&gt;Bildtitel&lt;/title&gt;
+            &lt;link&gt;URL, mit der das Bild verknüpft ist&lt;/link&gt;
+        &lt;/image&gt;
+
+        {items -&gt; f:format.raw()}
+
+    &lt;/channel&gt;
+&lt;/rss&gt;
+&lt;/f:section&gt;
+
+&lt;f:section name=&quot;item&quot;&gt;
+&lt;item&gt;
+    &lt;title&gt;{article.properties.title}&lt;/title&gt;
+    &lt;description&gt;{abstract -&gt; f:format.raw()}&lt;/description&gt;
+    &lt;link&gt;&lt;neos:uri.node node=&quot;{article}&quot; /&gt;&lt;/link&gt;
+    &lt;author&gt;{author}&lt;/author&gt;
+    &lt;guid&gt;{article.identifier}&lt;/guid&gt;
+    &lt;pubDate&gt;{article.properties.date -&gt; f:format.date(format: &#39;r&#39;)}&lt;/pubDate&gt;
+&lt;/item&gt;
+&lt;/f:section&gt;</pre></noscript>
+<script src="https://gist.github.com/martin-helmich/aab1c83379063d4beba5.js?file=Rss.xml"> </script>
+
+<h2 id="verlinkung-im-head-bereich">Verlinkung im <code>&lt;head&gt;</code>-Bereich</h2>
+
+<p>Nun müssen die Besucher der Seite nur noch darauf aufmerksam gemacht werden, dass es den RSS-Feed gibt. Glücklicherweise sind moderne Browser intelligent genug, und lesen einfach einen meta-Tag aus, der im HTML-Head platziert werden kann. Auch das können wir über TypoScript machen:</p>
+
+<noscript><pre>page = TYPO3.Neos:Page {
+	head {
+		// ...
+
+		rss = TYPO3.TypoScript:Tag {
+			tagName = &#39;link&#39;
+			attributes {
+				rel = &#39;alternate&#39;
+				type = &#39;application/rss+xml&#39;
+				title = &#39;RSS&#39;
+				href = TYPO3.Neos:NodeUri {
+					node = ${site}
+					format = &#39;rss&#39;
+					absolute = true
+				}
+			}
+			@cache.mode = &#39;embed&#39;
+		}
+	}
+	
+	// ...
+}
+</pre></noscript>
+<script src="https://gist.github.com/martin-helmich/aab1c83379063d4beba5.js?file=Root.ts2"> </script>
+
+<p>Ich habe es mir in diesem Beispiel einfach gemacht, und als Ziel-Node des Links die <code>${site}</code>-Node angegeben. Der Grund dafür ist, dass ich nur einen RSS-Feed für die ganze Seite haben möchte (technisch gesehen zwei, je einmal auf Deutsch und Englisch). Aber auch ein eigener Feed pro Seite ließe sich auf diese Weise einfach umsetzen.</p>
+
+  </div>
+
+  <h2 id="comments">Kommentare</h2>
+
+  <div id="disqus_thread"  class="helmich-homepage-blogarticle"></div>
+</article>
+<script type="text/javascript">
+var disqus_config = function () {
+    this.page.url = "https://www.martin-helmich.de/de/blog/rss-feeds-mit-typo3-neos.html";
+    this.page.identifier = "2fce36a4-cc12-fd3b-d805-0c8410451f89";
+    this.page.title = "RSS-Feeds mit TYPO3 Neos";
+};
+
+(function() {  // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    
+    s.src = 'https://martinhelmichde.disqus.com/embed.js';
+    
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>
+Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+powered by Disqus.</a>
+</noscript>
+</div>
+        </div>
+      </div>
+    </div>
+
+    
+
+<footer class="page-footer font-small stylish-color pt-4 z-depth-1">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <h5>Veröffentlichungen</h5>
+        <ul>
+          
+          
+            <li>
+              <strong><a href="/de/veroeffentlichungen.html">Automatisierung mit Kubernetes Operators</a></strong>
+              am 01. Mai 2019
+            </li>
+          
+            <li>
+              <strong><a href="/de/veroeffentlichungen.html">Praxiswissen TYPO3 CMS 9</a></strong>
+              am 28. März 2019
+            </li>
+          
+            <li>
+              <strong><a href="/de/veroeffentlichungen.html">Go Application Development - Tips, Tricks, and Techniques</a></strong>
+              am 28. Februar 2019
+            </li>
+          
+            <li>
+              <strong><a href="/de/veroeffentlichungen.html">TYPO3 CMS für Redakteure</a></strong>
+              am 10. Dezember 2018
+            </li>
+          
+            <li>
+              <strong><a href="/de/veroeffentlichungen.html">Continuous Delivery mit Kubernetes</a></strong>
+              am 28. November 2018
+            </li>
+          
+        </ul>
+      </div>
+      <div class="col-sm-4">
+        <h5>
+          Blog-Artikel
+        </h5>
+        <ul>
+          
+          
+            <li>
+              <strong><a href="/https:/jaxenter.de/kubernetes/automatisierung-kubernetes-operators-88189">Automatisierung mit Kubernetes Operators</a></strong>
+              am 04. Februar 2020
+            </li>
+          
+            <li>
+              <strong><a href="/de/blog/typo3-cms-docker.html">Gut eingepackt: TYPO3 CMS in Docker betreiben</a></strong>
+              am 22. März 2019
+            </li>
+          
+            <li>
+              <strong><a href="/en/blog/kubernetes-crd-client.html">Kubernetes-CRDs über die client-go-Bibliothek auslesen</a></strong>
+              am 28. März 2018
+            </li>
+          
+            <li>
+              <strong><a href="/de/blog/codequality-typo3.html">Codequalität in TYPO3-Projekten</a></strong>
+              am 18. Januar 2018
+            </li>
+          
+            <li>
+              <strong><a href="/de/blog/monitoring-nginx.html">NGINX-Performancemetriken mit Prometheus</a></strong>
+              am 24. März 2017
+            </li>
+          
+        </ul>
+      </div>
+      <div class="col-sm-4">
+        <h5>
+          Menü
+        </h5>
+        <ul>
+          
+            <li><a href="/de/impressum.html">Impressum</a></li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-copyright py-3 text-center">
+    Martin Helmich 2018
+  </div>
+</footer>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/js/mdb.min.js"></script>
+<script type="text/javascript">
+$("#martin-grumpy").mouseover(function() {
+  $(this).attr("src", "/assets/martin-happy.jpg");
+});
+$("#martin-grumpy").mouseout(function() {
+  $(this).attr("src", "/assets/martin-grumpy.jpg");
+});
+</script>
+
+  </body>
+
+</html>

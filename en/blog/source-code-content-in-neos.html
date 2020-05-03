@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <title>Source code content elements for TYPO3 Neos</title>
+  <meta name="description" content="Of all the features of TYPO3 Neos, one that astonishes me most is the system’s extensibility. For this site, I needed the possibility to present source code ...">
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/css/mdb.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/fonts.css">
+
+  <link rel="canonical" href="https://www.martin-helmich.de/en/blog/source-code-content-in-neos.html">
+
+  <link rel="alternate" type="application/rss+xml" title="martin-helmich.de" href="https://www.martin-helmich.de/feed.xml">
+
+  
+    <link rel="alternate" hreflang="de" href="/de/blog/quelltext-content-in-neos.html">
+  
+
+</head>
+
+
+  <body>
+
+    <div class="main">
+      <div  class="blog-landing" style="background-image: url(/assets/headers/neos-sourcecode.jpg)">
+      <nav class="navbar navbar-expand-lg navbar-dark elegant-color">
+  <div class="container">
+    <a class="navbar-brand" href="/en/blog.html">martin-helmich.de</a>
+
+    <!-- Collapse button -->
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="basicExampleNav"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse">
+      <ul class="navbar-nav mr-auto">
+        
+          
+          
+          <li class="nav-item normal">
+            <a class="nav-link" href="/en/blog.html">Blog</a>
+          </li>
+        
+          
+          
+          <li class="nav-item normal">
+            <a class="nav-link" href="/en/about-me.html">About me</a>
+          </li>
+        
+          
+          
+          <li class="nav-item normal">
+            <a class="nav-link" href="/en/publications.html">Publications</a>
+          </li>
+        
+      </ul>
+
+      
+      <ul class="navbar-nav navbar-right">
+        <li class="nav-item dropdown">
+          <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
+            English
+            <span class="caret"></span>
+          </a>
+          <div class="dropdown-menu dropdown-primary">
+            <a class="normal dropdown-item" href="/de/blog/quelltext-content-in-neos.html">German</a>
+            <a class="active dropdown-item" href="/en/blog/source-code-content-in-neos.html">English</a>
+          </div>
+        </li>
+      </ul>
+      
+    </div>
+  </div>
+</nav>
+
+
+        <div class="container attribution">
+          
+          CC BY-SA, Martin Helmich
+          
+        </div>
+      </div>
+
+      <div class="container primary">
+        <div class="content main-content">
+          <div class="post-content">
+<article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+
+  <header class="post-header">
+    <p class="post-meta text-center font-italic">
+      Written on
+      
+      <time datetime="2015-04-13T19:42:28+00:00" itemprop="datePublished">
+        13. April 2015
+      </time>
+      
+
+      
+    </p>
+
+    
+      <div class="my-alert row info-color-dark white-text z-depth-1">
+      <div class="col-sm-12">
+        <span class="icon">
+          <i class="fa fa-globe"></i>
+        </span>
+        <div class="my-alert-body">
+          <strong>Hallo! </strong> 
+        Dieser Artikel steht auch <a href="/de/blog/quelltext-content-in-neos.html">auf Deutsch zur Verfügung</a>!
+      
+        </div>
+      </div>
+    </div>
+    
+
+    <h1 class="post-title" itemprop="name headline">Source code content elements for TYPO3 Neos</h1>
+  </header>
+
+  <div class="post-content" itemprop="articleBody">
+    <p>Of all the features of TYPO3 Neos, one that astonishes me most is the system’s extensibility. For this site, I needed the possibility to present source code examples with syntax highlighting. Luckily, that isn’t any problem at all in Neos. In this article, I describe how you can extend TYPO3 Neos with a custom NodeType that renders a content element with source code and syntax highlighting into your Neos site.</p>
+
+<p>At this point I’m assuming that you know about the TYPO3 Neos basics, and especially know</p>
+
+<ul>
+  <li>how the Neos package structures looks like and which files are stored where</li>
+  <li>how content is structured in Neos and that there’s something like a Content Repository</li>
+  <li>how to create your own Node Types</li>
+</ul>
+
+<h2 id="define-node-types">Define Node Types</h2>
+
+<p>Start by defining the corresponding node type. This is done in the configuration file <code>Configuration/NodeTypes.yaml</code> in your own site package. For my example, I’m using the package key <code>Helmich.Homepage</code>. When taking over code examples, remember to adjust the package key according to your own needs:</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="lineno"> 1 </span><span class="s">&#39;Helmich.Homepage:SourceCode&#39;</span><span class="p p-Indicator">:</span>
+<span class="lineno"> 2 </span>  <span class="l l-Scalar l-Scalar-Plain">superTypes</span><span class="p p-Indicator">:</span>
+<span class="lineno"> 3 </span>    <span class="p p-Indicator">-</span> <span class="s">&#39;TYPO3.Neos:Content&#39;</span>
+<span class="lineno"> 4 </span>  <span class="l l-Scalar l-Scalar-Plain">ui</span><span class="p p-Indicator">:</span>
+<span class="lineno"> 5 </span>    <span class="l l-Scalar l-Scalar-Plain">group</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">general</span>
+<span class="lineno"> 6 </span>    <span class="l l-Scalar l-Scalar-Plain">label</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Source code</span>
+<span class="lineno"> 7 </span>    <span class="l l-Scalar l-Scalar-Plain">icon</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">icon-code</span>
+<span class="lineno"> 8 </span>    <span class="l l-Scalar l-Scalar-Plain">inspector</span><span class="p p-Indicator">:</span>
+<span class="lineno"> 9 </span>      <span class="l l-Scalar l-Scalar-Plain">groups</span><span class="p p-Indicator">:</span>
+<span class="lineno">10 </span>        <span class="l l-Scalar l-Scalar-Plain">code</span><span class="p p-Indicator">:</span>
+<span class="lineno">11 </span>          <span class="l l-Scalar l-Scalar-Plain">label</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Code</span>
+<span class="lineno">12 </span>  <span class="l l-Scalar l-Scalar-Plain">properties</span><span class="p p-Indicator">:</span>
+<span class="lineno">13 </span>    <span class="l l-Scalar l-Scalar-Plain">content</span><span class="p p-Indicator">:</span>
+<span class="lineno">14 </span>      <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="lineno">15 </span>      <span class="l l-Scalar l-Scalar-Plain">ui</span><span class="p p-Indicator">:</span>
+<span class="lineno">16 </span>        <span class="l l-Scalar l-Scalar-Plain">label</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Code</span>
+<span class="lineno">17 </span>        <span class="l l-Scalar l-Scalar-Plain">reloadIfChanged</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="lineno">18 </span>        <span class="l l-Scalar l-Scalar-Plain">inspector</span><span class="p p-Indicator">:</span>
+<span class="lineno">19 </span>          <span class="l l-Scalar l-Scalar-Plain">group</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">code</span>
+<span class="lineno">20 </span>          <span class="l l-Scalar l-Scalar-Plain">position</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">80</span>
+<span class="lineno">21 </span>          <span class="l l-Scalar l-Scalar-Plain">editor</span><span class="p p-Indicator">:</span> <span class="s">&#39;TYPO3.Neos/Inspector/Editors/CodeEditor&#39;</span>
+<span class="lineno">22 </span>          <span class="l l-Scalar l-Scalar-Plain">editorOptions</span><span class="p p-Indicator">:</span>
+<span class="lineno">23 </span>            <span class="l l-Scalar l-Scalar-Plain">buttonLabel</span><span class="p p-Indicator">:</span> <span class="s">&#39;Edit</span><span class="nv"> </span><span class="s">source</span><span class="nv"> </span><span class="s">code&#39;</span></code></pre></figure>
+
+<p>Unfortunately, we cannot use the inline editing that we already know from Neos. This is because the Aloha editor does not get along with the <code>&lt;pre&gt;</code> tags that the content will be rendered into later. That’s not a big thing, though, because Neos offers a special code editor just for this case. This editor is activated in the snippet above in line 21. Using this editor, Neos will offer you a fully functional source code editor with syntax highlighting in the backend for editing the source code content.</p>
+
+<h2 id="the-fluid-template">The Fluid Template</h2>
+
+<p>Next, define the Fluid template for the Node Type. This isn’t overly complex, because after all, we simply want to output the source code exactly the same way that it was entered. By default, Neos will look for the template in <code>Resources/Private/Templates/NodeTypes/SourceCode.html</code>. You could override this convention using TypoScript, but why should you?</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span></span>{namespace neos=TYPO3\Neos\ViewHelpers}
+{namespace media=TYPO3\Media\ViewHelpers}
+
+<span class="p">&lt;</span><span class="nt">pre</span> <span class="na">class</span><span class="o">=</span><span class="s">&quot;prettyprint&quot;</span><span class="p">&gt;&lt;</span><span class="nt">code</span><span class="p">&gt;</span>{node.properties.content}<span class="p">&lt;/</span><span class="nt">code</span><span class="p">&gt;&lt;/</span><span class="nt">pre</span><span class="p">&gt;</span></code></pre></figure>
+
+<p>That’s not too hard, is it? At this point, you can already create source code content elements in the Neos backend. You don’t have syntax highlighting or any other fancy stuff yet, though. That’s what’s next.</p>
+
+<h2 id="configure-syntax-highlighting">Configure syntax highlighting</h2>
+
+<p>For syntax highlighting, I’m using <a href="https://code.google.com/p/google-code-prettify/">Google’s Prettify library</a>. It’s working entirely in JavaScript, which saves you the trouble of processing the source code in your PHP backend. The library consists of some JavaScript and CSS files, which you best put into the <code>Resources/Public</code> directory of your package (I’m using <code>Resources/Public/Libraries/Prettify</code> for that).</p>
+
+<p>Now all that’s left is to include the library. The easiest way to do that is using the page template:</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span></span><span class="lineno"> 1 </span><span class="cp">&lt;!DOCTYPE html&gt;</span>
+<span class="lineno"> 2 </span>{namespace neos=TYPO3\Neos\ViewHelpers}
+<span class="lineno"> 3 </span>{namespace ts=TYPO3\TypoScript\ViewHelpers}
+<span class="lineno"> 4 </span>{namespace tbs=TYPO3\Twitter\Bootstrap\ViewHelpers}
+<span class="lineno"> 5 </span><span class="p">&lt;</span><span class="nt">html</span><span class="p">&gt;</span>
+<span class="lineno"> 6 </span><span class="p">&lt;</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="lineno"> 7 </span>    <span class="p">&lt;</span><span class="nt">f:section</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;stylesheets&quot;</span><span class="p">&gt;</span>
+<span class="lineno"> 8 </span>        <span class="c">&lt;!-- Put your stylesheet inclusions here, they will be included in your website by TypoScript --&gt;</span>
+<span class="lineno"> 9 </span>    <span class="p">&lt;/</span><span class="nt">f:section</span><span class="p">&gt;</span>
+<span class="lineno">10 </span>    <span class="p">&lt;</span><span class="nt">f:section</span> <span class="na">name</span><span class="o">=</span><span class="s">&quot;headScripts&quot;</span><span class="p">&gt;</span>
+<span class="lineno">11 </span>        <span class="p">&lt;</span><span class="nt">script</span> <span class="na">type</span><span class="o">=</span><span class="s">&quot;text/javascript&quot;</span>
+<span class="lineno">12 </span>                <span class="na">src</span><span class="o">=</span><span class="s">&quot;{f:uri.resource(path:&#39;Libraries/Prettify/run_prettify.js&#39;, package: &#39;Helmich.Homepage&#39;)}?skin=desert&quot;</span><span class="p">&gt;</span>
+<span class="lineno">13 </span>        <span class="p">&lt;/</span><span class="nt">script</span><span class="p">&gt;</span>
+<span class="lineno">14 </span>    <span class="p">&lt;/</span><span class="nt">f:section</span><span class="p">&gt;</span>
+<span class="lineno">15 </span><span class="p">&lt;/</span><span class="nt">head</span><span class="p">&gt;</span>
+<span class="lineno">16 </span><span class="p">&lt;</span><span class="nt">body</span><span class="p">&gt;</span>
+<span class="lineno">17 </span>    <span class="c">&lt;!-- ... --&gt;</span></code></pre></figure>
+
+<h2 id="more-configuration">More configuration!</h2>
+
+<p>In the last step I’d like to make the content element a bit more configurable. For example, Prettify’s automatical language recognition does not work that well at times, and it would be nice to specify the used programming language in the Neos backend. Another nice feature would be to enable or disable the line numbering in the source code examples.</p>
+
+<p>For both configuration options, you can extend the original node type definition:</p>
+
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="lineno"> 1 </span><span class="s">&#39;Helmich.Homepage:SourceCode&#39;</span><span class="p p-Indicator">:</span>
+<span class="lineno"> 2 </span>  <span class="l l-Scalar l-Scalar-Plain">superTypes</span><span class="p p-Indicator">:</span>
+<span class="lineno"> 3 </span>    <span class="p p-Indicator">-</span> <span class="s">&#39;TYPO3.Neos:Content&#39;</span>
+<span class="lineno"> 4 </span>  <span class="l l-Scalar l-Scalar-Plain">ui</span><span class="p p-Indicator">:</span>
+<span class="lineno"> 5 </span>    <span class="l l-Scalar l-Scalar-Plain">group</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">general</span>
+<span class="lineno"> 6 </span>    <span class="l l-Scalar l-Scalar-Plain">label</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Source code</span>
+<span class="lineno"> 7 </span>    <span class="l l-Scalar l-Scalar-Plain">icon</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">icon-code</span>
+<span class="lineno"> 8 </span>    <span class="l l-Scalar l-Scalar-Plain">inspector</span><span class="p p-Indicator">:</span>
+<span class="lineno"> 9 </span>      <span class="l l-Scalar l-Scalar-Plain">groups</span><span class="p p-Indicator">:</span>
+<span class="lineno">10 </span>        <span class="l l-Scalar l-Scalar-Plain">code</span><span class="p p-Indicator">:</span>
+<span class="lineno">11 </span>          <span class="l l-Scalar l-Scalar-Plain">label</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Code</span>
+<span class="lineno">12 </span>  <span class="l l-Scalar l-Scalar-Plain">properties</span><span class="p p-Indicator">:</span>
+<span class="lineno">13 </span>    <span class="l l-Scalar l-Scalar-Plain">content</span><span class="p p-Indicator">:</span>
+<span class="lineno">14 </span>      <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="lineno">15 </span>      <span class="l l-Scalar l-Scalar-Plain">ui</span><span class="p p-Indicator">:</span>
+<span class="lineno">16 </span>        <span class="l l-Scalar l-Scalar-Plain">label</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Code</span>
+<span class="lineno">17 </span>        <span class="l l-Scalar l-Scalar-Plain">reloadIfChanged</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="lineno">18 </span>        <span class="l l-Scalar l-Scalar-Plain">inspector</span><span class="p p-Indicator">:</span>
+<span class="lineno">19 </span>          <span class="l l-Scalar l-Scalar-Plain">group</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">code</span>
+<span class="lineno">20 </span>          <span class="l l-Scalar l-Scalar-Plain">position</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">80</span>
+<span class="lineno">21 </span>          <span class="l l-Scalar l-Scalar-Plain">editor</span><span class="p p-Indicator">:</span> <span class="s">&#39;TYPO3.Neos/Inspector/Editors/CodeEditor&#39;</span>
+<span class="lineno">22 </span>          <span class="l l-Scalar l-Scalar-Plain">editorOptions</span><span class="p p-Indicator">:</span>
+<span class="lineno">23 </span>            <span class="l l-Scalar l-Scalar-Plain">buttonLabel</span><span class="p p-Indicator">:</span> <span class="s">&#39;Edit</span><span class="nv"> </span><span class="s">source</span><span class="nv"> </span><span class="s">code&#39;</span>
+<span class="lineno">24 </span>    <span class="l l-Scalar l-Scalar-Plain">lineNumbers</span><span class="p p-Indicator">:</span>
+<span class="lineno">25 </span>      <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">boolean</span>
+<span class="lineno">26 </span>      <span class="l l-Scalar l-Scalar-Plain">defaultValue</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="lineno">27 </span>      <span class="l l-Scalar l-Scalar-Plain">ui</span><span class="p p-Indicator">:</span>
+<span class="lineno">28 </span>        <span class="l l-Scalar l-Scalar-Plain">label</span><span class="p p-Indicator">:</span> <span class="s">&#39;Enable</span><span class="nv"> </span><span class="s">line</span><span class="nv"> </span><span class="s">numbering&#39;</span>
+<span class="lineno">29 </span>        <span class="l l-Scalar l-Scalar-Plain">reloadIfChanged</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">TRUE</span>
+<span class="lineno">30 </span>        <span class="l l-Scalar l-Scalar-Plain">inspector</span><span class="p p-Indicator">:</span>
+<span class="lineno">31 </span>          <span class="l l-Scalar l-Scalar-Plain">group</span><span class="p p-Indicator">:</span> <span class="s">&#39;code&#39;</span>
+<span class="lineno">32 </span>          <span class="l l-Scalar l-Scalar-Plain">position</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">60</span>
+<span class="lineno">33 </span>    <span class="l l-Scalar l-Scalar-Plain">language</span><span class="p p-Indicator">:</span>
+<span class="lineno">34 </span>      <span class="l l-Scalar l-Scalar-Plain">type</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">string</span>
+<span class="lineno">35 </span>      <span class="l l-Scalar l-Scalar-Plain">defaultValue</span><span class="p p-Indicator">:</span> <span class="s">&#39;auto&#39;</span>
+<span class="lineno">36 </span>      <span class="l l-Scalar l-Scalar-Plain">ui</span><span class="p p-Indicator">:</span>
+<span class="lineno">37 </span>        <span class="l l-Scalar l-Scalar-Plain">reloadIfChanged</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">TRUE</span>
+<span class="lineno">38 </span>        <span class="l l-Scalar l-Scalar-Plain">inspector</span><span class="p p-Indicator">:</span>
+<span class="lineno">39 </span>          <span class="l l-Scalar l-Scalar-Plain">group</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">code</span>
+<span class="lineno">40 </span>          <span class="l l-Scalar l-Scalar-Plain">position</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">50</span>
+<span class="lineno">41 </span>          <span class="l l-Scalar l-Scalar-Plain">editor</span><span class="p p-Indicator">:</span> <span class="s">&#39;TYPO3.Neos/Inspector/Editors/SelectBoxEditor&#39;</span>
+<span class="lineno">42 </span>          <span class="l l-Scalar l-Scalar-Plain">editorOptions</span><span class="p p-Indicator">:</span>
+<span class="lineno">43 </span>            <span class="l l-Scalar l-Scalar-Plain">values</span><span class="p p-Indicator">:</span>
+<span class="lineno">44 </span>              <span class="s">&#39;auto&#39;</span><span class="p p-Indicator">:</span>
+<span class="lineno">45 </span>                <span class="l l-Scalar l-Scalar-Plain">label</span><span class="p p-Indicator">:</span> <span class="s">&#39;Determine</span><span class="nv"> </span><span class="s">automatically&#39;</span>
+<span class="lineno">46 </span>              <span class="s">&#39;html&#39;</span><span class="p p-Indicator">:</span>
+<span class="lineno">47 </span>                <span class="l l-Scalar l-Scalar-Plain">label</span><span class="p p-Indicator">:</span> <span class="s">&#39;HTML&#39;</span>
+<span class="lineno">48 </span>              <span class="s">&#39;php&#39;</span><span class="p p-Indicator">:</span>
+<span class="lineno">49 </span>                <span class="l l-Scalar l-Scalar-Plain">label</span><span class="p p-Indicator">:</span> <span class="s">&#39;PHP&#39;</span>
+<span class="lineno">50 </span>              <span class="s">&#39;xml&#39;</span><span class="p p-Indicator">:</span>
+<span class="lineno">51 </span>                <span class="l l-Scalar l-Scalar-Plain">label</span><span class="p p-Indicator">:</span> <span class="s">&#39;XML&#39;</span>
+<span class="lineno">52 </span>              <span class="s">&#39;yaml&#39;</span><span class="p p-Indicator">:</span>
+<span class="lineno">53 </span>                <span class="l l-Scalar l-Scalar-Plain">label</span><span class="p p-Indicator">:</span> <span class="s">&#39;YAML&#39;</span></code></pre></figure>
+
+<p>Evaluating these options is best done in TypoScript. The standard point of entry is the file <code>Root.ts2</code>, which Neos will look for in <code>Resources/Private/TypoScript</code>:</p>
+
+<figure class="highlight"><pre><code class="language-text" data-lang="text"><span></span><span class="lineno"> 1 </span>prototype(Helmich.Homepage:SourceCode) {
+<span class="lineno"> 2 </span>  attributes.class = &#39;prettyprint&#39;
+<span class="lineno"> 3 </span>  attributes.class.@process {
+<span class="lineno"> 4 </span>    language {
+<span class="lineno"> 5 </span>      expression = ${value + (q(node).property(&#39;language&#39;) != &#39;auto&#39; ? &#39; lang-&#39; + q(node).property(&#39;language&#39;) : &#39;&#39;)}
+<span class="lineno"> 6 </span>    }
+<span class="lineno"> 7 </span>
+<span class="lineno"> 8 </span>    lineNumbering {
+<span class="lineno"> 9 </span>      expression = ${value + (q(node).property(&#39;lineNumbers&#39;) ? &#39; linenums&#39; : &#39;&#39;)}
+<span class="lineno">10 </span>    }
+<span class="lineno">11 </span>  }
+<span class="lineno">12 </span>}</code></pre></figure>
+
+<p>In order to use the attributes configured in TypoScript in your template, you’ll need to adjust the Fluid template:</p>
+
+<figure class="highlight"><pre><code class="language-html" data-lang="html"><span></span><span class="lineno">1 </span>{namespace neos=TYPO3\Neos\ViewHelpers}
+<span class="lineno">2 </span>{namespace media=TYPO3\Media\ViewHelpers}
+<span class="lineno">3 </span>
+<span class="lineno">4 </span><span class="p">&lt;</span><span class="nt">pre</span> <span class="err">{</span><span class="na">attributes</span> <span class="na">-</span><span class="p">&gt;</span> f:format.raw()}&gt;<span class="p">&lt;</span><span class="nt">code</span><span class="p">&gt;</span>{node.properties.content}<span class="p">&lt;/</span><span class="nt">code</span><span class="p">&gt;&lt;/</span><span class="nt">pre</span><span class="p">&gt;</span></code></pre></figure>
+
+
+  </div>
+
+  <h2 id="comments">Comments</h2>
+
+  <div id="disqus_thread"  class="helmich-homepage-blogarticle"></div>
+</article>
+<script type="text/javascript">
+var disqus_config = function () {
+    this.page.url = "https://www.martin-helmich.de/en/blog/source-code-content-in-neos.html";
+    this.page.identifier = "0b5a5243-9c0e-b5dd-c9ce-80da73c3f781";
+    this.page.title = "Source code content elements for TYPO3 Neos";
+};
+
+(function() {  // DON'T EDIT BELOW THIS LINE
+    var d = document, s = d.createElement('script');
+    
+    s.src = 'https://martinhelmichde.disqus.com/embed.js';
+    
+    s.setAttribute('data-timestamp', +new Date());
+    (d.head || d.body).appendChild(s);
+})();
+</script>
+<noscript>
+Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript" rel="nofollow">comments
+powered by Disqus.</a>
+</noscript>
+</div>
+        </div>
+      </div>
+    </div>
+
+    
+
+<footer class="page-footer font-small stylish-color pt-4 z-depth-1">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-4">
+        <h5>Publications</h5>
+        <ul>
+          
+          
+            <li>
+              <strong><a href="/en/publications.html">Automatisierung mit Kubernetes Operators</a></strong>
+              am 01. Mai 2019
+            </li>
+          
+            <li>
+              <strong><a href="/en/publications.html">Praxiswissen TYPO3 CMS 9</a></strong>
+              am 28. März 2019
+            </li>
+          
+            <li>
+              <strong><a href="/en/publications.html">Go Application Development - Tips, Tricks, and Techniques</a></strong>
+              am 28. Februar 2019
+            </li>
+          
+            <li>
+              <strong><a href="/en/publications.html">TYPO3 CMS für Redakteure</a></strong>
+              am 10. Dezember 2018
+            </li>
+          
+            <li>
+              <strong><a href="/en/publications.html">Continuous Delivery mit Kubernetes</a></strong>
+              am 28. November 2018
+            </li>
+          
+        </ul>
+      </div>
+      <div class="col-sm-4">
+        <h5>
+          Blog articles
+        </h5>
+        <ul>
+          
+          
+            <li>
+              <strong><a href="/en/blog/typo3-cms-docker.html">Well contained: Running TYPO3 in Docker</a></strong>
+              am 03. Mai 2020
+            </li>
+          
+            <li>
+              <strong><a href="/en/blog/kubernetes-crd-client.html">Accessing Kubernetes CRDs from the client-go package</a></strong>
+              am 15. April 2020
+            </li>
+          
+            <li>
+              <strong><a href="/https:/jaxenter.de/kubernetes/automatisierung-kubernetes-operators-88189">Automation with Kubernetes operators</a></strong>
+              am 04. Februar 2020
+            </li>
+          
+            <li>
+              <strong><a href="/en/blog/codequality-typo3.html">Code quality in TYPO3 projects</a></strong>
+              am 18. Januar 2018
+            </li>
+          
+            <li>
+              <strong><a href="/en/blog/monitoring-nginx.html">NGINX Performance Metrics with Prometheus</a></strong>
+              am 24. März 2017
+            </li>
+          
+        </ul>
+      </div>
+      <div class="col-sm-4">
+        <h5>
+          Menu
+        </h5>
+        <ul>
+          
+            <li><a href="/de/impressum.html">Legal</a></li>
+          
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="footer-copyright py-3 text-center">
+    Martin Helmich 2018
+  </div>
+</footer>
+
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.13.0/umd/popper.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/js/bootstrap.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mdbootstrap/4.5.0/js/mdb.min.js"></script>
+<script type="text/javascript">
+$("#martin-grumpy").mouseover(function() {
+  $(this).attr("src", "/assets/martin-happy.jpg");
+});
+$("#martin-grumpy").mouseout(function() {
+  $(this).attr("src", "/assets/martin-grumpy.jpg");
+});
+</script>
+
+  </body>
+
+</html>
