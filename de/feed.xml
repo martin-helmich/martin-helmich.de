@@ -6,10 +6,25 @@
 </description>
     <link>https://www.martin-helmich.de/</link>
     <atom:link href="https://www.martin-helmich.de/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sun, 03 May 2020 16:18:16 +0000</pubDate>
-    <lastBuildDate>Sun, 03 May 2020 16:18:16 +0000</lastBuildDate>
-    <generator>Jekyll v3.8.6</generator>
+    <pubDate>Sat, 22 Aug 2020 13:25:47 +0000</pubDate>
+    <lastBuildDate>Sat, 22 Aug 2020 13:25:47 +0000</lastBuildDate>
+    <generator>Jekyll v3.9.0</generator>
     
+    
+      <item>
+        <title>Microservices: Mit Tools wie Jaeger die Übersicht behalten</title>
+        <description>&lt;p&gt;In komplexen Microservice-Architekturen verliert selbst der Senior-Entwickler schnell die Übersicht. Um nachvollziehen zu können, welchen Weg eine einzelne ­Nutzeranfrage eigentlich nimmt und welche Services darin involviert sind, haben sich Tools wie Jaeger etabliert. So funktioniert das Werkzeug für „Distributed Tracing“.&lt;/p&gt;
+</description>
+        <pubDate>Sat, 04 Jul 2020 19:00:00 +0000</pubDate>
+        <link>https://www.martin-helmich.de/https:/t3n.de/magazin/microservices-mit-tools-wie-die-249408/</link>
+        <guid isPermaLink="true">https://www.martin-helmich.de/https:/t3n.de/magazin/microservices-mit-tools-wie-die-249408/</guid>
+        
+        <category>tracing</category>
+        
+        <category>golang</category>
+        
+        
+      </item>
     
       <item>
         <title>Automatisierung mit Kubernetes Operators</title>
@@ -24,6 +39,23 @@
         <category>docker</category>
         
         <category>golang</category>
+        
+        
+      </item>
+    
+      <item>
+        <title>Besser entwickeln mit Devops-Praktiken: Continuous Delivery mit Kubernetes</title>
+        <description>&lt;p&gt;In der Software-Industrie sind die Reaktionsfähigkeit auf neue Markt­anforderungen und kurze Produkteinführungszeiten entscheidende ­Wett­­­­b­ewerbs­faktoren. Viele Entwicklungs­teams führen daher Devops-Praktiken wie etwa ­Continuous Delivery ein und nutzen aktuelle Technologien wie Kubernetes als unterstützende ­Werkzeuge.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 07 Apr 2019 19:00:00 +0000</pubDate>
+        <link>https://www.martin-helmich.de/https:/t3n.de/magazin/besser-entwickeln-mit-continuous-247076/</link>
+        <guid isPermaLink="true">https://www.martin-helmich.de/https:/t3n.de/magazin/besser-entwickeln-mit-continuous-247076/</guid>
+        
+        <category>kubernetes</category>
+        
+        <category>docker</category>
+        
+        <category>helm</category>
         
         
       </item>
@@ -824,173 +856,6 @@ generiert:&lt;/p&gt;
         <category>neos</category>
         
         <category>varnish</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>Quelltext-Contentelemente für TYPO3 Neos</title>
-        <description>&lt;p&gt;Eines der Features von TYPO3 Neos, das mich am meisten begeistert, ist die Anpassungsfähigkeit des Systems. Für diese Seite brauchte ich die Möglichkeit, Quelltextbeispiele mit Syntaxhervorhebung darstellen zu können. Glücklicherweise ist so etwas in Neos überhaupt kein Problem; daher beschreibe ich heute, wie ihr in TYPO3 Neos einen eigenen NodeType hinzufügen könnt, der euch ein Content-Element mit Quelltext und Syntax-Hervorhebung in eure Neos-Seite rendert.&lt;/p&gt;
-
-&lt;p&gt;Ich setze an dieser Stelle voraus, dass ihr euch mit den Grundlagen von TYPO3 Neos auskennt, und insbesondere wisst&lt;/p&gt;
-
-&lt;ul&gt;
-  &lt;li&gt;mit welchen Paketstrukturen Neos arbeitet und wo grob welche Dateien liegen&lt;/li&gt;
-  &lt;li&gt;wie Inhalt in Neos strukturiert ist und dass es so etwas wie ein Content Repository gibt&lt;/li&gt;
-  &lt;li&gt;wie ihr eigene NodeTypes erstellen könnt&lt;/li&gt;
-&lt;/ul&gt;
-
-&lt;h2 id=&quot;nodetypes-definieren&quot;&gt;NodeTypes definieren&lt;/h2&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt; 1 &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;Helmich.Homepage:SourceCode&amp;#39;&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 2 &lt;/span&gt;  &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;superTypes&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 3 &lt;/span&gt;    &lt;span class=&quot;p p-Indicator&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;TYPO3.Neos:Content&amp;#39;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 4 &lt;/span&gt;  &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;ui&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 5 &lt;/span&gt;    &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;group&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;general&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 6 &lt;/span&gt;    &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;Source code&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 7 &lt;/span&gt;    &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;icon&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;icon-code&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 8 &lt;/span&gt;    &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;inspector&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 9 &lt;/span&gt;      &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;groups&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;10 &lt;/span&gt;        &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;11 &lt;/span&gt;          &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;Code&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;12 &lt;/span&gt;  &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;properties&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;13 &lt;/span&gt;    &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;14 &lt;/span&gt;      &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;string&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;15 &lt;/span&gt;      &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;ui&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;16 &lt;/span&gt;        &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;Code&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;17 &lt;/span&gt;        &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;reloadIfChanged&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;true&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;18 &lt;/span&gt;        &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;inspector&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;19 &lt;/span&gt;          &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;group&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;code&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;20 &lt;/span&gt;          &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;position&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;80&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;21 &lt;/span&gt;          &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;editor&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;TYPO3.Neos/Inspector/Editors/CodeEditor&amp;#39;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;22 &lt;/span&gt;          &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;editorOptions&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;23 &lt;/span&gt;            &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;buttonLabel&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;Edit&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;code&amp;#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Das von Neos gewohnte Inline-Editing können wir hier leider nicht nutzen, da sich der Aloha-Editor nicht mit den &amp;lt;pre&amp;gt;-Tags verträgt, in die der Content später hineingerendert wird. Das macht aber nichts, denn genau für diesen Zweck bietet Neos bereits einen Code-Editor für den Inspektor an, der hier in Zeile 21 aktiviert wird. Auf diese Weise bekommt ihr später im Backend zur Bearbeitung des Quelltextes einen entsprechenden Editor mit Syntax-Hervorhebung bereitgestellt.&lt;/p&gt;
-
-&lt;h2 id=&quot;das-fluid-template&quot;&gt;Das Fluid-Template&lt;/h2&gt;
-
-&lt;p&gt;Als nächstes wird nun das Fluid-Template für den NodeType definiert. Das ist keine große Raketentechnik, da wir den Quelltext ja eigentlich nur wieder so ausgeben möchten, wie er eingegeben wurde. Standardmäßig wird das Template in eurem Paket unter &lt;code&gt;Resources/Private/Templates/NodeTypes/SourceCode.html&lt;/code&gt; gesucht. Das könnte man über TypoScript überschreiben; dazu besteht hier jedoch kein Anlass:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span&gt;&lt;/span&gt;{namespace neos=TYPO3\Neos\ViewHelpers}
-{namespace media=TYPO3\Media\ViewHelpers}
-
-&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;pre&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;prettyprint&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;{node.properties.content}&lt;span class=&quot;p&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;pre&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Das schaut ja noch recht überschaubar aus, oder? An diesem Zeitpunkt könnt ihr jetzt bereits Quelltextelemente über das Neos-Backend erstellen. Ihr habt jedoch noch keine Syntax-Hervorhebung oder den ganzen anderen Schnickschnack. Das gehen wir nun als nächstes an.&lt;/p&gt;
-
-&lt;h2 id=&quot;syntax-highlighting-konfigurieren&quot;&gt;Syntax-Highlighting konfigurieren&lt;/h2&gt;
-
-&lt;p&gt;Für das Syntax-Highlighting nutze ich in diesem Beispiel die &lt;a href=&quot;https://code.google.com/p/google-code-prettify/&quot;&gt;Prettify-Bibliothek&lt;/a&gt; von Google. Diese hat den Vorteil, dass sie rein JavaScript-seitig arbeitet, und ihr euch im PHP-Backend nicht um die Darstellung des Quelltextes zu kümmern braucht. Die Bibliothek besteht aus einigen JavaScript- und CSS-Dateien, die ihr am besten alle in das Resources/Public-Verzeichnis eures Pakets werft (bei mir liegt alles unter Resources/Public/Libraries/Prettify).&lt;/p&gt;
-
-&lt;p&gt;Die Bibliothek muss nun noch eingebunden werden; am einfachsten geht das im Seiten-Template:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt; 1 &lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;!DOCTYPE html&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 2 &lt;/span&gt;{namespace neos=TYPO3\Neos\ViewHelpers}
-&lt;span class=&quot;lineno&quot;&gt; 3 &lt;/span&gt;{namespace ts=TYPO3\TypoScript\ViewHelpers}
-&lt;span class=&quot;lineno&quot;&gt; 4 &lt;/span&gt;{namespace tbs=TYPO3\Twitter\Bootstrap\ViewHelpers}
-&lt;span class=&quot;lineno&quot;&gt; 5 &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;html&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 6 &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 7 &lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;f:section&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;stylesheets&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 8 &lt;/span&gt;        &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- Put your stylesheet inclusions here, they will be included in your website by TypoScript --&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 9 &lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;f:section&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;10 &lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;f:section&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;name&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;headScripts&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;11 &lt;/span&gt;        &lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;script&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;text/javascript&amp;quot;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;12 &lt;/span&gt;                &lt;span class=&quot;na&quot;&gt;src&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;{f:uri.resource(path:&amp;#39;Libraries/Prettify/run_prettify.js&amp;#39;, package: &amp;#39;Helmich.Homepage&amp;#39;)}?skin=desert&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;13 &lt;/span&gt;        &lt;span class=&quot;p&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;script&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;14 &lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;f:section&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;15 &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;head&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;16 &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;body&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;17 &lt;/span&gt;    &lt;span class=&quot;c&quot;&gt;&amp;lt;!-- ... --&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;h2 id=&quot;mehr-konfigurationsmöglichkeiten&quot;&gt;Mehr Konfigurationsmöglichkeiten&lt;/h2&gt;
-
-&lt;p&gt;Im nächsten Schritt soll das Inhaltselement nun noch ein wenig konfigurierbarer werden. So funktioniert beispielsweise die automatische Spracherkennung von Prettify nicht besonders gut, daher wäre eine Möglichkeit sinnvoll, die gewählte Programmiersprache direkt angeben zu können. Außerdem wäre es schön, die Zeilennummerierungen ein- und ausschalten zu können.&lt;/p&gt;
-
-&lt;p&gt;Für beide Konfigurationen könnt ihr die ursprüngliche Definition des NodeTypes erweitern:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt; 1 &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;#39;Helmich.Homepage:SourceCode&amp;#39;&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 2 &lt;/span&gt;  &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;superTypes&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 3 &lt;/span&gt;    &lt;span class=&quot;p p-Indicator&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;TYPO3.Neos:Content&amp;#39;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 4 &lt;/span&gt;  &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;ui&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 5 &lt;/span&gt;    &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;group&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;general&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 6 &lt;/span&gt;    &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;Source code&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 7 &lt;/span&gt;    &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;icon&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;icon-code&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 8 &lt;/span&gt;    &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;inspector&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 9 &lt;/span&gt;      &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;groups&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;10 &lt;/span&gt;        &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;11 &lt;/span&gt;          &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;Code&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;12 &lt;/span&gt;  &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;properties&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;13 &lt;/span&gt;    &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;content&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;14 &lt;/span&gt;      &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;string&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;15 &lt;/span&gt;      &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;ui&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;16 &lt;/span&gt;        &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;Code&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;17 &lt;/span&gt;        &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;reloadIfChanged&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;true&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;18 &lt;/span&gt;        &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;inspector&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;19 &lt;/span&gt;          &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;group&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;code&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;20 &lt;/span&gt;          &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;position&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;80&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;21 &lt;/span&gt;          &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;editor&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;TYPO3.Neos/Inspector/Editors/CodeEditor&amp;#39;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;22 &lt;/span&gt;          &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;editorOptions&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;23 &lt;/span&gt;            &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;buttonLabel&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;Edit&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;source&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;code&amp;#39;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;24 &lt;/span&gt;    &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;lineNumbers&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;25 &lt;/span&gt;      &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;boolean&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;26 &lt;/span&gt;      &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;defaultValue&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;false&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;27 &lt;/span&gt;      &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;ui&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;28 &lt;/span&gt;        &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;Enable&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;line&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;numbering&amp;#39;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;29 &lt;/span&gt;        &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;reloadIfChanged&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;TRUE&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;30 &lt;/span&gt;        &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;inspector&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;31 &lt;/span&gt;          &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;group&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;code&amp;#39;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;32 &lt;/span&gt;          &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;position&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;60&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;33 &lt;/span&gt;    &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;language&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;34 &lt;/span&gt;      &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;type&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;string&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;35 &lt;/span&gt;      &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;defaultValue&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;auto&amp;#39;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;36 &lt;/span&gt;      &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;ui&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;37 &lt;/span&gt;        &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;reloadIfChanged&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;TRUE&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;38 &lt;/span&gt;        &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;inspector&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;39 &lt;/span&gt;          &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;group&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;code&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;40 &lt;/span&gt;          &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;position&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;50&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;41 &lt;/span&gt;          &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;editor&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;TYPO3.Neos/Inspector/Editors/SelectBoxEditor&amp;#39;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;42 &lt;/span&gt;          &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;editorOptions&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;43 &lt;/span&gt;            &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;values&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;44 &lt;/span&gt;              &lt;span class=&quot;s&quot;&gt;&amp;#39;auto&amp;#39;&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;45 &lt;/span&gt;                &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;Determine&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt; &lt;/span&gt;&lt;span class=&quot;s&quot;&gt;automatically&amp;#39;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;46 &lt;/span&gt;              &lt;span class=&quot;s&quot;&gt;&amp;#39;html&amp;#39;&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;47 &lt;/span&gt;                &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;HTML&amp;#39;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;48 &lt;/span&gt;              &lt;span class=&quot;s&quot;&gt;&amp;#39;php&amp;#39;&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;49 &lt;/span&gt;                &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;PHP&amp;#39;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;50 &lt;/span&gt;              &lt;span class=&quot;s&quot;&gt;&amp;#39;xml&amp;#39;&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;51 &lt;/span&gt;                &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;XML&amp;#39;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;52 &lt;/span&gt;              &lt;span class=&quot;s&quot;&gt;&amp;#39;yaml&amp;#39;&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;53 &lt;/span&gt;                &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;label&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;#39;YAML&amp;#39;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Die Auswertung dieser Optionen könnt ihr am einfachen in TypoScript machen. Der Standard-Einstiegspunkt ist dabei die Datei &lt;code&gt;Root.ts2&lt;/code&gt;, die standardmäßig unter &lt;code&gt;Resources/Private/TypoScript&lt;/code&gt; gesucht wird:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-text&quot; data-lang=&quot;text&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt; 1 &lt;/span&gt;prototype(Helmich.Homepage:SourceCode) {
-&lt;span class=&quot;lineno&quot;&gt; 2 &lt;/span&gt;  attributes.class = &amp;#39;prettyprint&amp;#39;
-&lt;span class=&quot;lineno&quot;&gt; 3 &lt;/span&gt;  attributes.class.@process {
-&lt;span class=&quot;lineno&quot;&gt; 4 &lt;/span&gt;    language {
-&lt;span class=&quot;lineno&quot;&gt; 5 &lt;/span&gt;      expression = ${value + (q(node).property(&amp;#39;language&amp;#39;) != &amp;#39;auto&amp;#39; ? &amp;#39; lang-&amp;#39; + q(node).property(&amp;#39;language&amp;#39;) : &amp;#39;&amp;#39;)}
-&lt;span class=&quot;lineno&quot;&gt; 6 &lt;/span&gt;    }
-&lt;span class=&quot;lineno&quot;&gt; 7 &lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 8 &lt;/span&gt;    lineNumbering {
-&lt;span class=&quot;lineno&quot;&gt; 9 &lt;/span&gt;      expression = ${value + (q(node).property(&amp;#39;lineNumbers&amp;#39;) ? &amp;#39; linenums&amp;#39; : &amp;#39;&amp;#39;)}
-&lt;span class=&quot;lineno&quot;&gt;10 &lt;/span&gt;    }
-&lt;span class=&quot;lineno&quot;&gt;11 &lt;/span&gt;  }
-&lt;span class=&quot;lineno&quot;&gt;12 &lt;/span&gt;}&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Um die in TypoScript konfigurierten Attribute nun auch im Template nutzen zu können, müsst ihr noch kurz das Fluid-Template anpassen:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-html&quot; data-lang=&quot;html&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt;1 &lt;/span&gt;{namespace neos=TYPO3\Neos\ViewHelpers}
-&lt;span class=&quot;lineno&quot;&gt;2 &lt;/span&gt;{namespace media=TYPO3\Media\ViewHelpers}
-&lt;span class=&quot;lineno&quot;&gt;3 &lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;4 &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;pre&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;{&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;attributes&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt; f:format.raw()}&amp;gt;&lt;span class=&quot;p&quot;&gt;&amp;lt;&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;{node.properties.content}&lt;span class=&quot;p&quot;&gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;code&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&amp;lt;/&lt;/span&gt;&lt;span class=&quot;nt&quot;&gt;pre&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;&amp;gt;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-</description>
-        <pubDate>Mon, 13 Apr 2015 19:42:28 +0000</pubDate>
-        <link>https://www.martin-helmich.de/de/blog/quelltext-content-in-neos.html</link>
-        <guid isPermaLink="true">https://www.martin-helmich.de/de/blog/quelltext-content-in-neos.html</guid>
-        
-        <category>neos</category>
         
         
       </item>
