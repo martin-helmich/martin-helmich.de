@@ -9,9 +9,11 @@ translations:
 ---
 
 {% capture left %}
-Mein Name ist Martin Helmich; ich bin 30 Jahre alt und arbeite seit längerem als Softwarearchitekt beim Espelkamper Webhosting-Unternehmen Mittwald CM Service. Außerdem habe ich vor kurzem mein Masterstudium in Informatik an der Hochschule Osnabrück abgeschlossen.
+Mein Name ist Martin Helmich; ich bin 32 Jahre alt und arbeite seit längerem als System- und Softwarearchitekt beim Espelkamper Webhosting-Unternehmen Mittwald CM Service. Meinen Bachelor of Arts in Business Administration (Schwerpunkt Informationstechnik) habe ich 2012 an der Privaten Hochschule für Wirtschaft & Technik in Vechta erworben, und meinen Master of Science in Informatik (Schwerpunkt Verteilte & Mobile Anwendungen) 2015 an der Hochschule Osnabrück.
 
-Darüber hinaus lehre ich an meiner alten Hochschule, der Privaten Hochschule für Wirtschaft & Technik in Vechta, die Fächer "Programmierung und Software-Engineering" und "Datenbanktechnik".
+Meiner alten Hochschule, der PHWT in Vechta, bin ich auch nach dem Abschluss treu geblieben und lehre dort die Fächer "Datenbanktechnik" (seit 2012) und "Programmierung und Software-Engineering" (seit 2018).
+
+Weiterhin stehe ich auf neben- und freiberuflicher Basis für kleinere Beratungs- oder Umsetzungsprojekte in den Bereichen der Softwareentwicklung- und architektur sowie Cloud-Architekturen zur Verfügung. Anfrage per E-Mail an _kontakt (at) (diese Domain)_.
 
 <ul class="social-links">
   <li><a href="https://www.xing.com/profile/Martin_Helmich3"><img src="/assets/social/xing.svg"></a></li>
