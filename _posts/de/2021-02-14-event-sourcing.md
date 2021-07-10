@@ -1,7 +1,6 @@
 ---
 layout: post
-title: >
-  Event Sourcing: How the "software ledger" works
+title: "Event-Sourcing: Das steckt hinter dem Software-Kontenbuch"
 date: 2021-02-14 20:00:00 +0100
 tags: [event-sourcing]
 lang: de
