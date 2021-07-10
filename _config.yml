@@ -106,7 +106,7 @@ t:
 
 # Build settings
 markdown: kramdown
-highlighter: pygments
+highlighter: rouge
 
 lang: "de-DE"
 collections:
