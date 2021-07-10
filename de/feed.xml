@@ -6,14 +6,13 @@
 </description>
     <link>https://www.martin-helmich.de/</link>
     <atom:link href="https://www.martin-helmich.de/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 10 Jul 2021 11:50:49 +0000</pubDate>
-    <lastBuildDate>Sat, 10 Jul 2021 11:50:49 +0000</lastBuildDate>
+    <pubDate>Sat, 10 Jul 2021 12:25:13 +0000</pubDate>
+    <lastBuildDate>Sat, 10 Jul 2021 12:25:13 +0000</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
     
       <item>
-        <title>Event Sourcing: How the &quot;software ledger&quot; works
-</title>
+        <title>Event-Sourcing: Das steckt hinter dem Software-Kontenbuch</title>
         <description>&lt;p&gt;Wer Software nachträglich ohne großen Aufwand um zusätzliche Funktionen ­erweitern will, kann zu Microservices greifen. Oder sich am Architekturmuster von ­Event-Sourcing bedienen. So funktioniert das digitale Kontenbuch.&lt;/p&gt;
 </description>
         <pubDate>Sun, 14 Feb 2021 19:00:00 +0000</pubDate>
