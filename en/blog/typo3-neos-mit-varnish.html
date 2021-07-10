@@ -150,20 +150,20 @@
 
 <p>Before:</p>
 
-<pre><code class="language-nginx">listen 80;
-</code></pre>
+<div class="language-nginx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">listen</span> <span class="mi">80</span><span class="p">;</span>
+</code></pre></div></div>
 
 <p>After:</p>
 
-<pre><code class="language-nginx">listen 127.0.0.1:8080;
-</code></pre>
+<div class="language-nginx highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="k">listen</span> <span class="nf">127.0.0.1</span><span class="p">:</span><span class="mi">8080</span><span class="p">;</span>
+</code></pre></div></div>
 
 <p>On the one hand, this change causes Nginx to listen on port 8080 instead of 80. On the other hand it means that this port is reachable only from the local computer (that’s actually alright; the public traffic from the internet is supposed to run through Varnish, which is going to be listening on port 80, later).</p>
 
 <p>Remember to restart Nginx:</p>
 
-<pre><code>service nginx restart
-</code></pre>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>service nginx restart
+</code></pre></div></div>
 
 <h2 id="install-varnish">Install Varnish</h2>
 
@@ -171,34 +171,47 @@
 
 <p>When using Ubuntu or Debian, you can install Varnish directly from the package sources. In Ubuntu 14.04 (and Debian Wheezy as well) you get Varnish in version 3.0. That version has already gathered some dust, but should suffice for most use cases. For newer versions there is a <a href="https://www.varnish-cache.org/installation/ubuntu">dedicated vendor repository</a>.</p>
 
-<pre><code>$ apt-get install varnish
-</code></pre>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ apt-get install varnish
+</code></pre></div></div>
 
 <h2 id="configure-varnish">Configure Varnish</h2>
 
-<p>Varnish’s configuration file is written in the VCL format (Varnish Configuration Language) and is located in <code>/etc/varnish/default.vcl</code>. By default, it contains just a few comments and a backend server definition (which is totally sufficient for a start). I’ve also overridden the <code>vcl_deliver</code> subroutine.</p>
+<p>Varnish’s configuration file is written in the VCL format (Varnish Configuration Language) and is located in <code class="language-plaintext highlighter-rouge">/etc/varnish/default.vcl</code>. By default, it contains just a few comments and a backend server definition (which is totally sufficient for a start). I’ve also overridden the <code class="language-plaintext highlighter-rouge">vcl_deliver</code> subroutine.</p>
 
-<figure class="highlight"><pre><code class="language-perl" data-lang="perl"><span></span><span class="lineno"> 1 </span><span class="n">backend</span> <span class="n">default</span> <span class="p">{</span>
-<span class="lineno"> 2 </span>  <span class="o">.</span><span class="n">host</span> <span class="o">=</span> <span class="s">&quot;127.0.0.1&quot;</span><span class="p">;</span>
-<span class="lineno"> 3 </span>  <span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="s">&quot;8080&quot;</span><span class="p">;</span>
-<span class="lineno"> 4 </span><span class="p">}</span>
-<span class="lineno"> 5 </span>
-<span class="lineno"> 6 </span><span class="k">sub</span> <span class="nf">vcl_deliver</span> <span class="p">{</span>
-<span class="lineno"> 7 </span>  <span class="k">if</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">hits</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno"> 8 </span>    <span class="n">set</span> <span class="n">resp</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">X</span><span class="o">-</span><span class="n">Cache</span> <span class="o">=</span> <span class="s">&quot;HIT&quot;</span><span class="p">;</span>
-<span class="lineno"> 9 </span>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-<span class="lineno">10 </span>    <span class="n">set</span> <span class="n">resp</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">X</span><span class="o">-</span><span class="n">Cache</span> <span class="o">=</span> <span class="s">&quot;MISS&quot;</span><span class="p">;</span>
-<span class="lineno">11 </span>  <span class="p">}</span>
-<span class="lineno">12 </span><span class="p">}</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-perl" data-lang="perl"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="code"><pre><span class="nv">backend</span> <span class="nv">default</span> <span class="p">{</span>
+  <span class="o">.</span><span class="nv">host</span> <span class="o">=</span> <span class="p">"</span><span class="s2">127.0.0.1</span><span class="p">";</span>
+  <span class="o">.</span><span class="nv">port</span> <span class="o">=</span> <span class="p">"</span><span class="s2">8080</span><span class="p">";</span>
+<span class="p">}</span>
+
+<span class="k">sub </span><span class="nf">vcl_deliver</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nv">obj</span><span class="o">.</span><span class="nv">hits</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nv">set</span> <span class="nv">resp</span><span class="o">.</span><span class="nv">http</span><span class="o">.</span><span class="nv">X</span><span class="o">-</span><span class="nv">Cache</span> <span class="o">=</span> <span class="p">"</span><span class="s2">HIT</span><span class="p">";</span>
+  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+    <span class="nv">set</span> <span class="nv">resp</span><span class="o">.</span><span class="nv">http</span><span class="o">.</span><span class="nv">X</span><span class="o">-</span><span class="nv">Cache</span> <span class="o">=</span> <span class="p">"</span><span class="s2">MISS</span><span class="p">";</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></figure>
 
 <p>The backend definition should be self-explanatory: in case your Varnish and your web server are running on different hosts, you’ll need to enter the web server’s IP address and port.</p>
 
-<p>The <code>X-Cache</code> header make debugging a bit easier; using this header you can later assert that your requests are actually answered from cache.</p>
+<p>The <code class="language-plaintext highlighter-rouge">X-Cache</code> header make debugging a bit easier; using this header you can later assert that your requests are actually answered from cache.</p>
 
 <p>After changing the VCL file, you should restart Varnish:</p>
 
-<pre><code>$ service varnish start
-</code></pre>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ service varnish start
+</code></pre></div></div>
 
 <p>At this point, Varnish should already be up and running on port 80 and happily deliver you web site. If you like, you can stop now.</p>
 
@@ -208,35 +221,56 @@
 
 <p>For Neos, you can use the package <em>moc/varnish</em>. It will take care of flushing the cache when content is changed in the backend. You can install it simply using Composer:</p>
 
-<pre><code>$ composer require moc/varnish dev-master
-</code></pre>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ composer require moc/varnish dev-master
+</code></pre></div></div>
 
-<p>In case your Varnish service is not running on the same server as the web server, you’re going to have to configure the package a bit. You can do that in the <code>Configuration/Settings.yaml</code> file.</p>
+<p>In case your Varnish service is not running on the same server as the web server, you’re going to have to configure the package a bit. You can do that in the <code class="language-plaintext highlighter-rouge">Configuration/Settings.yaml</code> file.</p>
 
-<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="lineno">1 </span><span class="l l-Scalar l-Scalar-Plain">MOC</span><span class="p p-Indicator">:</span>
-<span class="lineno">2 </span>  <span class="l l-Scalar l-Scalar-Plain">Varnish</span><span class="p p-Indicator">:</span>
-<span class="lineno">3 </span>    <span class="l l-Scalar l-Scalar-Plain">enableCacheBanningWhenNodePublished</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="lineno">4 </span>    <span class="l l-Scalar l-Scalar-Plain">cacheHeaders</span><span class="p p-Indicator">:</span>
-<span class="lineno">5 </span>      <span class="l l-Scalar l-Scalar-Plain">defaultSharedMaximumAge</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">86400</span>
-<span class="lineno">6 </span>    <span class="l l-Scalar l-Scalar-Plain">varnishUrl</span><span class="p p-Indicator">:</span> <span class="s">&quot;http://127.0.0.1/&quot;</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+</pre></td><td class="code"><pre><span class="na">MOC</span><span class="pi">:</span>
+  <span class="na">Varnish</span><span class="pi">:</span>
+    <span class="na">enableCacheBanningWhenNodePublished</span><span class="pi">:</span> <span class="no">true</span>
+    <span class="na">cacheHeaders</span><span class="pi">:</span>
+      <span class="na">defaultSharedMaximumAge</span><span class="pi">:</span> <span class="m">86400</span>
+    <span class="na">varnishUrl</span><span class="pi">:</span> <span class="s2">"</span><span class="s">http://127.0.0.1/"</span>
+</pre></td></tr></tbody></table></code></pre></figure>
 
 <p>As you can see, the Neos package needs to know the Varnish service’s address in order to place BAN requests for cache purging. You can also modify the default cache time-to-live using the configuration file.</p>
 
 <p>Finally, you’ll have to add a few line of custom VCL for flushing the cache when receiving a BAN request.</p>
 
-<figure class="highlight"><pre><code class="language-perl" data-lang="perl"><span></span><span class="lineno"> 1 </span><span class="k">sub</span> <span class="nf">vcl_recv</span> <span class="p">{</span>
-<span class="lineno"> 2 </span>  <span class="k">if</span> <span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">request</span> <span class="o">==</span> <span class="s">&quot;BAN&quot;</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno"> 3 </span>    <span class="k">if</span> <span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">Varnish</span><span class="o">-</span><span class="n">Ban</span><span class="o">-</span><span class="n">All</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno"> 4 </span>      <span class="n">ban</span><span class="p">(</span><span class="s">&quot;req.url ~ /&quot;</span><span class="p">);</span>
-<span class="lineno"> 5 </span>      <span class="n">error</span> <span class="mi">200</span> <span class="s">&quot;Banned all&quot;</span><span class="p">;</span>
-<span class="lineno"> 6 </span>    <span class="p">}</span>
-<span class="lineno"> 7 </span>
-<span class="lineno"> 8 </span>    <span class="k">if</span> <span class="p">(</span><span class="n">req</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">X</span><span class="o">-</span><span class="n">Varnish</span><span class="o">-</span><span class="n">Ban</span><span class="o">-</span><span class="n">Neos</span><span class="o">-</span><span class="n">NodeIdentifier</span><span class="p">)</span> <span class="p">{</span>
-<span class="lineno"> 9 </span>      <span class="n">ban</span><span class="p">(</span><span class="s">&quot;obj.http.X-Neos-NodeIdentifier == &quot;</span> <span class="o">+</span> <span class="n">req</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">X</span><span class="o">-</span><span class="n">Varnish</span><span class="o">-</span><span class="n">Ban</span><span class="o">-</span><span class="n">Neos</span><span class="o">-</span><span class="n">NodeIdentifier</span><span class="p">);</span>
-<span class="lineno">10 </span>      <span class="n">error</span> <span class="mi">200</span> <span class="s">&quot;Banned TYPO3 pid &quot;</span> <span class="o">+</span> <span class="n">req</span><span class="o">.</span><span class="n">http</span><span class="o">.</span><span class="n">X</span><span class="o">-</span><span class="n">Varnish</span><span class="o">-</span><span class="n">Ban</span><span class="o">-</span><span class="n">Neos</span><span class="o">-</span><span class="n">NodeIdentifier</span><span class="p">;</span>
-<span class="lineno">11 </span>    <span class="p">}</span>
-<span class="lineno">12 </span>  <span class="p">}</span>
-<span class="lineno">13 </span><span class="p">}</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-perl" data-lang="perl"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+</pre></td><td class="code"><pre><span class="k">sub </span><span class="nf">vcl_recv</span> <span class="p">{</span>
+  <span class="k">if</span> <span class="p">(</span><span class="nv">req</span><span class="o">.</span><span class="nv">request</span> <span class="o">==</span> <span class="p">"</span><span class="s2">BAN</span><span class="p">")</span> <span class="p">{</span>
+    <span class="k">if</span> <span class="p">(</span><span class="nv">req</span><span class="o">.</span><span class="nv">http</span><span class="o">.</span><span class="nv">Varnish</span><span class="o">-</span><span class="nv">Ban</span><span class="o">-</span><span class="nv">All</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nv">ban</span><span class="p">("</span><span class="s2">req.url ~ /</span><span class="p">");</span>
+      <span class="nv">error</span> <span class="mi">200</span> <span class="p">"</span><span class="s2">Banned all</span><span class="p">";</span>
+    <span class="p">}</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="nv">req</span><span class="o">.</span><span class="nv">http</span><span class="o">.</span><span class="nv">X</span><span class="o">-</span><span class="nv">Varnish</span><span class="o">-</span><span class="nv">Ban</span><span class="o">-</span><span class="nv">Neos</span><span class="o">-</span><span class="nv">NodeIdentifier</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nv">ban</span><span class="p">("</span><span class="s2">obj.http.X-Neos-NodeIdentifier == </span><span class="p">"</span> <span class="o">+</span> <span class="nv">req</span><span class="o">.</span><span class="nv">http</span><span class="o">.</span><span class="nv">X</span><span class="o">-</span><span class="nv">Varnish</span><span class="o">-</span><span class="nv">Ban</span><span class="o">-</span><span class="nv">Neos</span><span class="o">-</span><span class="nv">NodeIdentifier</span><span class="p">);</span>
+      <span class="nv">error</span> <span class="mi">200</span> <span class="p">"</span><span class="s2">Banned TYPO3 pid </span><span class="p">"</span> <span class="o">+</span> <span class="nv">req</span><span class="o">.</span><span class="nv">http</span><span class="o">.</span><span class="nv">X</span><span class="o">-</span><span class="nv">Varnish</span><span class="o">-</span><span class="nv">Ban</span><span class="o">-</span><span class="nv">Neos</span><span class="o">-</span><span class="nv">NodeIdentifier</span><span class="p">;</span>
+    <span class="p">}</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></figure>
 
 
   </div>
@@ -281,6 +315,11 @@ powered by Disqus.</a>
           
           
             <li>
+              <strong><a href="/en/publications.html">Praxiswissen TYPO3 CMS 10</a></strong>
+              am 04. Dezember 2020
+            </li>
+          
+            <li>
               <strong><a href="/en/publications.html">Rust: Ein Blick auf die C/C++-Alternative</a></strong>
               am 01. Juli 2020
             </li>
@@ -300,11 +339,6 @@ powered by Disqus.</a>
               am 01. Mai 2019
             </li>
           
-            <li>
-              <strong><a href="/en/publications.html">Praxiswissen TYPO3 CMS 9</a></strong>
-              am 28. März 2019
-            </li>
-          
         </ul>
       </div>
       <div class="col-sm-4">
@@ -313,6 +347,11 @@ powered by Disqus.</a>
         </h5>
         <ul>
           
+          
+            <li>
+              <strong><a href="/https:/t3n.de/magazin/event-sourcing-das-steckt-hinter-250347/">Event-Sourcing: Das steckt hinter dem Software-Kontenbuch</a></strong>
+              am 14. Februar 2021
+            </li>
           
             <li>
               <strong><a href="/https:/t3n.de/magazin/microservices-mit-tools-wie-die-249408/">Microservices: Keeping track of things with Jaeger</a></strong>
@@ -332,11 +371,6 @@ powered by Disqus.</a>
             <li>
               <strong><a href="/https:/jaxenter.de/kubernetes/automatisierung-kubernetes-operators-88189">Automation with Kubernetes operators</a></strong>
               am 04. Februar 2020
-            </li>
-          
-            <li>
-              <strong><a href="/https:/t3n.de/magazin/besser-entwickeln-mit-continuous-247076/">Develop better with Devops Practices: Continuous Delivery with Kubernetes</a></strong>
-              am 07. April 2019
             </li>
           
         </ul>

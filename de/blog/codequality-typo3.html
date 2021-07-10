@@ -137,33 +137,51 @@
 
 <p>Linter gibt es für alle möglichen Programmiersprachen; Web-Entwickler kennen womöglich <a href="http://jslint.com/">JSLint</a>, <a href="http://csslint.net/">CSSLint</a> oder <a href="http://htmlhint.com/">HTMLLint</a>. In diese Liste reiht sich nun auch <a href="https://github.com/martin-helmich/typo3-typoscript-lint">TypoScript Lint</a> ein, welches ähnliche Funktionen für das in TYPO3-Projekten gebräuchliche TypoScript anbietet. Als kleines Beispiel sei folgender TypoScript-Quelltext betrachtet:</p>
 
-<figure class="highlight"><pre><code class="language-typoscript" data-lang="typoscript"><span></span><span class="lineno"> 1 </span><span class="nb">page</span> <span class="o">=</span> <span class="nc">PAGE</span>
-<span class="lineno"> 2 </span><span class="nb">page</span>  <span class="ss">{</span>
-<span class="lineno"> 3 </span>  <span class="mi">10</span> <span class="o">=</span> <span class="nc">FLUIDTEMPLATE</span>
-<span class="lineno"> 4 </span>   <span class="mi">10</span> <span class="ss">{</span>
-<span class="lineno"> 5 </span>    templateName <span class="o">=</span> Default
-<span class="lineno"> 6 </span>    templateRootPaths<span class="p">.</span><span class="mi">10</span> <span class="o">=</span> <span class="s">fileadmin/templates</span>
-<span class="lineno"> 7 </span>   templateRootPaths<span class="p">.</span><span class="mi">20</span> <span class="o">=</span> <span class="s">EXT:mysite/Resources/Private/Templates</span>
-<span class="lineno"> 8 </span>
-<span class="lineno"> 9 </span>    layoutRootPaths <span class="ss">{</span>
-<span class="lineno">10 </span>    <span class="ss">}</span>
-<span class="lineno">11 </span>  <span class="ss">}</span>
-<span class="lineno">12 </span><span class="ss">}</span>
-<span class="lineno">13 </span>
-<span class="lineno">14 </span><span class="c">#page.includeJS.main = fileadmin/js/app.js</span>
-<span class="lineno">15 </span><span class="nb">page</span><span class="p">.</span>includeJS<span class="p">.</span>main <span class="o">=</span> <span class="s">fileadmin/js/app.min.js</span>
-<span class="lineno">16 </span>
-<span class="lineno">17 </span><span class="nb">page</span><span class="p">.</span><span class="mi">10</span><span class="p">.</span>templateRootPaths<span class="p">.</span><span class="mi">10</span> <span class="o">=</span> <span class="s">fileadmin/templates2</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-typoscript" data-lang="typoscript"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+</pre></td><td class="code"><pre>page = PAGE
+page  {
+  10 = FLUIDTEMPLATE
+   10 {
+    templateName = Default
+    templateRootPaths.10 = fileadmin/templates
+   templateRootPaths.20 = EXT:mysite/Resources/Private/Templates
+
+    layoutRootPaths {
+    }
+  }
+}
+
+#page.includeJS.main = fileadmin/js/app.js
+page.includeJS.main = fileadmin/js/app.min.js
+
+page.10.templateRootPaths.10 = fileadmin/templates2
+</pre></td></tr></tbody></table></code></pre></figure>
 
 <p>In diesem Code-Abschnitt gibt es einige offensichtliche stilistische Punkte zu bemängeln (sortiert nach Schwere):</p>
 
 <ol>
-  <li>In Zeile 6 wird die Eigenschaft <code>page.10.templateRootPaths.10</code> zugewiesen. Allerdings wird genau diese Eigenschaft in Zeile 17 wieder überschrieben. Dies ist eine gefährliche Falle: Ein unbedachter Entwickler könnte nun im guten Glauben Zeile 6 verändern, ohne dass dies irgendeine Auswirkung hätte – ein Fehler, den zu debuggen dann im Anschluss wertvolle Zeit kosten würde.</li>
-  <li>Nachdem der erste Zuweisungsblock zu <code>page</code> geschlossen wurde, folgt noch eine zweite Zuweisung zu einem Unterobjekt von <code>page</code>. Dies könnte überraschen, da ein Leser des Quelltextes nicht unbedingt damit rechnet, dass nach dem Zuweisungsblock noch einzelne Unterattribute des <code>page</code>-Objekts zugewiesen werden.</li>
+  <li>In Zeile 6 wird die Eigenschaft <code class="language-plaintext highlighter-rouge">page.10.templateRootPaths.10</code> zugewiesen. Allerdings wird genau diese Eigenschaft in Zeile 17 wieder überschrieben. Dies ist eine gefährliche Falle: Ein unbedachter Entwickler könnte nun im guten Glauben Zeile 6 verändern, ohne dass dies irgendeine Auswirkung hätte – ein Fehler, den zu debuggen dann im Anschluss wertvolle Zeit kosten würde.</li>
+  <li>Nachdem der erste Zuweisungsblock zu <code class="language-plaintext highlighter-rouge">page</code> geschlossen wurde, folgt noch eine zweite Zuweisung zu einem Unterobjekt von <code class="language-plaintext highlighter-rouge">page</code>. Dies könnte überraschen, da ein Leser des Quelltextes nicht unbedingt damit rechnet, dass nach dem Zuweisungsblock noch einzelne Unterattribute des <code class="language-plaintext highlighter-rouge">page</code>-Objekts zugewiesen werden.</li>
   <li>Die Kommentarzeile in Zeile 14 enthält offensichtlich auskommentierten Code. Dieser stört die Lesbarkeit und sollte komplett entfernt werden. Dafür gibt es ja schließlich Versionsverwaltung!</li>
-  <li>Die Einrückung der Datei ist nicht konsistent. Die <code>10</code> in den Zeilen 3 und 4 sollten gleich weit eingerückt sein, sind es aber nicht. Gleiches gilt in Zeile 7. Gerade in größeren Dateien können solche Einrückungsfehler der Lesbarkeit des Quelltextes enorm schaden.</li>
-  <li>Die Zuweisungen zu <code>templateRootPaths</code> in den Zeilen 6 und 7 beginnen mit demselben Pfad-Segment. Zur besseren Lesbarkeit könnten diese beiden Zuweisungen in einen Block ausgelagert werden.</li>
-  <li>Die Zuweisung zu <code>layoutRootPaths</code> ist komplett leer.</li>
+  <li>Die Einrückung der Datei ist nicht konsistent. Die <code class="language-plaintext highlighter-rouge">10</code> in den Zeilen 3 und 4 sollten gleich weit eingerückt sein, sind es aber nicht. Gleiches gilt in Zeile 7. Gerade in größeren Dateien können solche Einrückungsfehler der Lesbarkeit des Quelltextes enorm schaden.</li>
+  <li>Die Zuweisungen zu <code class="language-plaintext highlighter-rouge">templateRootPaths</code> in den Zeilen 6 und 7 beginnen mit demselben Pfad-Segment. Zur besseren Lesbarkeit könnten diese beiden Zuweisungen in einen Block ausgelagert werden.</li>
+  <li>Die Zuweisung zu <code class="language-plaintext highlighter-rouge">layoutRootPaths</code> ist komplett leer.</li>
 </ol>
 
 <p>Und tatsächlich generiert der TypoScript-Linter bei einer Eingabedatei mit obigem Inhalt folgende Ausgabe, welche alle oben angemerkten Fehler (und sogar noch ein paar mehr) ankreidet:</p>
@@ -192,74 +210,84 @@ SUMMARY
 
 <h2 id="installation">Installation</h2>
 
-<p>Der Typoscript-Linter wird per <a href="https://getcomposer.org/">Composer</a> installiert. Das funktioniert natürlich am besten, wenn das TYPO3-Projekt, in dem der Linter genutzt werden soll, selbst ebenfalls mit Composer verwaltet wird (zum Setup von TYPO3 mit Composer sei auf die <a href="https://github.com/TYPO3/TYPO3.CMS.BaseDistribution">zugehörige README verwiesen</a>). In diesem Fall reicht ein einfaches <code>composer require --dev</code> im Projektverzeichnis:</p>
+<p>Der Typoscript-Linter wird per <a href="https://getcomposer.org/">Composer</a> installiert. Das funktioniert natürlich am besten, wenn das TYPO3-Projekt, in dem der Linter genutzt werden soll, selbst ebenfalls mit Composer verwaltet wird (zum Setup von TYPO3 mit Composer sei auf die <a href="https://github.com/TYPO3/TYPO3.CMS.BaseDistribution">zugehörige README verwiesen</a>). In diesem Fall reicht ein einfaches <code class="language-plaintext highlighter-rouge">composer require --dev</code> im Projektverzeichnis:</p>
 
-<figure class="highlight"><pre><code class="language-console" data-lang="console"><span></span><span class="gp">&gt;</span> composer require --dev helmich/typo3-typoscript-lint
-<span class="go">Using version ^1.4 for helmich/typo3-typoscript-lint</span>
-<span class="go">./composer.json has been updated</span>
-<span class="go">Loading composer repositories with package information</span>
-<span class="go">Updating dependencies (including require-dev)</span>
-<span class="go">Package operations: 7 installs, 0 updates, 0 removals</span>
-<span class="go">  - Installing symfony/filesystem (v4.0.3): Downloading (100%)</span>
-<span class="go">  - Installing symfony/config (v4.0.3): Downloading (100%)</span>
-<span class="go">  - Installing psr/container (1.0.0): Downloading (100%)</span>
-<span class="go">  - Installing symfony/dependency-injection (v4.0.3): Downloading (100%)</span>
-<span class="go">  - Installing helmich/typo3-typoscript-parser (v1.1.2): Downloading (100%)</span>
-<span class="go">  - Installing symfony/event-dispatcher (v4.0.3): Downloading (100%)</span>
-<span class="go">  - Installing helmich/typo3-typoscript-lint (v1.4.4): Downloading (100%)</span>
-<span class="go">Writing lock file</span>
-<span class="go">Generating autoload files</span>
-<span class="go">Generating  class alias map file</span>
-<span class="go">Inserting class alias loader into main autoload.php file</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>composer require <span class="nt">--dev</span> helmich/typo3-typoscript-lint
+<span class="go">Using version ^1.4 for helmich/typo3-typoscript-lint
+./composer.json has been updated
+Loading composer repositories with package information
+Updating dependencies (including require-dev)
+Package operations: 7 installs, 0 updates, 0 removals
+  - Installing symfony/filesystem (v4.0.3): Downloading (100%)
+  - Installing symfony/config (v4.0.3): Downloading (100%)
+  - Installing psr/container (1.0.0): Downloading (100%)
+  - Installing symfony/dependency-injection (v4.0.3): Downloading (100%)
+  - Installing helmich/typo3-typoscript-parser (v1.1.2): Downloading (100%)
+  - Installing symfony/event-dispatcher (v4.0.3): Downloading (100%)
+  - Installing helmich/typo3-typoscript-lint (v1.4.4): Downloading (100%)
+Writing lock file
+Generating autoload files
+Generating  class alias map file
+Inserting class alias loader into main autoload.php file</span></code></pre></figure>
 
-<p>Das <code>--dev</code>-Flag stellt sicher, dass der Linter nicht mit installiert wird, wenn das Projekt auf einem Produktivsystem installiert wird. Der Linter steht im Anschluss im Verzeichnis <code>vendor/bin</code> zur Verfügung und kann mit <code>vendor/bin/typoscript-lint</code> aufgerufen werden.</p>
+<p>Das <code class="language-plaintext highlighter-rouge">--dev</code>-Flag stellt sicher, dass der Linter nicht mit installiert wird, wenn das Projekt auf einem Produktivsystem installiert wird. Der Linter steht im Anschluss im Verzeichnis <code class="language-plaintext highlighter-rouge">vendor/bin</code> zur Verfügung und kann mit <code class="language-plaintext highlighter-rouge">vendor/bin/typoscript-lint</code> aufgerufen werden.</p>
 
-<p>Falls euer TYPO3-Projekt nicht mit Composer verwaltet wird, kann auch der <code>composer global</code>-Befehl genutzt werden, um den Linter global zu installieren. In diesem Fall steht der Linter dann nicht im Projektverzeichnis, sondern im Home-Verzeichnis eures Nutzers unter <code>$HOME/.composer/vendor/bin/typoscript-lint</code> zur Verfügung (wenn ihr das Verzeichnis <code>$HOME/.composer/vendor/bin</code> in euren Suchpfad eintragt, reicht anschließend auch ein einfaches <code>typoscript-lint</code> zum Aufruf).</p>
+<p>Falls euer TYPO3-Projekt nicht mit Composer verwaltet wird, kann auch der <code class="language-plaintext highlighter-rouge">composer global</code>-Befehl genutzt werden, um den Linter global zu installieren. In diesem Fall steht der Linter dann nicht im Projektverzeichnis, sondern im Home-Verzeichnis eures Nutzers unter <code class="language-plaintext highlighter-rouge">$HOME/.composer/vendor/bin/typoscript-lint</code> zur Verfügung (wenn ihr das Verzeichnis <code class="language-plaintext highlighter-rouge">$HOME/.composer/vendor/bin</code> in euren Suchpfad eintragt, reicht anschließend auch ein einfaches <code class="language-plaintext highlighter-rouge">typoscript-lint</code> zum Aufruf).</p>
 
-<figure class="highlight"><pre><code class="language-console" data-lang="console"><span></span><span class="gp">&gt;</span> composer global require helmich/typo3-typoscript-lint
-<span class="go">Changed current directory to /Users/mhelmich/.composer</span>
-<span class="go">Using version ^1.4 for helmich/typo3-typoscript-lint</span>
-<span class="go">./composer.json has been created</span>
-<span class="go">Loading composer repositories with package information</span>
-<span class="go">Updating dependencies (including require-dev)</span>
-<span class="go">Package operations: 11 installs, 0 updates, 0 removals</span>
-<span class="go">  - Installing symfony/yaml (v4.0.3): Loading from cache</span>
-<span class="go">  - Installing symfony/filesystem (v4.0.3): Loading from cache</span>
-<span class="go">  - Installing symfony/config (v4.0.3): Loading from cache</span>
-<span class="go">  - Installing psr/container (1.0.0): Loading from cache</span>
-<span class="go">  - Installing symfony/dependency-injection (v4.0.3): Loading from cache</span>
-<span class="go">  - Installing helmich/typo3-typoscript-parser (v1.1.2): Loading from cache</span>
-<span class="go">  - Installing symfony/event-dispatcher (v4.0.3): Loading from cache</span>
-<span class="go">  - Installing symfony/finder (v4.0.3): Loading from cache</span>
-<span class="go">  - Installing symfony/polyfill-mbstring (v1.6.0): Loading from cache</span>
-<span class="go">  - Installing symfony/console (v4.0.3): Loading from cache</span>
-<span class="go">  - Installing helmich/typo3-typoscript-lint (v1.4.4): Loading from cache</span>
-<span class="go">Writing lock file</span>
-<span class="go">Generating autoload files</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-console" data-lang="console"><span class="gp">&gt;</span><span class="w"> </span>composer global require helmich/typo3-typoscript-lint
+<span class="go">Changed current directory to /Users/mhelmich/.composer
+Using version ^1.4 for helmich/typo3-typoscript-lint
+./composer.json has been created
+Loading composer repositories with package information
+Updating dependencies (including require-dev)
+Package operations: 11 installs, 0 updates, 0 removals
+  - Installing symfony/yaml (v4.0.3): Loading from cache
+  - Installing symfony/filesystem (v4.0.3): Loading from cache
+  - Installing symfony/config (v4.0.3): Loading from cache
+  - Installing psr/container (1.0.0): Loading from cache
+  - Installing symfony/dependency-injection (v4.0.3): Loading from cache
+  - Installing helmich/typo3-typoscript-parser (v1.1.2): Loading from cache
+  - Installing symfony/event-dispatcher (v4.0.3): Loading from cache
+  - Installing symfony/finder (v4.0.3): Loading from cache
+  - Installing symfony/polyfill-mbstring (v1.6.0): Loading from cache
+  - Installing symfony/console (v4.0.3): Loading from cache
+  - Installing helmich/typo3-typoscript-lint (v1.4.4): Loading from cache
+Writing lock file
+Generating autoload files</span></code></pre></figure>
 
 <h2 id="nutzung">Nutzung</h2>
 
-<p>Nach der Installation kann <code>typoscript-lint</code> auf beliebige Typoscript-Dateien aufgerufen werden. Die Dateien werden analyisiert, und das Tool wird euch auf Stilfehler (und auch echte Fehler) im Quelltext hinweisen. Die Ausgabe des Tools könnte beispielsweise aussehen wie folgt:</p>
+<p>Nach der Installation kann <code class="language-plaintext highlighter-rouge">typoscript-lint</code> auf beliebige Typoscript-Dateien aufgerufen werden. Die Dateien werden analyisiert, und das Tool wird euch auf Stilfehler (und auch echte Fehler) im Quelltext hinweisen. Die Ausgabe des Tools könnte beispielsweise aussehen wie folgt:</p>
 
 <p><img src="/assets/posts/typoscript-lint-output.png" alt="Ausgabe von `typoscript-lint`" /></p>
 
-<p>Mit den Optionen <code>-f xml</code> und <code>-o ausgabedatei.xml</code> kann auch eine XML-Ausgabedatei generiert werden, die dem verbreiteten <a href="http://checkstyle.sourceforge.net/">Checkstyle-Format</a> folgt. Auf diese Weise kann der Typoscript-Linter bequem in <em>Continuous Integration</em>-Umgebungen wie etwa Jenkins integriert werden (für das ein <a href="https://wiki.jenkins.io/display/JENKINS/Checkstyle+Plugin">Plugin für Checkstyle</a> existiert).</p>
+<p>Mit den Optionen <code class="language-plaintext highlighter-rouge">-f xml</code> und <code class="language-plaintext highlighter-rouge">-o ausgabedatei.xml</code> kann auch eine XML-Ausgabedatei generiert werden, die dem verbreiteten <a href="http://checkstyle.sourceforge.net/">Checkstyle-Format</a> folgt. Auf diese Weise kann der Typoscript-Linter bequem in <em>Continuous Integration</em>-Umgebungen wie etwa Jenkins integriert werden (für das ein <a href="https://wiki.jenkins.io/display/JENKINS/Checkstyle+Plugin">Plugin für Checkstyle</a> existiert).</p>
 
 <h2 id="konfiguration">Konfiguration</h2>
 
-<p>Stilfragen in Programmiersprachen ist häufig subjektiv und abhängig von persönlichen Vorlieben. Bestes Beispiel ist wahrscheinlich die <a href="https://www.youtube.com/watch?v=SsoOG6ZeyUI">“Tabs oder Spaces?”</a>-Frage. Natürlich kann der TypoScript-Linter an derartige Präferenzen angepasst werden. Hierzu muss im Projektverzeichnis eine Konfigurationsdatei <code>typoscript-lint.yml</code> hinterlegt werden (frühere Versionen des Linters benutzten <code>tslint.yml</code> als Dateiname für die Konfigurationsdatei, was allerdings zu einigen <a href="https://palantir.github.io/tslint/">offensichtlichen Konflikten</a> führte). Hier kann beispielsweise die Einrückung konfiguriert werden (hier etwa für die Einrückung mit Tabs statt Spaces):</p>
+<p>Stilfragen in Programmiersprachen ist häufig subjektiv und abhängig von persönlichen Vorlieben. Bestes Beispiel ist wahrscheinlich die <a href="https://www.youtube.com/watch?v=SsoOG6ZeyUI">“Tabs oder Spaces?”</a>-Frage. Natürlich kann der TypoScript-Linter an derartige Präferenzen angepasst werden. Hierzu muss im Projektverzeichnis eine Konfigurationsdatei <code class="language-plaintext highlighter-rouge">typoscript-lint.yml</code> hinterlegt werden (frühere Versionen des Linters benutzten <code class="language-plaintext highlighter-rouge">tslint.yml</code> als Dateiname für die Konfigurationsdatei, was allerdings zu einigen <a href="https://palantir.github.io/tslint/">offensichtlichen Konflikten</a> führte). Hier kann beispielsweise die Einrückung konfiguriert werden (hier etwa für die Einrückung mit Tabs statt Spaces):</p>
 
-<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="lineno">1 </span><span class="l l-Scalar l-Scalar-Plain">sniffs</span><span class="p p-Indicator">:</span>
-<span class="lineno">2 </span>  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">class</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">Indentation</span>
-<span class="lineno">3 </span>    <span class="l l-Scalar l-Scalar-Plain">parameters</span><span class="p p-Indicator">:</span>
-<span class="lineno">4 </span>      <span class="l l-Scalar l-Scalar-Plain">useSpaces</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="lineno">5 </span>      <span class="l l-Scalar l-Scalar-Plain">indentPerLevel</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">1</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+</pre></td><td class="code"><pre><span class="na">sniffs</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">class</span><span class="pi">:</span> <span class="s">Indentation</span>
+    <span class="na">parameters</span><span class="pi">:</span>
+      <span class="na">useSpaces</span><span class="pi">:</span> <span class="no">false</span>
+      <span class="na">indentPerLevel</span><span class="pi">:</span> <span class="s">1</span>
+</pre></td></tr></tbody></table></code></pre></figure>
 
 <p>Auch das Deaktivieren einzelner Überprüfungen ist möglich. Wenn euch beispielsweise die Empfehlungen für das Verschachteln von Statements nerven, kann diese Überprüfung einfach deaktiviert werden:</p>
 
-<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><span></span><span class="lineno">1 </span><span class="l l-Scalar l-Scalar-Plain">sniffs</span><span class="p p-Indicator">:</span>
-<span class="lineno">2 </span>  <span class="p p-Indicator">-</span> <span class="l l-Scalar l-Scalar-Plain">class</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">NestingConsistency</span>
-<span class="lineno">3 </span>    <span class="l l-Scalar l-Scalar-Plain">disabled</span><span class="p p-Indicator">:</span> <span class="l l-Scalar l-Scalar-Plain">true</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-yaml" data-lang="yaml"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+</pre></td><td class="code"><pre><span class="na">sniffs</span><span class="pi">:</span>
+  <span class="pi">-</span> <span class="na">class</span><span class="pi">:</span> <span class="s">NestingConsistency</span>
+    <span class="na">disabled</span><span class="pi">:</span> <span class="no">true</span>
+</pre></td></tr></tbody></table></code></pre></figure>
 
 <h2 id="fragen--feedback">Fragen &amp; Feedback?</h2>
 
@@ -308,6 +336,11 @@ powered by Disqus.</a>
           
           
             <li>
+              <strong><a href="/de/veroeffentlichungen.html">Praxiswissen TYPO3 CMS 10</a></strong>
+              am 04. Dezember 2020
+            </li>
+          
+            <li>
               <strong><a href="/de/veroeffentlichungen.html">Rust: Ein Blick auf die C/C++-Alternative</a></strong>
               am 01. Juli 2020
             </li>
@@ -327,11 +360,6 @@ powered by Disqus.</a>
               am 01. Mai 2019
             </li>
           
-            <li>
-              <strong><a href="/de/veroeffentlichungen.html">Praxiswissen TYPO3 CMS 9</a></strong>
-              am 28. März 2019
-            </li>
-          
         </ul>
       </div>
       <div class="col-sm-4">
@@ -340,6 +368,12 @@ powered by Disqus.</a>
         </h5>
         <ul>
           
+          
+            <li>
+              <strong><a href="/https:/t3n.de/magazin/event-sourcing-das-steckt-hinter-250347/">Event Sourcing: How the "software ledger" works
+</a></strong>
+              am 14. Februar 2021
+            </li>
           
             <li>
               <strong><a href="/https:/t3n.de/magazin/microservices-mit-tools-wie-die-249408/">Microservices: Mit Tools wie Jaeger die Übersicht behalten</a></strong>
@@ -359,11 +393,6 @@ powered by Disqus.</a>
             <li>
               <strong><a href="/de/blog/typo3-cms-docker.html">Gut eingepackt: TYPO3 CMS in Docker betreiben</a></strong>
               am 22. März 2019
-            </li>
-          
-            <li>
-              <strong><a href="/en/blog/kubernetes-crd-client.html">Kubernetes-CRDs über die client-go-Bibliothek auslesen</a></strong>
-              am 28. März 2018
             </li>
           
         </ul>

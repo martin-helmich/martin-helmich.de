@@ -6,8 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Develop better with Devops Practices: Continuous Delivery with Kubernetes</title>
-  <meta name="description" content="In the software industry, the ability to react to new market requirements and short product launch times are decisive competitive factors. Many development t...">
+  <title>Event-Sourcing: Das steckt hinter dem Software-Kontenbuch</title>
+  <meta name="description" content="If you want to add additional functions to your software at a later date without much effort, Microservices are often the way to go. On top of that, you can ...">
 
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.9/css/all.css" integrity="sha384-5SOiIsAziJl6AWe0HWRKTXlfcSHKmYV4RBF18PPJ173Kzn7jzMyFuTtk8JA7QQG1" crossorigin="anonymous">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet">
@@ -15,12 +15,12 @@
   <link rel="stylesheet" href="/css/main.css">
   <link rel="stylesheet" href="/css/fonts.css">
 
-  <link rel="canonical" href="https://www.martin-helmich.de/https:/t3n.de/magazin/besser-entwickeln-mit-continuous-247076/">
+  <link rel="canonical" href="https://www.martin-helmich.de/https:/t3n.de/magazin/event-sourcing-das-steckt-hinter-250347/">
 
   <link rel="alternate" type="application/rss+xml" title="martin-helmich.de" href="https://www.martin-helmich.de/feed.xml">
 
   
-    <link rel="alternate" hreflang="de" href="https://t3n.de/magazin/besser-entwickeln-mit-continuous-247076/">
+    <link rel="alternate" hreflang="de" href="https://t3n.de/magazin/event-sourcing-das-steckt-hinter-250347/">
   
 
 </head>
@@ -29,7 +29,7 @@
   <body>
 
     <div class="main">
-      <div  class="blog-landing" style="background-image: url(/assets/headers/containers2.jpg)">
+      <div  class="blog-landing" style="background-image: url(/assets/headers/accounting.jpg)">
       <nav class="navbar navbar-expand-lg navbar-dark elegant-color">
   <div class="container">
     <a class="navbar-brand" href="/en/blog.html">martin-helmich.de</a>
@@ -71,8 +71,8 @@
             <span class="caret"></span>
           </a>
           <div class="dropdown-menu dropdown-primary">
-            <a class="normal dropdown-item" href="https://t3n.de/magazin/besser-entwickeln-mit-continuous-247076/">German</a>
-            <a class="active dropdown-item" href="https://t3n.de/magazin/besser-entwickeln-mit-continuous-247076/">English</a>
+            <a class="normal dropdown-item" href="https://t3n.de/magazin/event-sourcing-das-steckt-hinter-250347/">German</a>
+            <a class="active dropdown-item" href="https://t3n.de/magazin/event-sourcing-das-steckt-hinter-250347/">English</a>
           </div>
         </li>
       </ul>
@@ -84,8 +84,8 @@
 
         <div class="container attribution">
           
-          <a href="https://pixabay.com/photos/container-ship-drone-above-sea-2856899/" target="_blank">
-            CC-0, Maritime Filming UK
+          <a href="https://commons.wikimedia.org/wiki/File:Hauptbuch_Hochstetter_vor_1828.jpg" target="_blank">
+            CC-0, Andreas Praefcke
           </a>
           
         </div>
@@ -100,8 +100,8 @@
     <p class="post-meta text-center font-italic">
       Written on
       
-      <time datetime="2019-04-07T19:00:00+00:00" itemprop="datePublished">
-        07. April 2019
+      <time datetime="2021-02-14T19:00:00+00:00" itemprop="datePublished">
+        14. Februar 2021
       </time>
       
 
@@ -116,18 +116,18 @@
         </span>
         <div class="my-alert-body">
           <strong>Hallo! </strong> 
-        Dieser Artikel steht auch <a href="https://t3n.de/magazin/besser-entwickeln-mit-continuous-247076/">auf Deutsch zur Verfügung</a>!
+        Dieser Artikel steht auch <a href="https://t3n.de/magazin/event-sourcing-das-steckt-hinter-250347/">auf Deutsch zur Verfügung</a>!
       
         </div>
       </div>
     </div>
     
 
-    <h1 class="post-title" itemprop="name headline">Develop better with Devops Practices: Continuous Delivery with Kubernetes</h1>
+    <h1 class="post-title" itemprop="name headline">Event-Sourcing: Das steckt hinter dem Software-Kontenbuch</h1>
   </header>
 
   <div class="post-content" itemprop="articleBody">
-    <p>In the software industry, the ability to react to new market requirements and short product launch times are decisive competitive factors. Many development teams therefore introduce Devops practices such as continuous delivery and use current technologies such as Kubernetes as supporting tools.</p>
+    <p>If you want to add additional functions to your software at a later date without much effort, Microservices are often the way to go. On top of that, you can use the event sourcing architectural model. This article shows how the “digital ledger” works.</p>
 
   </div>
 
@@ -137,9 +137,9 @@
 </article>
 <script type="text/javascript">
 var disqus_config = function () {
-    this.page.url = "https://www.martin-helmich.de/https:/t3n.de/magazin/besser-entwickeln-mit-continuous-247076/";
-    this.page.identifier = "/https:/t3n.de/magazin/kubernetes-cd";
-    this.page.title = "Develop better with Devops Practices: Continuous Delivery with Kubernetes";
+    this.page.url = "https://www.martin-helmich.de/https:/t3n.de/magazin/event-sourcing-das-steckt-hinter-250347/";
+    this.page.identifier = "/https:/t3n.de/magazin/event-sourcing";
+    this.page.title = "Event-Sourcing: Das steckt hinter dem Software-Kontenbuch";
 };
 
 (function() {  // DON'T EDIT BELOW THIS LINE

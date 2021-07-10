@@ -151,7 +151,7 @@
 
 <h2 id="ab-ins-typoscript">Ab ins TypoScript</h2>
 
-<p>Die Standard-TypoScript-Konfiguration von Neos sieht bereits vor, dass bei einem Format, das anders lautet als <code>html</code> einfach das TypoScript-Objekt mit dem entsprechenden Namen gerendert wird. Wir müssen an dieser Stelle also nur noch das Objekt mit dem Namen <code>rss</code> implementieren. Da hier z.B. auch HTTP-Header verändert werden müssen (wir haben ja schließlich einen anderen Content-Type), kann hier am besten gleich die <code>TYPO3.TypoScript:Http.Message</code>-Klasse genutzt werden. Das Endergebnis ist recht komplex; anstatt es nach und nach aufzubauen, präsentiere ich erstmal den ganzen Block:</p>
+<p>Die Standard-TypoScript-Konfiguration von Neos sieht bereits vor, dass bei einem Format, das anders lautet als <code class="language-plaintext highlighter-rouge">html</code> einfach das TypoScript-Objekt mit dem entsprechenden Namen gerendert wird. Wir müssen an dieser Stelle also nur noch das Objekt mit dem Namen <code class="language-plaintext highlighter-rouge">rss</code> implementieren. Da hier z.B. auch HTTP-Header verändert werden müssen (wir haben ja schließlich einen anderen Content-Type), kann hier am besten gleich die <code class="language-plaintext highlighter-rouge">TYPO3.TypoScript:Http.Message</code>-Klasse genutzt werden. Das Endergebnis ist recht komplex; anstatt es nach und nach aufzubauen, präsentiere ich erstmal den ganzen Block:</p>
 
 <noscript><pre>rss = TYPO3.TypoScript:Http.Message {
 	@override.defaultAuthor = &#39;Martin Helmich&#39;
@@ -201,11 +201,11 @@
 }</pre></noscript>
 <script src="https://gist.github.com/martin-helmich/aab1c83379063d4beba5.js?file=Rss.ts2"> </script>
 
-<p>Nun im Detail: Der Inhalt des Feeds wird von einem Fluid-Template gerendert. Dem Template werden einige Variablen zugewiesen, die aus der aktuellen Content Node, bzw. dem Kontext geladen werden (z.B. die Sprache). Die Variable <code>items</code> ist schließlich eine ContentCollection, die in diesem Fall von einer Eel-Expression befüllt wird (hier sind das alle Nodes vom Typ <code>Helmich.Homepage:BlogArticle</code>; das ist aber hochindividuell und muss je nach Usecase angepasst werden).</p>
+<p>Nun im Detail: Der Inhalt des Feeds wird von einem Fluid-Template gerendert. Dem Template werden einige Variablen zugewiesen, die aus der aktuellen Content Node, bzw. dem Kontext geladen werden (z.B. die Sprache). Die Variable <code class="language-plaintext highlighter-rouge">items</code> ist schließlich eine ContentCollection, die in diesem Fall von einer Eel-Expression befüllt wird (hier sind das alle Nodes vom Typ <code class="language-plaintext highlighter-rouge">Helmich.Homepage:BlogArticle</code>; das ist aber hochindividuell und muss je nach Usecase angepasst werden).</p>
 
-<p>Jedes Element dieser ContentCollection wird dann mit einem bestimmten Abschnitt des Templates gerendert. Die meisten Variablen werden auch hier aus der jeweiligen Node bezogen. Als <code>abstract</code>-Variable wird der Inhalt des ersten Text-Elements unterhalb der jeweiligen Node ausgewählt.</p>
+<p>Jedes Element dieser ContentCollection wird dann mit einem bestimmten Abschnitt des Templates gerendert. Die meisten Variablen werden auch hier aus der jeweiligen Node bezogen. Als <code class="language-plaintext highlighter-rouge">abstract</code>-Variable wird der Inhalt des ersten Text-Elements unterhalb der jeweiligen Node ausgewählt.</p>
 
-<p>Der <code>@cache</code>-Parameter definiert schließlich, dass die Ausgabe gecached werden soll. Die Tag-Konfiguration bewirkt, dass der Cache jedes Mal invalidiert wird, wenn eine Node vom Typ <code>Helmich.Homepage:BlogArticle</code> bearbeitet wird. Aber auch diese Konfiguration muss wahrscheinlich individuell angepasst werden.</p>
+<p>Der <code class="language-plaintext highlighter-rouge">@cache</code>-Parameter definiert schließlich, dass die Ausgabe gecached werden soll. Die Tag-Konfiguration bewirkt, dass der Cache jedes Mal invalidiert wird, wenn eine Node vom Typ <code class="language-plaintext highlighter-rouge">Helmich.Homepage:BlogArticle</code> bearbeitet wird. Aber auch diese Konfiguration muss wahrscheinlich individuell angepasst werden.</p>
 
 <h2 id="der-fluid-view">Der Fluid-View</h2>
 
@@ -247,7 +247,7 @@
 &lt;/f:section&gt;</pre></noscript>
 <script src="https://gist.github.com/martin-helmich/aab1c83379063d4beba5.js?file=Rss.xml"> </script>
 
-<h2 id="verlinkung-im-head-bereich">Verlinkung im <code>&lt;head&gt;</code>-Bereich</h2>
+<h2 id="verlinkung-im-head-bereich">Verlinkung im <code class="language-plaintext highlighter-rouge">&lt;head&gt;</code>-Bereich</h2>
 
 <p>Nun müssen die Besucher der Seite nur noch darauf aufmerksam gemacht werden, dass es den RSS-Feed gibt. Glücklicherweise sind moderne Browser intelligent genug, und lesen einfach einen meta-Tag aus, der im HTML-Head platziert werden kann. Auch das können wir über TypoScript machen:</p>
 
@@ -276,7 +276,7 @@
 </pre></noscript>
 <script src="https://gist.github.com/martin-helmich/aab1c83379063d4beba5.js?file=Root.ts2"> </script>
 
-<p>Ich habe es mir in diesem Beispiel einfach gemacht, und als Ziel-Node des Links die <code>${site}</code>-Node angegeben. Der Grund dafür ist, dass ich nur einen RSS-Feed für die ganze Seite haben möchte (technisch gesehen zwei, je einmal auf Deutsch und Englisch). Aber auch ein eigener Feed pro Seite ließe sich auf diese Weise einfach umsetzen.</p>
+<p>Ich habe es mir in diesem Beispiel einfach gemacht, und als Ziel-Node des Links die <code class="language-plaintext highlighter-rouge">${site}</code>-Node angegeben. Der Grund dafür ist, dass ich nur einen RSS-Feed für die ganze Seite haben möchte (technisch gesehen zwei, je einmal auf Deutsch und Englisch). Aber auch ein eigener Feed pro Seite ließe sich auf diese Weise einfach umsetzen.</p>
 
   </div>
 
@@ -320,6 +320,11 @@ powered by Disqus.</a>
           
           
             <li>
+              <strong><a href="/de/veroeffentlichungen.html">Praxiswissen TYPO3 CMS 10</a></strong>
+              am 04. Dezember 2020
+            </li>
+          
+            <li>
               <strong><a href="/de/veroeffentlichungen.html">Rust: Ein Blick auf die C/C++-Alternative</a></strong>
               am 01. Juli 2020
             </li>
@@ -339,11 +344,6 @@ powered by Disqus.</a>
               am 01. Mai 2019
             </li>
           
-            <li>
-              <strong><a href="/de/veroeffentlichungen.html">Praxiswissen TYPO3 CMS 9</a></strong>
-              am 28. März 2019
-            </li>
-          
         </ul>
       </div>
       <div class="col-sm-4">
@@ -352,6 +352,12 @@ powered by Disqus.</a>
         </h5>
         <ul>
           
+          
+            <li>
+              <strong><a href="/https:/t3n.de/magazin/event-sourcing-das-steckt-hinter-250347/">Event Sourcing: How the "software ledger" works
+</a></strong>
+              am 14. Februar 2021
+            </li>
           
             <li>
               <strong><a href="/https:/t3n.de/magazin/microservices-mit-tools-wie-die-249408/">Microservices: Mit Tools wie Jaeger die Übersicht behalten</a></strong>
@@ -371,11 +377,6 @@ powered by Disqus.</a>
             <li>
               <strong><a href="/de/blog/typo3-cms-docker.html">Gut eingepackt: TYPO3 CMS in Docker betreiben</a></strong>
               am 22. März 2019
-            </li>
-          
-            <li>
-              <strong><a href="/en/blog/kubernetes-crd-client.html">Kubernetes-CRDs über die client-go-Bibliothek auslesen</a></strong>
-              am 28. März 2018
             </li>
           
         </ul>

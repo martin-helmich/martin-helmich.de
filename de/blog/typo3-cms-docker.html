@@ -146,26 +146,26 @@
 
 <h2 id="erste-schritte">Erste Schritte</h2>
 
-<p>Das TYPO3-Image steht im <a href="https://hub.docker.com/r/martinhelmich/typo3/">Docker-Hub unter dem Repository-Namen <code>martinhelmich/typo3</code></a> zur Verfügung. Mit untenstehendem <code>docker pull</code>-Befehl kann die jeweils aktuellste Version des Images bezogen werden:</p>
+<p>Das TYPO3-Image steht im <a href="https://hub.docker.com/r/martinhelmich/typo3/">Docker-Hub unter dem Repository-Namen <code class="language-plaintext highlighter-rouge">martinhelmich/typo3</code></a> zur Verfügung. Mit untenstehendem <code class="language-plaintext highlighter-rouge">docker pull</code>-Befehl kann die jeweils aktuellste Version des Images bezogen werden:</p>
 
-<pre><code>$ docker pull martinhelmich/typo3
-</code></pre>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ docker pull martinhelmich/typo3
+</code></pre></div></div>
 
 <p>Darüber hinaus kann beim Pull auch eine spezielle Version herunter geladen werden. Hierzu bietet das Repository die folgenden Tags an:</p>
 
 <ul>
-  <li><code>martinhelmich/typo3:6</code> für die jeweils aktuellste 6.2 LTS-Version (<strong>ACHTUNG</strong>: Keine neuen Versionen mehr!)</li>
-  <li><code>martinhelmich/typo3:7</code> für die jeweils aktuellste 7.6 LTS-Version (<strong>ACHTUNG</strong>: Keine neuen Versionen mehr!)</li>
-  <li><code>martinhelmich/typo3:8</code> für die jeweils aktuellste 8.7 LTS-Version (<strong>ACHTUNG</strong>: Keine neuen Versionen mehr!)</li>
-  <li><code>martinhelmich/typo3:9</code> für die jeweils aktuellste 9.5 LTS-Version</li>
-  <li><code>martinhelmich/typo3:10</code> oder <code>martinhelmich/typo3:latest</code> für die aktuellste 10.4 LTS-Version</li>
+  <li><code class="language-plaintext highlighter-rouge">martinhelmich/typo3:6</code> für die jeweils aktuellste 6.2 LTS-Version (<strong>ACHTUNG</strong>: Keine neuen Versionen mehr!)</li>
+  <li><code class="language-plaintext highlighter-rouge">martinhelmich/typo3:7</code> für die jeweils aktuellste 7.6 LTS-Version (<strong>ACHTUNG</strong>: Keine neuen Versionen mehr!)</li>
+  <li><code class="language-plaintext highlighter-rouge">martinhelmich/typo3:8</code> für die jeweils aktuellste 8.7 LTS-Version (<strong>ACHTUNG</strong>: Keine neuen Versionen mehr!)</li>
+  <li><code class="language-plaintext highlighter-rouge">martinhelmich/typo3:9</code> für die jeweils aktuellste 9.5 LTS-Version</li>
+  <li><code class="language-plaintext highlighter-rouge">martinhelmich/typo3:10</code> oder <code class="language-plaintext highlighter-rouge">martinhelmich/typo3:latest</code> für die aktuellste 10.4 LTS-Version</li>
 </ul>
 
 <p>Beachtet jedoch, dass die TYPO3-Versionen bis einschließlich 8 bereits das Ende ihres Support-Zeitraums erreicht haben. Dies bedeutet, dass für diese Versionen keine weiteren Updates (bzw. für TYPO3 7 und 8 nur noch im Rahmen des kostenpflichtigen Extended Support) veröffentlicht werden.</p>
 
 <p>Das Image enthält lediglich eine PHP-FPM-Umgebung mit einem Webserver. Um die “Ein Container, eine Anwendung”-Philosophie von Docker zu befolgen, sollte für das Datenbanksystem folglich am besten ein eigener Container gestartet werden, wie hier beispielsweise ein MySQL-Container:</p>
 
-<pre><code>$ docker run -d --name typo3-db \
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ docker run -d --name typo3-db \
     -e MYSQL_ROOT_PASSWORD=yoursupersecretpassword \
     -e MYSQL_USER=typo3 \
     -e MYSQL_PASSWORD=yourothersupersecretpassword \
@@ -173,7 +173,7 @@
   mysql:5.7 \
     --character-set-server=utf8 \
     --collation-server=utf8_unicode_ci
-</code></pre>
+</code></pre></div></div>
 
 <div class="my-alert row danger-color-dark white-text z-depth-1">
       <div class="col-sm-12">
@@ -190,19 +190,19 @@
 
 <p>Danach kann der eigentliche Applikationscontainer gestartet werden:</p>
 
-<pre><code>$ docker run -d --name typo3-web \
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ docker run -d --name typo3-web \
     --link typo3-db:db \
     -p 80:80 \
   martinhelmich/typo3:10
-</code></pre>
+</code></pre></div></div>
 
-<p>Im Anschluss ist die laufende TYPO3-Installation unter <code>http://localhost</code> erreichbar (falls ihr die Docker Toolbox unter Windows oder MacOS nutzt, nutzt stattdessen die IP-Adresse der virtuellen Maschine, die ihr mit <code>docker-machine ip</code> herausfinden könnt).</p>
+<p>Im Anschluss ist die laufende TYPO3-Installation unter <code class="language-plaintext highlighter-rouge">http://localhost</code> erreichbar (falls ihr die Docker Toolbox unter Windows oder MacOS nutzt, nutzt stattdessen die IP-Adresse der virtuellen Maschine, die ihr mit <code class="language-plaintext highlighter-rouge">docker-machine ip</code> herausfinden könnt).</p>
 
 <p>Das im Container laufende TYPO3 ist noch nicht fertig installiert; dies bedeutet, dass ihr euch zunächst noch durch den Installationsassistenten durchklicken müsst.</p>
 
 <h2 id="produktiv-deployment">Produktiv-Deployment</h2>
 
-<p>Das oben beschriebene Vorgehen ist für eine Demonstration, zum Ausprobieren oder Entwickeln vollkommen ausreichend. Falls ihr das <code>martinhelmich/typo3</code>-Dockerimage im Produktivbetrieb einsetzen möchtet, sollten ein paar weitere Vorkehrungen getroffen werden.</p>
+<p>Das oben beschriebene Vorgehen ist für eine Demonstration, zum Ausprobieren oder Entwickeln vollkommen ausreichend. Falls ihr das <code class="language-plaintext highlighter-rouge">martinhelmich/typo3</code>-Dockerimage im Produktivbetrieb einsetzen möchtet, sollten ein paar weitere Vorkehrungen getroffen werden.</p>
 
 <p>Im Produktivbetrieb ist es besonders wichtig, sich um die Nutzdaten der TYPO3-Installation Gedanken zu machen. Das Image enthält bereits fertig vorkonfigurierte Volumes für die vier Verzeichnisse</p>
 
@@ -213,33 +213,33 @@
   <li>/var/www/html/uploads</li>
 </ol>
 
-<p>Diese vier Verzeichnisse enthalten im Regelfall Nutzdaten, die nicht verloren gehen sollten. Das <code>typo3temp/</code>-Verzeichnis ist ein Sonderfall. Die Daten hierin sind zwar nicht besonders wichtig, da in diesem Verzeichnis jedoch besonders viel geschrieben und gelesen wird, ist es aus Gründen der Performance ratsam, dieses Verzeichnis als Volume zu erstellen.</p>
+<p>Diese vier Verzeichnisse enthalten im Regelfall Nutzdaten, die nicht verloren gehen sollten. Das <code class="language-plaintext highlighter-rouge">typo3temp/</code>-Verzeichnis ist ein Sonderfall. Die Daten hierin sind zwar nicht besonders wichtig, da in diesem Verzeichnis jedoch besonders viel geschrieben und gelesen wird, ist es aus Gründen der Performance ratsam, dieses Verzeichnis als Volume zu erstellen.</p>
 
-<p>Zur Haltung der Nutzdaten kann nun als erstes ein <em>Data-Only</em>-Container erstellt werden. Dieser wird später nicht laufen (daher empfiehlt es sich sogar, das CMD des Containers mit <code>/bin/true</code> zu überschreiben), sondern wird lediglich die Volumes mit Nutzdaten beinhalten:</p>
+<p>Zur Haltung der Nutzdaten kann nun als erstes ein <em>Data-Only</em>-Container erstellt werden. Dieser wird später nicht laufen (daher empfiehlt es sich sogar, das CMD des Containers mit <code class="language-plaintext highlighter-rouge">/bin/true</code> zu überschreiben), sondern wird lediglich die Volumes mit Nutzdaten beinhalten:</p>
 
-<pre><code>$ docker run --name typo3-data martinhelmich/typo3:10 /bin/true
-</code></pre>
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ docker run --name typo3-data martinhelmich/typo3:10 /bin/true
+</code></pre></div></div>
 
-<p>Der eigentliche Applikationscontainer kann dann mit dem <code>--volumes-from</code>-Flag gestartet werden:</p>
+<p>Der eigentliche Applikationscontainer kann dann mit dem <code class="language-plaintext highlighter-rouge">--volumes-from</code>-Flag gestartet werden:</p>
 
-<pre><code>$ docker run -d \
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ docker run -d \
     --name typo3-web \
     --link typo3-db:db \
     --volumes-from typo3-data \
     -p 80:80 \
   martinhelmich/typo3:10
-</code></pre>
+</code></pre></div></div>
 
-<p>Auf diese Weise sind sogar später einfache Versionsupdates und Deployments möglich. Hierzu kann der <code>typo3-web</code>-Container einfach gelöscht werden; die wichtigen Nutzdaten bleiben in den Volumes des <code>typo3-data</code>-Containers erhalten und ein neuer <code>typo3-web</code>-Container kann mit denselben Daten erstellt werden:</p>
+<p>Auf diese Weise sind sogar später einfache Versionsupdates und Deployments möglich. Hierzu kann der <code class="language-plaintext highlighter-rouge">typo3-web</code>-Container einfach gelöscht werden; die wichtigen Nutzdaten bleiben in den Volumes des <code class="language-plaintext highlighter-rouge">typo3-data</code>-Containers erhalten und ein neuer <code class="language-plaintext highlighter-rouge">typo3-web</code>-Container kann mit denselben Daten erstellt werden:</p>
 
-<pre><code>$ docker rm -f typo3-web
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>$ docker rm -f typo3-web
 $ docker pull martinhelmich/typo3:10
 $ docker run --name typo3-web ...
-</code></pre>
+</code></pre></div></div>
 
 <h2 id="unter-der-haube">Unter der Haube</h2>
 
-<p>Die Dockerfiles des hier vorgestellten Images finden sich <a href="https://github.com/martin-helmich/docker-typo3">auf Github</a>. Anregungen in Form von Issues und Pull Requests sind stets willkommen. Alle Images basieren auf dem <a href="https://hub.docker.com/_/php/">offiziellen <code>php</code>-Image</a> (genauer gesagt, dem <code>php:7.4-apache</code>-Image) und enthalten alle notwendigen PHP-Extensions, die zum Betrieb von TYPO3 benötigt werden.</p>
+<p>Die Dockerfiles des hier vorgestellten Images finden sich <a href="https://github.com/martin-helmich/docker-typo3">auf Github</a>. Anregungen in Form von Issues und Pull Requests sind stets willkommen. Alle Images basieren auf dem <a href="https://hub.docker.com/_/php/">offiziellen <code class="language-plaintext highlighter-rouge">php</code>-Image</a> (genauer gesagt, dem <code class="language-plaintext highlighter-rouge">php:7.4-apache</code>-Image) und enthalten alle notwendigen PHP-Extensions, die zum Betrieb von TYPO3 benötigt werden.</p>
 
 
   </div>
@@ -284,6 +284,11 @@ powered by Disqus.</a>
           
           
             <li>
+              <strong><a href="/de/veroeffentlichungen.html">Praxiswissen TYPO3 CMS 10</a></strong>
+              am 04. Dezember 2020
+            </li>
+          
+            <li>
               <strong><a href="/de/veroeffentlichungen.html">Rust: Ein Blick auf die C/C++-Alternative</a></strong>
               am 01. Juli 2020
             </li>
@@ -303,11 +308,6 @@ powered by Disqus.</a>
               am 01. Mai 2019
             </li>
           
-            <li>
-              <strong><a href="/de/veroeffentlichungen.html">Praxiswissen TYPO3 CMS 9</a></strong>
-              am 28. März 2019
-            </li>
-          
         </ul>
       </div>
       <div class="col-sm-4">
@@ -316,6 +316,12 @@ powered by Disqus.</a>
         </h5>
         <ul>
           
+          
+            <li>
+              <strong><a href="/https:/t3n.de/magazin/event-sourcing-das-steckt-hinter-250347/">Event Sourcing: How the "software ledger" works
+</a></strong>
+              am 14. Februar 2021
+            </li>
           
             <li>
               <strong><a href="/https:/t3n.de/magazin/microservices-mit-tools-wie-die-249408/">Microservices: Mit Tools wie Jaeger die Übersicht behalten</a></strong>
@@ -335,11 +341,6 @@ powered by Disqus.</a>
             <li>
               <strong><a href="/de/blog/typo3-cms-docker.html">Gut eingepackt: TYPO3 CMS in Docker betreiben</a></strong>
               am 22. März 2019
-            </li>
-          
-            <li>
-              <strong><a href="/en/blog/kubernetes-crd-client.html">Kubernetes-CRDs über die client-go-Bibliothek auslesen</a></strong>
-              am 28. März 2018
             </li>
           
         </ul>

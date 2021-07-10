@@ -6,10 +6,24 @@
 </description>
     <link>https://www.martin-helmich.de/</link>
     <atom:link href="https://www.martin-helmich.de/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 22 Aug 2020 13:25:47 +0000</pubDate>
-    <lastBuildDate>Sat, 22 Aug 2020 13:25:47 +0000</lastBuildDate>
-    <generator>Jekyll v3.9.0</generator>
+    <pubDate>Sat, 10 Jul 2021 11:50:49 +0000</pubDate>
+    <lastBuildDate>Sat, 10 Jul 2021 11:50:49 +0000</lastBuildDate>
+    <generator>Jekyll v4.2.0</generator>
     
+    
+      <item>
+        <title>Event Sourcing: How the &quot;software ledger&quot; works
+</title>
+        <description>&lt;p&gt;Wer Software nachträglich ohne großen Aufwand um zusätzliche Funktionen ­erweitern will, kann zu Microservices greifen. Oder sich am Architekturmuster von ­Event-Sourcing bedienen. So funktioniert das digitale Kontenbuch.&lt;/p&gt;
+</description>
+        <pubDate>Sun, 14 Feb 2021 19:00:00 +0000</pubDate>
+        <link>https://www.martin-helmich.de/https:/t3n.de/magazin/event-sourcing-das-steckt-hinter-250347/</link>
+        <guid isPermaLink="true">https://www.martin-helmich.de/https:/t3n.de/magazin/event-sourcing-das-steckt-hinter-250347/</guid>
+        
+        <category>event-sourcing</category>
+        
+        
+      </item>
     
       <item>
         <title>Microservices: Mit Tools wie Jaeger die Übersicht behalten</title>
@@ -81,26 +95,26 @@
 
 &lt;h2 id=&quot;erste-schritte&quot;&gt;Erste Schritte&lt;/h2&gt;
 
-&lt;p&gt;Das TYPO3-Image steht im &lt;a href=&quot;https://hub.docker.com/r/martinhelmich/typo3/&quot;&gt;Docker-Hub unter dem Repository-Namen &lt;code&gt;martinhelmich/typo3&lt;/code&gt;&lt;/a&gt; zur Verfügung. Mit untenstehendem &lt;code&gt;docker pull&lt;/code&gt;-Befehl kann die jeweils aktuellste Version des Images bezogen werden:&lt;/p&gt;
+&lt;p&gt;Das TYPO3-Image steht im &lt;a href=&quot;https://hub.docker.com/r/martinhelmich/typo3/&quot;&gt;Docker-Hub unter dem Repository-Namen &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;martinhelmich/typo3&lt;/code&gt;&lt;/a&gt; zur Verfügung. Mit untenstehendem &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;docker pull&lt;/code&gt;-Befehl kann die jeweils aktuellste Version des Images bezogen werden:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;$ docker pull martinhelmich/typo3
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ docker pull martinhelmich/typo3
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Darüber hinaus kann beim Pull auch eine spezielle Version herunter geladen werden. Hierzu bietet das Repository die folgenden Tags an:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;&lt;code&gt;martinhelmich/typo3:6&lt;/code&gt; für die jeweils aktuellste 6.2 LTS-Version (&lt;strong&gt;ACHTUNG&lt;/strong&gt;: Keine neuen Versionen mehr!)&lt;/li&gt;
-  &lt;li&gt;&lt;code&gt;martinhelmich/typo3:7&lt;/code&gt; für die jeweils aktuellste 7.6 LTS-Version (&lt;strong&gt;ACHTUNG&lt;/strong&gt;: Keine neuen Versionen mehr!)&lt;/li&gt;
-  &lt;li&gt;&lt;code&gt;martinhelmich/typo3:8&lt;/code&gt; für die jeweils aktuellste 8.7 LTS-Version (&lt;strong&gt;ACHTUNG&lt;/strong&gt;: Keine neuen Versionen mehr!)&lt;/li&gt;
-  &lt;li&gt;&lt;code&gt;martinhelmich/typo3:9&lt;/code&gt; für die jeweils aktuellste 9.5 LTS-Version&lt;/li&gt;
-  &lt;li&gt;&lt;code&gt;martinhelmich/typo3:10&lt;/code&gt; oder &lt;code&gt;martinhelmich/typo3:latest&lt;/code&gt; für die aktuellste 10.4 LTS-Version&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;martinhelmich/typo3:6&lt;/code&gt; für die jeweils aktuellste 6.2 LTS-Version (&lt;strong&gt;ACHTUNG&lt;/strong&gt;: Keine neuen Versionen mehr!)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;martinhelmich/typo3:7&lt;/code&gt; für die jeweils aktuellste 7.6 LTS-Version (&lt;strong&gt;ACHTUNG&lt;/strong&gt;: Keine neuen Versionen mehr!)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;martinhelmich/typo3:8&lt;/code&gt; für die jeweils aktuellste 8.7 LTS-Version (&lt;strong&gt;ACHTUNG&lt;/strong&gt;: Keine neuen Versionen mehr!)&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;martinhelmich/typo3:9&lt;/code&gt; für die jeweils aktuellste 9.5 LTS-Version&lt;/li&gt;
+  &lt;li&gt;&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;martinhelmich/typo3:10&lt;/code&gt; oder &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;martinhelmich/typo3:latest&lt;/code&gt; für die aktuellste 10.4 LTS-Version&lt;/li&gt;
 &lt;/ul&gt;
 
 &lt;p&gt;Beachtet jedoch, dass die TYPO3-Versionen bis einschließlich 8 bereits das Ende ihres Support-Zeitraums erreicht haben. Dies bedeutet, dass für diese Versionen keine weiteren Updates (bzw. für TYPO3 7 und 8 nur noch im Rahmen des kostenpflichtigen Extended Support) veröffentlicht werden.&lt;/p&gt;
 
 &lt;p&gt;Das Image enthält lediglich eine PHP-FPM-Umgebung mit einem Webserver. Um die “Ein Container, eine Anwendung”-Philosophie von Docker zu befolgen, sollte für das Datenbanksystem folglich am besten ein eigener Container gestartet werden, wie hier beispielsweise ein MySQL-Container:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;$ docker run -d --name typo3-db \
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ docker run -d --name typo3-db \
     -e MYSQL_ROOT_PASSWORD=yoursupersecretpassword \
     -e MYSQL_USER=typo3 \
     -e MYSQL_PASSWORD=yourothersupersecretpassword \
@@ -108,7 +122,7 @@
   mysql:5.7 \
     --character-set-server=utf8 \
     --collation-server=utf8_unicode_ci
-&lt;/code&gt;&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;div class=&quot;my-alert row danger-color-dark white-text z-depth-1&quot;&gt;
       &lt;div class=&quot;col-sm-12&quot;&gt;
@@ -125,19 +139,19 @@
 
 &lt;p&gt;Danach kann der eigentliche Applikationscontainer gestartet werden:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;$ docker run -d --name typo3-web \
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ docker run -d --name typo3-web \
     --link typo3-db:db \
     -p 80:80 \
   martinhelmich/typo3:10
-&lt;/code&gt;&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Im Anschluss ist die laufende TYPO3-Installation unter &lt;code&gt;http://localhost&lt;/code&gt; erreichbar (falls ihr die Docker Toolbox unter Windows oder MacOS nutzt, nutzt stattdessen die IP-Adresse der virtuellen Maschine, die ihr mit &lt;code&gt;docker-machine ip&lt;/code&gt; herausfinden könnt).&lt;/p&gt;
+&lt;p&gt;Im Anschluss ist die laufende TYPO3-Installation unter &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://localhost&lt;/code&gt; erreichbar (falls ihr die Docker Toolbox unter Windows oder MacOS nutzt, nutzt stattdessen die IP-Adresse der virtuellen Maschine, die ihr mit &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;docker-machine ip&lt;/code&gt; herausfinden könnt).&lt;/p&gt;
 
 &lt;p&gt;Das im Container laufende TYPO3 ist noch nicht fertig installiert; dies bedeutet, dass ihr euch zunächst noch durch den Installationsassistenten durchklicken müsst.&lt;/p&gt;
 
 &lt;h2 id=&quot;produktiv-deployment&quot;&gt;Produktiv-Deployment&lt;/h2&gt;
 
-&lt;p&gt;Das oben beschriebene Vorgehen ist für eine Demonstration, zum Ausprobieren oder Entwickeln vollkommen ausreichend. Falls ihr das &lt;code&gt;martinhelmich/typo3&lt;/code&gt;-Dockerimage im Produktivbetrieb einsetzen möchtet, sollten ein paar weitere Vorkehrungen getroffen werden.&lt;/p&gt;
+&lt;p&gt;Das oben beschriebene Vorgehen ist für eine Demonstration, zum Ausprobieren oder Entwickeln vollkommen ausreichend. Falls ihr das &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;martinhelmich/typo3&lt;/code&gt;-Dockerimage im Produktivbetrieb einsetzen möchtet, sollten ein paar weitere Vorkehrungen getroffen werden.&lt;/p&gt;
 
 &lt;p&gt;Im Produktivbetrieb ist es besonders wichtig, sich um die Nutzdaten der TYPO3-Installation Gedanken zu machen. Das Image enthält bereits fertig vorkonfigurierte Volumes für die vier Verzeichnisse&lt;/p&gt;
 
@@ -148,33 +162,33 @@
   &lt;li&gt;/var/www/html/uploads&lt;/li&gt;
 &lt;/ol&gt;
 
-&lt;p&gt;Diese vier Verzeichnisse enthalten im Regelfall Nutzdaten, die nicht verloren gehen sollten. Das &lt;code&gt;typo3temp/&lt;/code&gt;-Verzeichnis ist ein Sonderfall. Die Daten hierin sind zwar nicht besonders wichtig, da in diesem Verzeichnis jedoch besonders viel geschrieben und gelesen wird, ist es aus Gründen der Performance ratsam, dieses Verzeichnis als Volume zu erstellen.&lt;/p&gt;
+&lt;p&gt;Diese vier Verzeichnisse enthalten im Regelfall Nutzdaten, die nicht verloren gehen sollten. Das &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;typo3temp/&lt;/code&gt;-Verzeichnis ist ein Sonderfall. Die Daten hierin sind zwar nicht besonders wichtig, da in diesem Verzeichnis jedoch besonders viel geschrieben und gelesen wird, ist es aus Gründen der Performance ratsam, dieses Verzeichnis als Volume zu erstellen.&lt;/p&gt;
 
-&lt;p&gt;Zur Haltung der Nutzdaten kann nun als erstes ein &lt;em&gt;Data-Only&lt;/em&gt;-Container erstellt werden. Dieser wird später nicht laufen (daher empfiehlt es sich sogar, das CMD des Containers mit &lt;code&gt;/bin/true&lt;/code&gt; zu überschreiben), sondern wird lediglich die Volumes mit Nutzdaten beinhalten:&lt;/p&gt;
+&lt;p&gt;Zur Haltung der Nutzdaten kann nun als erstes ein &lt;em&gt;Data-Only&lt;/em&gt;-Container erstellt werden. Dieser wird später nicht laufen (daher empfiehlt es sich sogar, das CMD des Containers mit &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/bin/true&lt;/code&gt; zu überschreiben), sondern wird lediglich die Volumes mit Nutzdaten beinhalten:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;$ docker run --name typo3-data martinhelmich/typo3:10 /bin/true
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ docker run --name typo3-data martinhelmich/typo3:10 /bin/true
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Der eigentliche Applikationscontainer kann dann mit dem &lt;code&gt;--volumes-from&lt;/code&gt;-Flag gestartet werden:&lt;/p&gt;
+&lt;p&gt;Der eigentliche Applikationscontainer kann dann mit dem &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--volumes-from&lt;/code&gt;-Flag gestartet werden:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;$ docker run -d \
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ docker run -d \
     --name typo3-web \
     --link typo3-db:db \
     --volumes-from typo3-data \
     -p 80:80 \
   martinhelmich/typo3:10
-&lt;/code&gt;&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
-&lt;p&gt;Auf diese Weise sind sogar später einfache Versionsupdates und Deployments möglich. Hierzu kann der &lt;code&gt;typo3-web&lt;/code&gt;-Container einfach gelöscht werden; die wichtigen Nutzdaten bleiben in den Volumes des &lt;code&gt;typo3-data&lt;/code&gt;-Containers erhalten und ein neuer &lt;code&gt;typo3-web&lt;/code&gt;-Container kann mit denselben Daten erstellt werden:&lt;/p&gt;
+&lt;p&gt;Auf diese Weise sind sogar später einfache Versionsupdates und Deployments möglich. Hierzu kann der &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;typo3-web&lt;/code&gt;-Container einfach gelöscht werden; die wichtigen Nutzdaten bleiben in den Volumes des &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;typo3-data&lt;/code&gt;-Containers erhalten und ein neuer &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;typo3-web&lt;/code&gt;-Container kann mit denselben Daten erstellt werden:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;$ docker rm -f typo3-web
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ docker rm -f typo3-web
 $ docker pull martinhelmich/typo3:10
 $ docker run --name typo3-web ...
-&lt;/code&gt;&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;h2 id=&quot;unter-der-haube&quot;&gt;Unter der Haube&lt;/h2&gt;
 
-&lt;p&gt;Die Dockerfiles des hier vorgestellten Images finden sich &lt;a href=&quot;https://github.com/martin-helmich/docker-typo3&quot;&gt;auf Github&lt;/a&gt;. Anregungen in Form von Issues und Pull Requests sind stets willkommen. Alle Images basieren auf dem &lt;a href=&quot;https://hub.docker.com/_/php/&quot;&gt;offiziellen &lt;code&gt;php&lt;/code&gt;-Image&lt;/a&gt; (genauer gesagt, dem &lt;code&gt;php:7.4-apache&lt;/code&gt;-Image) und enthalten alle notwendigen PHP-Extensions, die zum Betrieb von TYPO3 benötigt werden.&lt;/p&gt;
+&lt;p&gt;Die Dockerfiles des hier vorgestellten Images finden sich &lt;a href=&quot;https://github.com/martin-helmich/docker-typo3&quot;&gt;auf Github&lt;/a&gt;. Anregungen in Form von Issues und Pull Requests sind stets willkommen. Alle Images basieren auf dem &lt;a href=&quot;https://hub.docker.com/_/php/&quot;&gt;offiziellen &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;php&lt;/code&gt;-Image&lt;/a&gt; (genauer gesagt, dem &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;php:7.4-apache&lt;/code&gt;-Image) und enthalten alle notwendigen PHP-Extensions, die zum Betrieb von TYPO3 benötigt werden.&lt;/p&gt;
 
 </description>
         <pubDate>Fri, 22 Mar 2019 16:25:28 +0000</pubDate>
@@ -218,33 +232,51 @@ $ docker run --name typo3-web ...
 
 &lt;p&gt;Linter gibt es für alle möglichen Programmiersprachen; Web-Entwickler kennen womöglich &lt;a href=&quot;http://jslint.com/&quot;&gt;JSLint&lt;/a&gt;, &lt;a href=&quot;http://csslint.net/&quot;&gt;CSSLint&lt;/a&gt; oder &lt;a href=&quot;http://htmlhint.com/&quot;&gt;HTMLLint&lt;/a&gt;. In diese Liste reiht sich nun auch &lt;a href=&quot;https://github.com/martin-helmich/typo3-typoscript-lint&quot;&gt;TypoScript Lint&lt;/a&gt; ein, welches ähnliche Funktionen für das in TYPO3-Projekten gebräuchliche TypoScript anbietet. Als kleines Beispiel sei folgender TypoScript-Quelltext betrachtet:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-typoscript&quot; data-lang=&quot;typoscript&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt; 1 &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;page&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;PAGE&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 2 &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;page&lt;/span&gt;  &lt;span class=&quot;ss&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 3 &lt;/span&gt;  &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nc&quot;&gt;FLUIDTEMPLATE&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 4 &lt;/span&gt;   &lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;ss&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 5 &lt;/span&gt;    templateName &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; Default
-&lt;span class=&quot;lineno&quot;&gt; 6 &lt;/span&gt;    templateRootPaths&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;fileadmin/templates&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 7 &lt;/span&gt;   templateRootPaths&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;20&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;EXT:mysite/Resources/Private/Templates&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 8 &lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 9 &lt;/span&gt;    layoutRootPaths &lt;span class=&quot;ss&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;10 &lt;/span&gt;    &lt;span class=&quot;ss&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;11 &lt;/span&gt;  &lt;span class=&quot;ss&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;12 &lt;/span&gt;&lt;span class=&quot;ss&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;13 &lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;14 &lt;/span&gt;&lt;span class=&quot;c&quot;&gt;#page.includeJS.main = fileadmin/js/app.js&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;15 &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;page&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;includeJS&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;main &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;fileadmin/js/app.min.js&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;16 &lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;17 &lt;/span&gt;&lt;span class=&quot;nb&quot;&gt;page&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;templateRootPaths&lt;span class=&quot;p&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;mi&quot;&gt;10&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;fileadmin/templates2&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-typoscript&quot; data-lang=&quot;typoscript&quot;&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;page = PAGE
+page  {
+  10 = FLUIDTEMPLATE
+   10 {
+    templateName = Default
+    templateRootPaths.10 = fileadmin/templates
+   templateRootPaths.20 = EXT:mysite/Resources/Private/Templates
+
+    layoutRootPaths {
+    }
+  }
+}
+
+#page.includeJS.main = fileadmin/js/app.js
+page.includeJS.main = fileadmin/js/app.min.js
+
+page.10.templateRootPaths.10 = fileadmin/templates2
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;In diesem Code-Abschnitt gibt es einige offensichtliche stilistische Punkte zu bemängeln (sortiert nach Schwere):&lt;/p&gt;
 
 &lt;ol&gt;
-  &lt;li&gt;In Zeile 6 wird die Eigenschaft &lt;code&gt;page.10.templateRootPaths.10&lt;/code&gt; zugewiesen. Allerdings wird genau diese Eigenschaft in Zeile 17 wieder überschrieben. Dies ist eine gefährliche Falle: Ein unbedachter Entwickler könnte nun im guten Glauben Zeile 6 verändern, ohne dass dies irgendeine Auswirkung hätte – ein Fehler, den zu debuggen dann im Anschluss wertvolle Zeit kosten würde.&lt;/li&gt;
-  &lt;li&gt;Nachdem der erste Zuweisungsblock zu &lt;code&gt;page&lt;/code&gt; geschlossen wurde, folgt noch eine zweite Zuweisung zu einem Unterobjekt von &lt;code&gt;page&lt;/code&gt;. Dies könnte überraschen, da ein Leser des Quelltextes nicht unbedingt damit rechnet, dass nach dem Zuweisungsblock noch einzelne Unterattribute des &lt;code&gt;page&lt;/code&gt;-Objekts zugewiesen werden.&lt;/li&gt;
+  &lt;li&gt;In Zeile 6 wird die Eigenschaft &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;page.10.templateRootPaths.10&lt;/code&gt; zugewiesen. Allerdings wird genau diese Eigenschaft in Zeile 17 wieder überschrieben. Dies ist eine gefährliche Falle: Ein unbedachter Entwickler könnte nun im guten Glauben Zeile 6 verändern, ohne dass dies irgendeine Auswirkung hätte – ein Fehler, den zu debuggen dann im Anschluss wertvolle Zeit kosten würde.&lt;/li&gt;
+  &lt;li&gt;Nachdem der erste Zuweisungsblock zu &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;page&lt;/code&gt; geschlossen wurde, folgt noch eine zweite Zuweisung zu einem Unterobjekt von &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;page&lt;/code&gt;. Dies könnte überraschen, da ein Leser des Quelltextes nicht unbedingt damit rechnet, dass nach dem Zuweisungsblock noch einzelne Unterattribute des &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;page&lt;/code&gt;-Objekts zugewiesen werden.&lt;/li&gt;
   &lt;li&gt;Die Kommentarzeile in Zeile 14 enthält offensichtlich auskommentierten Code. Dieser stört die Lesbarkeit und sollte komplett entfernt werden. Dafür gibt es ja schließlich Versionsverwaltung!&lt;/li&gt;
-  &lt;li&gt;Die Einrückung der Datei ist nicht konsistent. Die &lt;code&gt;10&lt;/code&gt; in den Zeilen 3 und 4 sollten gleich weit eingerückt sein, sind es aber nicht. Gleiches gilt in Zeile 7. Gerade in größeren Dateien können solche Einrückungsfehler der Lesbarkeit des Quelltextes enorm schaden.&lt;/li&gt;
-  &lt;li&gt;Die Zuweisungen zu &lt;code&gt;templateRootPaths&lt;/code&gt; in den Zeilen 6 und 7 beginnen mit demselben Pfad-Segment. Zur besseren Lesbarkeit könnten diese beiden Zuweisungen in einen Block ausgelagert werden.&lt;/li&gt;
-  &lt;li&gt;Die Zuweisung zu &lt;code&gt;layoutRootPaths&lt;/code&gt; ist komplett leer.&lt;/li&gt;
+  &lt;li&gt;Die Einrückung der Datei ist nicht konsistent. Die &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;10&lt;/code&gt; in den Zeilen 3 und 4 sollten gleich weit eingerückt sein, sind es aber nicht. Gleiches gilt in Zeile 7. Gerade in größeren Dateien können solche Einrückungsfehler der Lesbarkeit des Quelltextes enorm schaden.&lt;/li&gt;
+  &lt;li&gt;Die Zuweisungen zu &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;templateRootPaths&lt;/code&gt; in den Zeilen 6 und 7 beginnen mit demselben Pfad-Segment. Zur besseren Lesbarkeit könnten diese beiden Zuweisungen in einen Block ausgelagert werden.&lt;/li&gt;
+  &lt;li&gt;Die Zuweisung zu &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;layoutRootPaths&lt;/code&gt; ist komplett leer.&lt;/li&gt;
 &lt;/ol&gt;
 
 &lt;p&gt;Und tatsächlich generiert der TypoScript-Linter bei einer Eingabedatei mit obigem Inhalt folgende Ausgabe, welche alle oben angemerkten Fehler (und sogar noch ein paar mehr) ankreidet:&lt;/p&gt;
@@ -273,74 +305,84 @@ SUMMARY
 
 &lt;h2 id=&quot;installation&quot;&gt;Installation&lt;/h2&gt;
 
-&lt;p&gt;Der Typoscript-Linter wird per &lt;a href=&quot;https://getcomposer.org/&quot;&gt;Composer&lt;/a&gt; installiert. Das funktioniert natürlich am besten, wenn das TYPO3-Projekt, in dem der Linter genutzt werden soll, selbst ebenfalls mit Composer verwaltet wird (zum Setup von TYPO3 mit Composer sei auf die &lt;a href=&quot;https://github.com/TYPO3/TYPO3.CMS.BaseDistribution&quot;&gt;zugehörige README verwiesen&lt;/a&gt;). In diesem Fall reicht ein einfaches &lt;code&gt;composer require --dev&lt;/code&gt; im Projektverzeichnis:&lt;/p&gt;
+&lt;p&gt;Der Typoscript-Linter wird per &lt;a href=&quot;https://getcomposer.org/&quot;&gt;Composer&lt;/a&gt; installiert. Das funktioniert natürlich am besten, wenn das TYPO3-Projekt, in dem der Linter genutzt werden soll, selbst ebenfalls mit Composer verwaltet wird (zum Setup von TYPO3 mit Composer sei auf die &lt;a href=&quot;https://github.com/TYPO3/TYPO3.CMS.BaseDistribution&quot;&gt;zugehörige README verwiesen&lt;/a&gt;). In diesem Fall reicht ein einfaches &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;composer require --dev&lt;/code&gt; im Projektverzeichnis:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-console&quot; data-lang=&quot;console&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;&amp;gt;&lt;/span&gt; composer require --dev helmich/typo3-typoscript-lint
-&lt;span class=&quot;go&quot;&gt;Using version ^1.4 for helmich/typo3-typoscript-lint&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;./composer.json has been updated&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;Loading composer repositories with package information&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;Updating dependencies (including require-dev)&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;Package operations: 7 installs, 0 updates, 0 removals&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;  - Installing symfony/filesystem (v4.0.3): Downloading (100%)&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;  - Installing symfony/config (v4.0.3): Downloading (100%)&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;  - Installing psr/container (1.0.0): Downloading (100%)&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;  - Installing symfony/dependency-injection (v4.0.3): Downloading (100%)&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;  - Installing helmich/typo3-typoscript-parser (v1.1.2): Downloading (100%)&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;  - Installing symfony/event-dispatcher (v4.0.3): Downloading (100%)&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;  - Installing helmich/typo3-typoscript-lint (v1.4.4): Downloading (100%)&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;Writing lock file&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;Generating autoload files&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;Generating  class alias map file&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;Inserting class alias loader into main autoload.php file&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-console&quot; data-lang=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;composer require &lt;span class=&quot;nt&quot;&gt;--dev&lt;/span&gt; helmich/typo3-typoscript-lint
+&lt;span class=&quot;go&quot;&gt;Using version ^1.4 for helmich/typo3-typoscript-lint
+./composer.json has been updated
+Loading composer repositories with package information
+Updating dependencies (including require-dev)
+Package operations: 7 installs, 0 updates, 0 removals
+  - Installing symfony/filesystem (v4.0.3): Downloading (100%)
+  - Installing symfony/config (v4.0.3): Downloading (100%)
+  - Installing psr/container (1.0.0): Downloading (100%)
+  - Installing symfony/dependency-injection (v4.0.3): Downloading (100%)
+  - Installing helmich/typo3-typoscript-parser (v1.1.2): Downloading (100%)
+  - Installing symfony/event-dispatcher (v4.0.3): Downloading (100%)
+  - Installing helmich/typo3-typoscript-lint (v1.4.4): Downloading (100%)
+Writing lock file
+Generating autoload files
+Generating  class alias map file
+Inserting class alias loader into main autoload.php file&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
-&lt;p&gt;Das &lt;code&gt;--dev&lt;/code&gt;-Flag stellt sicher, dass der Linter nicht mit installiert wird, wenn das Projekt auf einem Produktivsystem installiert wird. Der Linter steht im Anschluss im Verzeichnis &lt;code&gt;vendor/bin&lt;/code&gt; zur Verfügung und kann mit &lt;code&gt;vendor/bin/typoscript-lint&lt;/code&gt; aufgerufen werden.&lt;/p&gt;
+&lt;p&gt;Das &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;--dev&lt;/code&gt;-Flag stellt sicher, dass der Linter nicht mit installiert wird, wenn das Projekt auf einem Produktivsystem installiert wird. Der Linter steht im Anschluss im Verzeichnis &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vendor/bin&lt;/code&gt; zur Verfügung und kann mit &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;vendor/bin/typoscript-lint&lt;/code&gt; aufgerufen werden.&lt;/p&gt;
 
-&lt;p&gt;Falls euer TYPO3-Projekt nicht mit Composer verwaltet wird, kann auch der &lt;code&gt;composer global&lt;/code&gt;-Befehl genutzt werden, um den Linter global zu installieren. In diesem Fall steht der Linter dann nicht im Projektverzeichnis, sondern im Home-Verzeichnis eures Nutzers unter &lt;code&gt;$HOME/.composer/vendor/bin/typoscript-lint&lt;/code&gt; zur Verfügung (wenn ihr das Verzeichnis &lt;code&gt;$HOME/.composer/vendor/bin&lt;/code&gt; in euren Suchpfad eintragt, reicht anschließend auch ein einfaches &lt;code&gt;typoscript-lint&lt;/code&gt; zum Aufruf).&lt;/p&gt;
+&lt;p&gt;Falls euer TYPO3-Projekt nicht mit Composer verwaltet wird, kann auch der &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;composer global&lt;/code&gt;-Befehl genutzt werden, um den Linter global zu installieren. In diesem Fall steht der Linter dann nicht im Projektverzeichnis, sondern im Home-Verzeichnis eures Nutzers unter &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$HOME/.composer/vendor/bin/typoscript-lint&lt;/code&gt; zur Verfügung (wenn ihr das Verzeichnis &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;$HOME/.composer/vendor/bin&lt;/code&gt; in euren Suchpfad eintragt, reicht anschließend auch ein einfaches &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;typoscript-lint&lt;/code&gt; zum Aufruf).&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-console&quot; data-lang=&quot;console&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;gp&quot;&gt;&amp;gt;&lt;/span&gt; composer global require helmich/typo3-typoscript-lint
-&lt;span class=&quot;go&quot;&gt;Changed current directory to /Users/mhelmich/.composer&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;Using version ^1.4 for helmich/typo3-typoscript-lint&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;./composer.json has been created&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;Loading composer repositories with package information&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;Updating dependencies (including require-dev)&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;Package operations: 11 installs, 0 updates, 0 removals&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;  - Installing symfony/yaml (v4.0.3): Loading from cache&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;  - Installing symfony/filesystem (v4.0.3): Loading from cache&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;  - Installing symfony/config (v4.0.3): Loading from cache&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;  - Installing psr/container (1.0.0): Loading from cache&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;  - Installing symfony/dependency-injection (v4.0.3): Loading from cache&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;  - Installing helmich/typo3-typoscript-parser (v1.1.2): Loading from cache&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;  - Installing symfony/event-dispatcher (v4.0.3): Loading from cache&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;  - Installing symfony/finder (v4.0.3): Loading from cache&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;  - Installing symfony/polyfill-mbstring (v1.6.0): Loading from cache&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;  - Installing symfony/console (v4.0.3): Loading from cache&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;  - Installing helmich/typo3-typoscript-lint (v1.4.4): Loading from cache&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;Writing lock file&lt;/span&gt;
-&lt;span class=&quot;go&quot;&gt;Generating autoload files&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-console&quot; data-lang=&quot;console&quot;&gt;&lt;span class=&quot;gp&quot;&gt;&amp;gt;&lt;/span&gt;&lt;span class=&quot;w&quot;&gt; &lt;/span&gt;composer global require helmich/typo3-typoscript-lint
+&lt;span class=&quot;go&quot;&gt;Changed current directory to /Users/mhelmich/.composer
+Using version ^1.4 for helmich/typo3-typoscript-lint
+./composer.json has been created
+Loading composer repositories with package information
+Updating dependencies (including require-dev)
+Package operations: 11 installs, 0 updates, 0 removals
+  - Installing symfony/yaml (v4.0.3): Loading from cache
+  - Installing symfony/filesystem (v4.0.3): Loading from cache
+  - Installing symfony/config (v4.0.3): Loading from cache
+  - Installing psr/container (1.0.0): Loading from cache
+  - Installing symfony/dependency-injection (v4.0.3): Loading from cache
+  - Installing helmich/typo3-typoscript-parser (v1.1.2): Loading from cache
+  - Installing symfony/event-dispatcher (v4.0.3): Loading from cache
+  - Installing symfony/finder (v4.0.3): Loading from cache
+  - Installing symfony/polyfill-mbstring (v1.6.0): Loading from cache
+  - Installing symfony/console (v4.0.3): Loading from cache
+  - Installing helmich/typo3-typoscript-lint (v1.4.4): Loading from cache
+Writing lock file
+Generating autoload files&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;h2 id=&quot;nutzung&quot;&gt;Nutzung&lt;/h2&gt;
 
-&lt;p&gt;Nach der Installation kann &lt;code&gt;typoscript-lint&lt;/code&gt; auf beliebige Typoscript-Dateien aufgerufen werden. Die Dateien werden analyisiert, und das Tool wird euch auf Stilfehler (und auch echte Fehler) im Quelltext hinweisen. Die Ausgabe des Tools könnte beispielsweise aussehen wie folgt:&lt;/p&gt;
+&lt;p&gt;Nach der Installation kann &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;typoscript-lint&lt;/code&gt; auf beliebige Typoscript-Dateien aufgerufen werden. Die Dateien werden analyisiert, und das Tool wird euch auf Stilfehler (und auch echte Fehler) im Quelltext hinweisen. Die Ausgabe des Tools könnte beispielsweise aussehen wie folgt:&lt;/p&gt;
 
 &lt;p&gt;&lt;img src=&quot;/assets/posts/typoscript-lint-output.png&quot; alt=&quot;Ausgabe von `typoscript-lint`&quot; /&gt;&lt;/p&gt;
 
-&lt;p&gt;Mit den Optionen &lt;code&gt;-f xml&lt;/code&gt; und &lt;code&gt;-o ausgabedatei.xml&lt;/code&gt; kann auch eine XML-Ausgabedatei generiert werden, die dem verbreiteten &lt;a href=&quot;http://checkstyle.sourceforge.net/&quot;&gt;Checkstyle-Format&lt;/a&gt; folgt. Auf diese Weise kann der Typoscript-Linter bequem in &lt;em&gt;Continuous Integration&lt;/em&gt;-Umgebungen wie etwa Jenkins integriert werden (für das ein &lt;a href=&quot;https://wiki.jenkins.io/display/JENKINS/Checkstyle+Plugin&quot;&gt;Plugin für Checkstyle&lt;/a&gt; existiert).&lt;/p&gt;
+&lt;p&gt;Mit den Optionen &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-f xml&lt;/code&gt; und &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;-o ausgabedatei.xml&lt;/code&gt; kann auch eine XML-Ausgabedatei generiert werden, die dem verbreiteten &lt;a href=&quot;http://checkstyle.sourceforge.net/&quot;&gt;Checkstyle-Format&lt;/a&gt; folgt. Auf diese Weise kann der Typoscript-Linter bequem in &lt;em&gt;Continuous Integration&lt;/em&gt;-Umgebungen wie etwa Jenkins integriert werden (für das ein &lt;a href=&quot;https://wiki.jenkins.io/display/JENKINS/Checkstyle+Plugin&quot;&gt;Plugin für Checkstyle&lt;/a&gt; existiert).&lt;/p&gt;
 
 &lt;h2 id=&quot;konfiguration&quot;&gt;Konfiguration&lt;/h2&gt;
 
-&lt;p&gt;Stilfragen in Programmiersprachen ist häufig subjektiv und abhängig von persönlichen Vorlieben. Bestes Beispiel ist wahrscheinlich die &lt;a href=&quot;https://www.youtube.com/watch?v=SsoOG6ZeyUI&quot;&gt;“Tabs oder Spaces?”&lt;/a&gt;-Frage. Natürlich kann der TypoScript-Linter an derartige Präferenzen angepasst werden. Hierzu muss im Projektverzeichnis eine Konfigurationsdatei &lt;code&gt;typoscript-lint.yml&lt;/code&gt; hinterlegt werden (frühere Versionen des Linters benutzten &lt;code&gt;tslint.yml&lt;/code&gt; als Dateiname für die Konfigurationsdatei, was allerdings zu einigen &lt;a href=&quot;https://palantir.github.io/tslint/&quot;&gt;offensichtlichen Konflikten&lt;/a&gt; führte). Hier kann beispielsweise die Einrückung konfiguriert werden (hier etwa für die Einrückung mit Tabs statt Spaces):&lt;/p&gt;
+&lt;p&gt;Stilfragen in Programmiersprachen ist häufig subjektiv und abhängig von persönlichen Vorlieben. Bestes Beispiel ist wahrscheinlich die &lt;a href=&quot;https://www.youtube.com/watch?v=SsoOG6ZeyUI&quot;&gt;“Tabs oder Spaces?”&lt;/a&gt;-Frage. Natürlich kann der TypoScript-Linter an derartige Präferenzen angepasst werden. Hierzu muss im Projektverzeichnis eine Konfigurationsdatei &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;typoscript-lint.yml&lt;/code&gt; hinterlegt werden (frühere Versionen des Linters benutzten &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;tslint.yml&lt;/code&gt; als Dateiname für die Konfigurationsdatei, was allerdings zu einigen &lt;a href=&quot;https://palantir.github.io/tslint/&quot;&gt;offensichtlichen Konflikten&lt;/a&gt; führte). Hier kann beispielsweise die Einrückung konfiguriert werden (hier etwa für die Einrückung mit Tabs statt Spaces):&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt;1 &lt;/span&gt;&lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;sniffs&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;2 &lt;/span&gt;  &lt;span class=&quot;p p-Indicator&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;Indentation&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;3 &lt;/span&gt;    &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;parameters&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;4 &lt;/span&gt;      &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;useSpaces&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;false&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;5 &lt;/span&gt;      &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;indentPerLevel&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;1&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;na&quot;&gt;sniffs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;Indentation&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;parameters&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;useSpaces&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;false&lt;/span&gt;
+      &lt;span class=&quot;na&quot;&gt;indentPerLevel&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;1&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Auch das Deaktivieren einzelner Überprüfungen ist möglich. Wenn euch beispielsweise die Empfehlungen für das Verschachteln von Statements nerven, kann diese Überprüfung einfach deaktiviert werden:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt;1 &lt;/span&gt;&lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;sniffs&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;2 &lt;/span&gt;  &lt;span class=&quot;p p-Indicator&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;NestingConsistency&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;3 &lt;/span&gt;    &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;disabled&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;true&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;na&quot;&gt;sniffs&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt;
+  &lt;span class=&quot;pi&quot;&gt;-&lt;/span&gt; &lt;span class=&quot;na&quot;&gt;class&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;NestingConsistency&lt;/span&gt;
+    &lt;span class=&quot;na&quot;&gt;disabled&lt;/span&gt;&lt;span class=&quot;pi&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;no&quot;&gt;true&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;h2 id=&quot;fragen--feedback&quot;&gt;Fragen &amp;amp; Feedback?&lt;/h2&gt;
 
@@ -368,15 +410,15 @@ machen.&lt;/p&gt;
 Dies bedeutet, dass ein zu überwachender Service einen HTTP-Endpunkt anbieten
 muss, der von Prometheus dann in regelmäßigen Intervallen (standardmäßig 15
 Sekunden) abgefragt werden kann. Dieser Endpunkt (beispielsweise
-&lt;code&gt;http://&amp;lt;service-name&amp;gt;/metrics&lt;/code&gt;) muss dann eine Antwort mit entsprechenden
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://&amp;lt;service-name&amp;gt;/metrics&lt;/code&gt;) muss dann eine Antwort mit entsprechenden
 Zeitreihendaten ausliefern:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;http_response_count_total{application=&quot;my-application&quot;} 12423
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;http_response_count_total{application=&quot;my-application&quot;} 12423
 http_response_time_seconds{application=&quot;my-application&quot;} 1832745
-&lt;/code&gt;&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Dies funktioniert ausgezeichnet in Microservice-Architekturen – hier kann jeder
-Service einen einzelnen &lt;code&gt;/metrics&lt;/code&gt;-Endpunkt implementieren, der alle denkbaren
+Service einen einzelnen &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/metrics&lt;/code&gt;-Endpunkt implementieren, der alle denkbaren
 Kennzahlen auswirft.&lt;/p&gt;
 
 &lt;h2 id=&quot;das-problem&quot;&gt;Das Problem&lt;/h2&gt;
@@ -391,7 +433,7 @@ einer Datenbank persistieren müsste).&lt;/p&gt;
 
 &lt;p&gt;Für die Integration von NGINX-Webservern mit Prometheus gibt es bereits mehrere
 Konnektoren im Internet – diese werten jedoch entweder nur die Informationen
-der NGINX-Statusseite aus, die über das Modul &lt;code&gt;ngx_http_stub_status_module&lt;/code&gt;
+der NGINX-Statusseite aus, die über das Modul &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;ngx_http_stub_status_module&lt;/code&gt;
 angeboten wird (nicht detailliert genug für meinen Anwendungsfall), oder
 erfordern eine Umkonfiguration des Webservers, um einen neuen Logging-Server
 anzusprechen (zu invasiv für meine gehegte und gepflegte Alt-Applikation).&lt;/p&gt;
@@ -401,7 +443,7 @@ anzusprechen (zu invasiv für meine gehegte und gepflegte Alt-Applikation).&lt;/
 &lt;p&gt;Meine Lösung des Problems besteht nun in einem eigenen Exporter, der
 Performance-Metriken aus bestehenden NGINX-Accesslogs generieren kann. Dieser
 steht als &lt;a href=&quot;https://github.com/martin-helmich/prometheus-nginxlog-exporter&quot;&gt;Open Source auf Github zur Verfügung&lt;/a&gt;, und stellt einem
-Prometheus-Server auf Grundlage einer bestehenden &lt;code&gt;access.log&lt;/code&gt;-Datei diverse
+Prometheus-Server auf Grundlage einer bestehenden &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;access.log&lt;/code&gt;-Datei diverse
 Metriken zur Verfügung:&lt;/p&gt;
 
 &lt;ul&gt;
@@ -421,29 +463,44 @@ Konfigurationsdatei können mehrere “Namespaces” konfiguriert werden – die
 werden dann als separate Metriken exportiert. Nachfolgend ein kurzes Beispiel
 für eine solche Konfigurationsdatei:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-tf&quot; data-lang=&quot;tf&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt; 1 &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;listen&lt;/span&gt; &lt;span class=&quot; -Punctuation&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 2 &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;  port&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;m&quot;&gt;4040&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 3 &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;  address&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;0.0.0.0&amp;quot;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 4 &lt;/span&gt;&lt;span class=&quot; -Punctuation&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 5 &lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 6 &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;app1&amp;quot;&lt;/span&gt; &lt;span class=&quot; -Punctuation&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 7 &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;  format&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;$remote_addr - $remote_user [$time_local] \&amp;quot;$request\&amp;quot; $status $body_bytes_sent \&amp;quot;$http_referer\&amp;quot; \&amp;quot;$http_user_agent\&amp;quot; \&amp;quot;$http_x_forwarded_for\&amp;quot;&amp;quot;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 8 &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;  source_files&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;/var/log/nginx/access.log&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 9 &lt;/span&gt;  &lt;span class=&quot;err&quot;&gt;labels&lt;/span&gt; &lt;span class=&quot; -Punctuation&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;10 &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;    app&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;my-application&amp;quot;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;11 &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;    environment&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;production&amp;quot;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;12 &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;    foo&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;bar&amp;quot;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;13 &lt;/span&gt;  &lt;span class=&quot; -Punctuation&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;14 &lt;/span&gt;&lt;span class=&quot; -Punctuation&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-tf&quot; data-lang=&quot;tf&quot;&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nx&quot;&gt;listen&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;port&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;4040&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;address&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;0.0.0.0&quot;&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;nx&quot;&gt;namespace&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;app1&quot;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;format&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;remote_addr - &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;remote_user [&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;time_local] &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;request&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;status &lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;body_bytes_sent &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;http_referer&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;http_user_agent&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt; &lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;err&quot;&gt;$&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;http_x_forwarded_for&lt;/span&gt;&lt;span class=&quot;se&quot;&gt;\&quot;&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;source_files&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;/var/log/nginx/access.log&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+  &lt;span class=&quot;nx&quot;&gt;labels&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;app&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;my-application&quot;&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;environment&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;production&quot;&lt;/span&gt;
+    &lt;span class=&quot;nx&quot;&gt;foo&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;bar&quot;&lt;/span&gt;
+  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Beim Start des Exporters startet dieser einen eigenen HTTP-Server, der auf der
-konfigurierten IP-Adresse und Port lauscht (standardmäßig &lt;code&gt;0.0.0.0:4040&lt;/code&gt;). Über
-die URL &lt;code&gt;http://&amp;lt;IP&amp;gt;:4040/metrics&lt;/code&gt; können dann von Prometheus die entsprechenden
+konfigurierten IP-Adresse und Port lauscht (standardmäßig &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;0.0.0.0:4040&lt;/code&gt;). Über
+die URL &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;http://&amp;lt;IP&amp;gt;:4040/metrics&lt;/code&gt; können dann von Prometheus die entsprechenden
 Performance-Metriken abgegriffen werden.&lt;/p&gt;
 
-&lt;p&gt;Der Namespace-Name (hier &lt;code&gt;app1&lt;/code&gt;) wird später in den Namen der exportierten
-Metriken übernommen – also beispielsweise &lt;code&gt;app1_http_response_time_seconds&lt;/code&gt;.
-Das Format (&lt;code&gt;format&lt;/code&gt;) gibt das Format an, in dem NGINX die Access-Logs schreibt
+&lt;p&gt;Der Namespace-Name (hier &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;app1&lt;/code&gt;) wird später in den Namen der exportierten
+Metriken übernommen – also beispielsweise &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;app1_http_response_time_seconds&lt;/code&gt;.
+Das Format (&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;format&lt;/code&gt;) gibt das Format an, in dem NGINX die Access-Logs schreibt
 (für mehr Informationen dazu sei &lt;a href=&quot;http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format&quot;&gt;auf die Dokumentation&lt;/a&gt; verwiesen).&lt;/p&gt;
 
 &lt;h2 id=&quot;start-des-exporters&quot;&gt;Start des Exporters&lt;/h2&gt;
@@ -451,35 +508,48 @@ Das Format (&lt;code&gt;format&lt;/code&gt;) gibt das Format an, in dem NGINX di
 &lt;p&gt;Der eigentliche Exporter ist ein statisch kompiliertes Go-Binary, welches nach
 dem Herunterladen sofort installiert werden kann:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;wget https://github.com/martin-helmich/prometheus-nginxlog-exporter/releases/download/v1.0.0/prometheus-nginxlog-exporter
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;wget https://github.com/martin-helmich/prometheus-nginxlog-exporter/releases/download/v1.0.0/prometheus-nginxlog-exporter
 ./prometheus-nginxlog-exporter -config-file /pfad/zur/config.hcl
-&lt;/code&gt;&lt;/pre&gt;
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Um sicherzustellen, dass der Exporter beim Systemstart automatisch startet,
 kann eine entsprechende systemd-Unit konfiguriert werden (ab Debian 8, Ubuntu
-16.04 oder CentOS 7). Diese kann platziert werden unter &lt;code&gt;/etc/systemd/system/prometheus-nginxlog-exporter.service&lt;/code&gt;:&lt;/p&gt;
+16.04 oder CentOS 7). Diese kann platziert werden unter &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/systemd/system/prometheus-nginxlog-exporter.service&lt;/code&gt;:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ini&quot; data-lang=&quot;ini&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt; 1 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;[Unit]&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 2 &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Description&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;NGINX metrics exporter for Prometheus&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 3 &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;After&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;network-online.target&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 4 &lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 5 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;[Service]&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 6 &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;ExecStart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;/usr/local/bin/prometheus-nginxlog-exporter -config-file /etc/prometheus-nginxlog-exporter.hcl&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 7 &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;Restart&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;always&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 8 &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;ProtectSystem&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;full&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 9 &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;CapabilityBoundingSet&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;10 &lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;11 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;[Install]&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;12 &lt;/span&gt;&lt;span class=&quot;na&quot;&gt;WantedBy&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;multi-user.target&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-ini&quot; data-lang=&quot;ini&quot;&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;nn&quot;&gt;[Unit]&lt;/span&gt;
+&lt;span class=&quot;py&quot;&gt;Description&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;NGINX metrics exporter for Prometheus&lt;/span&gt;
+&lt;span class=&quot;py&quot;&gt;After&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;network-online.target&lt;/span&gt;
+
+&lt;span class=&quot;nn&quot;&gt;[Service]&lt;/span&gt;
+&lt;span class=&quot;py&quot;&gt;ExecStart&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;/usr/local/bin/prometheus-nginxlog-exporter -config-file /etc/prometheus-nginxlog-exporter.hcl&lt;/span&gt;
+&lt;span class=&quot;py&quot;&gt;Restart&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;always&lt;/span&gt;
+&lt;span class=&quot;py&quot;&gt;ProtectSystem&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;full&lt;/span&gt;
+&lt;span class=&quot;py&quot;&gt;CapabilityBoundingSet&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;
+
+&lt;span class=&quot;nn&quot;&gt;[Install]&lt;/span&gt;
+&lt;span class=&quot;py&quot;&gt;WantedBy&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;=&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;multi-user.target&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Beachtet, dass diese Unitfile davon ausgeht, dass das Binary unter
-&lt;code&gt;/usr/local/bin/prometheus-nginxlog-exporter&lt;/code&gt; und die Konfigurationsdatei unter
-&lt;code&gt;/etc/prometheus-nginxlog-exporter.hcl&lt;/code&gt; liegt. Diese Pfade können natürlich nach
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/usr/local/bin/prometheus-nginxlog-exporter&lt;/code&gt; und die Konfigurationsdatei unter
+&lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;/etc/prometheus-nginxlog-exporter.hcl&lt;/code&gt; liegt. Diese Pfade können natürlich nach
 Bedarf angepasst werden.&lt;/p&gt;
 
 &lt;h2 id=&quot;das-ergebnis&quot;&gt;Das Ergebnis&lt;/h2&gt;
 
-&lt;p&gt;Ich betreibe den &lt;code&gt;prometheus-nginxlog-exporter&lt;/code&gt; nun seit einiger Zeit schon
+&lt;p&gt;Ich betreibe den &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;prometheus-nginxlog-exporter&lt;/code&gt; nun seit einiger Zeit schon
 produktiv. Insbesondere zusammen mit &lt;a href=&quot;https://grafana.com/&quot;&gt;Grafana&lt;/a&gt; lassen sich wunderbare
 Auswertungen und Monitoring-Dashboards erstellen:&lt;/p&gt;
 
@@ -489,11 +559,11 @@ Auswertungen und Monitoring-Dashboards erstellen:&lt;/p&gt;
 generiert:&lt;/p&gt;
 
 &lt;ul&gt;
-  &lt;li&gt;Durchschnittliche Antwortzeit: &lt;code&gt;sum(rate(app_http_response_time_seconds_sum[5m])) by (instance) / sum(rate(app_http_response_time_seconds_count[5m])) by (instance)&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;Anfragen pro Sekunde: &lt;code&gt;sum(rate(app_http_response_time_seconds_count[1m])) by (instance)&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;Antwortzeit (90%-Quantil): &lt;code&gt;app_http_response_time_seconds{quantile=&quot;0.9&quot;,method=&quot;GET&quot;,status=&quot;200&quot;}&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;HTTP-Traffic: &lt;code&gt;sum(rate(app_http_response_size_bytes[5m])) by (instance)&lt;/code&gt;&lt;/li&gt;
-  &lt;li&gt;Statuscodes pro Sekunde: &lt;code&gt;sum(rate(app_http_response_count_total[1m])) by (status)&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Durchschnittliche Antwortzeit: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sum(rate(app_http_response_time_seconds_sum[5m])) by (instance) / sum(rate(app_http_response_time_seconds_count[5m])) by (instance)&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Anfragen pro Sekunde: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sum(rate(app_http_response_time_seconds_count[1m])) by (instance)&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Antwortzeit (90%-Quantil): &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;app_http_response_time_seconds{quantile=&quot;0.9&quot;,method=&quot;GET&quot;,status=&quot;200&quot;}&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;HTTP-Traffic: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sum(rate(app_http_response_size_bytes[5m])) by (instance)&lt;/code&gt;&lt;/li&gt;
+  &lt;li&gt;Statuscodes pro Sekunde: &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;sum(rate(app_http_response_count_total[1m])) by (status)&lt;/code&gt;&lt;/li&gt;
 &lt;/ul&gt;
 
 </description>
@@ -514,43 +584,74 @@ generiert:&lt;/p&gt;
         <title>Surf In The Cloud: TYPO3 Surf-Deployments nach EC2</title>
         <description>&lt;p&gt;Nachdem mir in den letzten Tagen das manuelle Deployment meiner kleinen Neos-Seite zu aufwändig wurde, beschloss ich, dieses Deployment über TYPO3 Surf zu automatisieren. Da ich auch beruflich viel mit Surf zu tun habe, war das Deployment schnell geschrieben. Dennoch war ich mit der ersten Version meines Deployments noch nicht ganz glücklich:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt;1 &lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;2 &lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;3 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$node&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;\TYPO3\Surf\Domain\Model\Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;i-54932495&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;4 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setHostname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;ec2-52-28-61-14.eu-central-1.compute.amazonaws.com&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;5 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setOption&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&amp;quot;username&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&amp;quot;neos&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;6 &lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;7 &lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// ...&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$node&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;TYPO3\Surf\Domain\Model\Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;i-54932495&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;setHostname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;ec2-52-28-61-14.eu-central-1.compute.amazonaws.com&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;setOption&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s2&quot;&gt;&quot;username&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s2&quot;&gt;&quot;neos&quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// ...&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Was würde passieren, wenn ich meine winzige Micro-EC2-Instanz einmal löschen würde? Oder falls ich beschlösse, meine Seite auf zwei (winzigen) Micro-Instanzen zu betreiben? Deutlich eleganter ist es, sich diese Informationen einfach direkt von der EC2-API zu laden. Hierzu kann das AWS-SDK für PHP genutzt werden, welches einfach per Composer bezogen werden kann:&lt;/p&gt;
 
-&lt;pre&gt;&lt;code&gt;$ composer require aws/aws-sdk-php
-&lt;/code&gt;&lt;/pre&gt;
+&lt;div class=&quot;language-plaintext highlighter-rouge&quot;&gt;&lt;div class=&quot;highlight&quot;&gt;&lt;pre class=&quot;highlight&quot;&gt;&lt;code&gt;$ composer require aws/aws-sdk-php
+&lt;/code&gt;&lt;/pre&gt;&lt;/div&gt;&lt;/div&gt;
 
 &lt;p&gt;Und nun zahlt sich auch aus, dass Deployment-Definitionen in TYPO3 Surf einfach nur einfache PHP-Dateien sind. So kann man einfach alle Instanzen (optional gefiltert nach einem bestimmten Tag) aus der AWS-API laden und als Node dem Deployment hinzufügen:&lt;/p&gt;
 
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt; 1 &lt;/span&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 2 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$ec2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;\Aws\Ec2\Ec2Client&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;profile&amp;#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;default&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;region&amp;#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;eu-central-1&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 3 &lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 4 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$ec2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;describeInstances&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 5 &lt;/span&gt;    &lt;span class=&quot;s1&quot;&gt;&amp;#39;Filters&amp;#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 6 &lt;/span&gt;        &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Name&amp;#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;tag:purpose&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Values&amp;#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;mhde-prod&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]],&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 7 &lt;/span&gt;        &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Name&amp;#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;instance-state-name&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;Values&amp;#39;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;running&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 8 &lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 9 &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;10 &lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;11 &lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$application&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;\TYPO3\Surf\Application\TYPO3\Flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;martin-helmich.de&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;12 &lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;13 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;foreach&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Reservations&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$reservation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;14 &lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;foreach&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$reservation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;Instances&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;15 &lt;/span&gt;        &lt;span class=&quot;nv&quot;&gt;$node&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;nx&quot;&gt;\TYPO3\Surf\Domain\Model\Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;InstanceId&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;16 &lt;/span&gt;        &lt;span class=&quot;nv&quot;&gt;$node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setHostname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;PublicDnsName&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;17 &lt;/span&gt;        &lt;span class=&quot;nv&quot;&gt;$node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;setOption&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;&amp;#39;username&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;&amp;#39;neos&amp;#39;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;18 &lt;/span&gt;        &lt;span class=&quot;nv&quot;&gt;$application&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;na&quot;&gt;addNode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;19 &lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;20 &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;21 &lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;22 &lt;/span&gt;&lt;span class=&quot;c1&quot;&gt;// ...&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
+&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-php&quot; data-lang=&quot;php&quot;&gt;&lt;table class=&quot;rouge-table&quot;&gt;&lt;tbody&gt;&lt;tr&gt;&lt;td class=&quot;gutter gl&quot;&gt;&lt;pre class=&quot;lineno&quot;&gt;1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;cp&quot;&gt;&amp;lt;?php&lt;/span&gt;
+&lt;span class=&quot;nv&quot;&gt;$ec2&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;nc&quot;&gt;Aws\Ec2\Ec2Client&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;::&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;factory&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'profile'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'default'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'region'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'eu-central-1'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$ec2&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;describeInstances&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;([&lt;/span&gt;
+    &lt;span class=&quot;s1&quot;&gt;'Filters'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Name'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'tag:purpose'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Values'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'mhde-prod'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]],&lt;/span&gt;
+        &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Name'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'instance-state-name'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'Values'&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&amp;gt;&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'running'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]]&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;]&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+
+&lt;span class=&quot;nv&quot;&gt;$application&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;TYPO3\Surf\Application\TYPO3\Flow&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'martin-helmich.de'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+
+&lt;span class=&quot;k&quot;&gt;foreach&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$response&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Reservations'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$reservation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+    &lt;span class=&quot;k&quot;&gt;foreach&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$reservation&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'Instances'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;as&lt;/span&gt; &lt;span class=&quot;nv&quot;&gt;$instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
+        &lt;span class=&quot;nv&quot;&gt;$node&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;new&lt;/span&gt; &lt;span class=&quot;err&quot;&gt;\&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;TYPO3\Surf\Domain\Model\Node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'InstanceId'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+        &lt;span class=&quot;nv&quot;&gt;$node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;setHostname&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$instance&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;[&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'PublicDnsName'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;]);&lt;/span&gt;
+        &lt;span class=&quot;nv&quot;&gt;$node&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;setOption&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s1&quot;&gt;'username'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;,&lt;/span&gt; &lt;span class=&quot;s1&quot;&gt;'neos'&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+        &lt;span class=&quot;nv&quot;&gt;$application&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&amp;gt;&lt;/span&gt;&lt;span class=&quot;nf&quot;&gt;addNode&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;nv&quot;&gt;$node&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
+    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
+
+&lt;span class=&quot;c1&quot;&gt;// ...&lt;/span&gt;
+&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/tbody&gt;&lt;/table&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
 
 &lt;p&gt;Und fertig! Nie wieder neue Server im Deployment konfigurieren.&lt;/p&gt;
 </description>
@@ -593,7 +694,7 @@ generiert:&lt;/p&gt;
 
 &lt;h2 id=&quot;ab-ins-typoscript&quot;&gt;Ab ins TypoScript&lt;/h2&gt;
 
-&lt;p&gt;Die Standard-TypoScript-Konfiguration von Neos sieht bereits vor, dass bei einem Format, das anders lautet als &lt;code&gt;html&lt;/code&gt; einfach das TypoScript-Objekt mit dem entsprechenden Namen gerendert wird. Wir müssen an dieser Stelle also nur noch das Objekt mit dem Namen &lt;code&gt;rss&lt;/code&gt; implementieren. Da hier z.B. auch HTTP-Header verändert werden müssen (wir haben ja schließlich einen anderen Content-Type), kann hier am besten gleich die &lt;code&gt;TYPO3.TypoScript:Http.Message&lt;/code&gt;-Klasse genutzt werden. Das Endergebnis ist recht komplex; anstatt es nach und nach aufzubauen, präsentiere ich erstmal den ganzen Block:&lt;/p&gt;
+&lt;p&gt;Die Standard-TypoScript-Konfiguration von Neos sieht bereits vor, dass bei einem Format, das anders lautet als &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;html&lt;/code&gt; einfach das TypoScript-Objekt mit dem entsprechenden Namen gerendert wird. Wir müssen an dieser Stelle also nur noch das Objekt mit dem Namen &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rss&lt;/code&gt; implementieren. Da hier z.B. auch HTTP-Header verändert werden müssen (wir haben ja schließlich einen anderen Content-Type), kann hier am besten gleich die &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TYPO3.TypoScript:Http.Message&lt;/code&gt;-Klasse genutzt werden. Das Endergebnis ist recht komplex; anstatt es nach und nach aufzubauen, präsentiere ich erstmal den ganzen Block:&lt;/p&gt;
 
 &lt;noscript&gt;&lt;pre&gt;rss = TYPO3.TypoScript:Http.Message {
 	@override.defaultAuthor = &amp;#39;Martin Helmich&amp;#39;
@@ -643,11 +744,11 @@ generiert:&lt;/p&gt;
 }&lt;/pre&gt;&lt;/noscript&gt;
 &lt;script src=&quot;https://gist.github.com/martin-helmich/aab1c83379063d4beba5.js?file=Rss.ts2&quot;&gt; &lt;/script&gt;
 
-&lt;p&gt;Nun im Detail: Der Inhalt des Feeds wird von einem Fluid-Template gerendert. Dem Template werden einige Variablen zugewiesen, die aus der aktuellen Content Node, bzw. dem Kontext geladen werden (z.B. die Sprache). Die Variable &lt;code&gt;items&lt;/code&gt; ist schließlich eine ContentCollection, die in diesem Fall von einer Eel-Expression befüllt wird (hier sind das alle Nodes vom Typ &lt;code&gt;Helmich.Homepage:BlogArticle&lt;/code&gt;; das ist aber hochindividuell und muss je nach Usecase angepasst werden).&lt;/p&gt;
+&lt;p&gt;Nun im Detail: Der Inhalt des Feeds wird von einem Fluid-Template gerendert. Dem Template werden einige Variablen zugewiesen, die aus der aktuellen Content Node, bzw. dem Kontext geladen werden (z.B. die Sprache). Die Variable &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;items&lt;/code&gt; ist schließlich eine ContentCollection, die in diesem Fall von einer Eel-Expression befüllt wird (hier sind das alle Nodes vom Typ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Helmich.Homepage:BlogArticle&lt;/code&gt;; das ist aber hochindividuell und muss je nach Usecase angepasst werden).&lt;/p&gt;
 
-&lt;p&gt;Jedes Element dieser ContentCollection wird dann mit einem bestimmten Abschnitt des Templates gerendert. Die meisten Variablen werden auch hier aus der jeweiligen Node bezogen. Als &lt;code&gt;abstract&lt;/code&gt;-Variable wird der Inhalt des ersten Text-Elements unterhalb der jeweiligen Node ausgewählt.&lt;/p&gt;
+&lt;p&gt;Jedes Element dieser ContentCollection wird dann mit einem bestimmten Abschnitt des Templates gerendert. Die meisten Variablen werden auch hier aus der jeweiligen Node bezogen. Als &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;abstract&lt;/code&gt;-Variable wird der Inhalt des ersten Text-Elements unterhalb der jeweiligen Node ausgewählt.&lt;/p&gt;
 
-&lt;p&gt;Der &lt;code&gt;@cache&lt;/code&gt;-Parameter definiert schließlich, dass die Ausgabe gecached werden soll. Die Tag-Konfiguration bewirkt, dass der Cache jedes Mal invalidiert wird, wenn eine Node vom Typ &lt;code&gt;Helmich.Homepage:BlogArticle&lt;/code&gt; bearbeitet wird. Aber auch diese Konfiguration muss wahrscheinlich individuell angepasst werden.&lt;/p&gt;
+&lt;p&gt;Der &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;@cache&lt;/code&gt;-Parameter definiert schließlich, dass die Ausgabe gecached werden soll. Die Tag-Konfiguration bewirkt, dass der Cache jedes Mal invalidiert wird, wenn eine Node vom Typ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Helmich.Homepage:BlogArticle&lt;/code&gt; bearbeitet wird. Aber auch diese Konfiguration muss wahrscheinlich individuell angepasst werden.&lt;/p&gt;
 
 &lt;h2 id=&quot;der-fluid-view&quot;&gt;Der Fluid-View&lt;/h2&gt;
 
@@ -689,7 +790,7 @@ generiert:&lt;/p&gt;
 &amp;lt;/f:section&amp;gt;&lt;/pre&gt;&lt;/noscript&gt;
 &lt;script src=&quot;https://gist.github.com/martin-helmich/aab1c83379063d4beba5.js?file=Rss.xml&quot;&gt; &lt;/script&gt;
 
-&lt;h2 id=&quot;verlinkung-im-head-bereich&quot;&gt;Verlinkung im &lt;code&gt;&amp;lt;head&amp;gt;&lt;/code&gt;-Bereich&lt;/h2&gt;
+&lt;h2 id=&quot;verlinkung-im-head-bereich&quot;&gt;Verlinkung im &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;&amp;lt;head&amp;gt;&lt;/code&gt;-Bereich&lt;/h2&gt;
 
 &lt;p&gt;Nun müssen die Besucher der Seite nur noch darauf aufmerksam gemacht werden, dass es den RSS-Feed gibt. Glücklicherweise sind moderne Browser intelligent genug, und lesen einfach einen meta-Tag aus, der im HTML-Head platziert werden kann. Auch das können wir über TypoScript machen:&lt;/p&gt;
 
@@ -718,144 +819,13 @@ generiert:&lt;/p&gt;
 &lt;/pre&gt;&lt;/noscript&gt;
 &lt;script src=&quot;https://gist.github.com/martin-helmich/aab1c83379063d4beba5.js?file=Root.ts2&quot;&gt; &lt;/script&gt;
 
-&lt;p&gt;Ich habe es mir in diesem Beispiel einfach gemacht, und als Ziel-Node des Links die &lt;code&gt;${site}&lt;/code&gt;-Node angegeben. Der Grund dafür ist, dass ich nur einen RSS-Feed für die ganze Seite haben möchte (technisch gesehen zwei, je einmal auf Deutsch und Englisch). Aber auch ein eigener Feed pro Seite ließe sich auf diese Weise einfach umsetzen.&lt;/p&gt;
+&lt;p&gt;Ich habe es mir in diesem Beispiel einfach gemacht, und als Ziel-Node des Links die &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;${site}&lt;/code&gt;-Node angegeben. Der Grund dafür ist, dass ich nur einen RSS-Feed für die ganze Seite haben möchte (technisch gesehen zwei, je einmal auf Deutsch und Englisch). Aber auch ein eigener Feed pro Seite ließe sich auf diese Weise einfach umsetzen.&lt;/p&gt;
 </description>
         <pubDate>Wed, 15 Apr 2015 19:42:28 +0000</pubDate>
         <link>https://www.martin-helmich.de/de/blog/rss-feeds-mit-typo3-neos.html</link>
         <guid isPermaLink="true">https://www.martin-helmich.de/de/blog/rss-feeds-mit-typo3-neos.html</guid>
         
         <category>neos</category>
-        
-        
-      </item>
-    
-      <item>
-        <title>CMS auf Speed: TYPO3 Neos mit Varnish</title>
-        <description>&lt;p&gt;Nicht, dass TYPO3 Neos im Production-Modus nicht eigentlich schon schnell genug wäre. Aus keinem anderen Grund außer “Weil ich es kann!” habe ich einmal versucht zu schauen, wie viel schneller ich diese Seite durch den Einsatz von Varnish noch machen kann. Vor allem hat mich dabei interessiert, wie gut TYPO3 Neos mit Varnish zusammenspielt.&lt;/p&gt;
-
-&lt;h2 id=&quot;überraschend-einfach&quot;&gt;Überraschend einfach&lt;/h2&gt;
-
-&lt;p&gt;Eins vorab: Ich war angenehm überrascht, wie gut sich TYPO3 Neos mit Varnish verträgt. Ich erinnere mich daran, dass ich - als ich anfing, mich mit Varnish zu beschäftigen - einmal mehrere Tage gebraucht habe, um einen Magento-Shop halbwegs vernünftig mit Varnish ans Laufen zu bekommen. Neos hingegen funktioniert mit Varnish. Einfach so. Ohne Extensions. Ohne eigenen VCL-Code. Gut, es gibt eine Extension für das Neos-Backend, die zum Beispiel automatisch den Cache leert, wenn ein Dokument bearbeitet wird. Aber das ist Luxus; das einfache Ausliefern und Cachen von Content funktioniert einfach.&lt;/p&gt;
-
-&lt;p&gt;Der Grund dafür ist, dass Neos (im Unterschied zu anderer Software; ja, ich meine dich, Magento!) vernünftige HTTP-Header setzt, sodass Varnish von Haus aus damit zurecht kommt. Das Wichtigste ist, dass Neos erst tatsächlich dann einen Cookie im Browser setzt, wenn auch eine Sitzung gestartet wurde.&lt;/p&gt;
-
-&lt;h2 id=&quot;vorbereitungen&quot;&gt;Vorbereitungen&lt;/h2&gt;
-
-&lt;div class=&quot;my-alert row warning-color-dark white-text z-depth-1&quot;&gt;
-      &lt;div class=&quot;col-sm-12&quot;&gt;
-        &lt;span class=&quot;icon&quot;&gt;
-          &lt;i class=&quot;fa fa-exclamation-triangle&quot;&gt;&lt;/i&gt;
-        &lt;/span&gt;
-        &lt;div class=&quot;my-alert-body&quot;&gt;
-          &lt;strong&gt;Achtung &lt;/strong&gt; 
-  Dieser Abschnitt betrifft euch nur, wenn ihr Varnish und euren Webserver (z.B. Apache, Nginx) auf demselben Server betreiben wollt.
-
-        &lt;/div&gt;
-      &lt;/div&gt;
-    &lt;/div&gt;
-
-&lt;p&gt;Falls ihr vorhabt, den Varnish-Dienst auf demselben Server zu betreiben, wie euren Webserver, solltet ihr vorher noch ein paar kleinere Anpassungen vornehmen. In der Regel sollte der Varnish-Dienst als HTTP-Proxy direkt auf Port 80 lauschen. Läuft eurer Webserver nun auf demselben Host, wird dieser wahrscheinlich ebenfalls diesen Port beanspruchen. Bevor ihr Varnish installiert, solltet ihr also euren Webserver auf einen anderen Port umbiegen.&lt;/p&gt;
-
-&lt;p&gt;Bei Nginx ändert ihr dazu in eurem VirtualHost (unter Debian-ähnlichen Systemen liegen die unter &lt;code&gt;/etc/nginx/sites-enabled&lt;/code&gt;) folgendes:&lt;/p&gt;
-
-&lt;p&gt;Vorher:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-nginx&quot;&gt;listen 80;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Nachher:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code class=&quot;language-nginx&quot;&gt;listen 127.0.0.1:8080;
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Die Änderung bewirkt einerseits, dass Nginx nun auf Port 8080 statt vorher 80 lauscht, und andererseits dass dieser Port nur noch vom lokalen Rechner erreichbar ist (das hat seine Richtigkeit; der öffentliche Traffic aus dem Internet soll ja über Varnish laufen, der dann später auf Port 80 lauschen wird).&lt;/p&gt;
-
-&lt;p&gt;Denkt anschließend daran, den Nginx neuzustarten:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;service nginx restart
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;varnish-installieren&quot;&gt;Varnish installieren&lt;/h2&gt;
-
-&lt;p&gt;Ich gehe in diesem Abschnitt davon aus, dass ihr Varnish z.B. auf einem Root-Server oder für ein Docker-Image selbst installieren möchtet. Falls ihr Varnish als Managed Service einsetzt, entfällt die Installation natürlich.&lt;/p&gt;
-
-&lt;p&gt;Wenn ihr Ubuntu oder Debian nutzt, könnt ihr Varnish direkt aus den Paketquellen installieren. Unter Ubuntu 14.04 (und auch Debian Wheezy) bekommt ihr dabei Varnish in Version 3.0. Die ist nicht mehr ganz frisch, sollte für die meisten Fälle aber ausreichen. Für neuere Versionen gibt es auch ein &lt;a href=&quot;https://www.varnish-cache.org/installation/ubuntu&quot;&gt;eigenes Repository vom Hersteller&lt;/a&gt;.&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ apt-get install varnish
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;h2 id=&quot;varnish-konfigurieren&quot;&gt;Varnish konfigurieren&lt;/h2&gt;
-
-&lt;p&gt;Die Konfigurationsdatei von Varnish ist im sogenannten VCL-Format (Varnish Configuration Language) geschrieben und liegt unter &lt;code&gt;/etc/varnish/default.vcl&lt;/code&gt;. Sie enthält standardmäßig nur ein paar Kommentare, und eine Angabe, wie der eigentliche Webserver zu erreichen ist. Ich habe bei mir zusätzlich noch die &lt;code&gt;vcl_deliver&lt;/code&gt;-Subroutine überschrieben (unten).&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-perl&quot; data-lang=&quot;perl&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt; 1 &lt;/span&gt;&lt;span class=&quot;n&quot;&gt;backend&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;default&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 2 &lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;host&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;127.0.0.1&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 3 &lt;/span&gt;  &lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;port&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;8080&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 4 &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 5 &lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 6 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;sub&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;vcl_deliver&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 7 &lt;/span&gt;  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;obj&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;hits&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;&amp;gt;&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;0&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 8 &lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Cache&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;HIT&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 9 &lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt; &lt;span class=&quot;k&quot;&gt;else&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;10 &lt;/span&gt;    &lt;span class=&quot;n&quot;&gt;set&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;resp&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Cache&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;=&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;MISS&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;11 &lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;12 &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Die Backend-Definition sollte selbsterklärend sein; falls Varnish und der Webserver bei euch auf verschiedenen Server laufen, muss dort die IP-Adresse und der Port des Webservers eingetragen werden.&lt;/p&gt;
-
-&lt;p&gt;Der X-Cache-Header macht das Debugging ein wenig einfacher; anhand dieses Headers könnt ihr später sicherstellen, dass die Antworten vom Server auch tatsächlich aus dem Cache beantwortet werden.&lt;/p&gt;
-
-&lt;p&gt;Wenn ihr die VCL-Datei geändert habt, solltet ihr den Varnish noch einmal neustarten:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ service varnish start
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Ab diesem Zeitpunkt sollte Varnish bereits auf Port 80 lauschen und munter eure Webseite ausliefern. Wenn ihr möchtet, könnt ihr jetzt aufhören.&lt;/p&gt;
-
-&lt;h2 id=&quot;das-backend-anpassen&quot;&gt;Das Backend anpassen&lt;/h2&gt;
-
-&lt;p&gt;Aktuell bekommt der Varnish-Cache noch nichts davon mit, wenn sich am Content der Seite irgendetwas ändert. Dies bedeutet, dass der Cache gegebenenfalls immer munter weiter veralteten Content ausliefert. Diesen Zustand möchten wir nun ändern.&lt;/p&gt;
-
-&lt;p&gt;Für Neos gibt es das Paket &lt;em&gt;moc/varnish&lt;/em&gt;, welches das Leeren des Caches übernimmt, wenn im Backend Content verändert wird. Ihr könnt es einfach über Composer installieren:&lt;/p&gt;
-
-&lt;pre&gt;&lt;code&gt;$ composer require moc/varnish dev-master
-&lt;/code&gt;&lt;/pre&gt;
-
-&lt;p&gt;Läuft eurer Varnish-Dienst nicht auf demselben Server wie der Webserver, müsst ihr das Paket nun noch ein wenig konfigurieren. Dies geht in der &lt;code&gt;Configuration/Settings.yaml&lt;/code&gt; (unten).&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-yaml&quot; data-lang=&quot;yaml&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt;1 &lt;/span&gt;&lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;MOC&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;2 &lt;/span&gt;  &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;Varnish&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;3 &lt;/span&gt;    &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;enableCacheBanningWhenNodePublished&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;true&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;4 &lt;/span&gt;    &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;cacheHeaders&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;5 &lt;/span&gt;      &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;defaultSharedMaximumAge&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;86400&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;6 &lt;/span&gt;    &lt;span class=&quot;l l-Scalar l-Scalar-Plain&quot;&gt;varnishUrl&lt;/span&gt;&lt;span class=&quot;p p-Indicator&quot;&gt;:&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;http://127.0.0.1/&amp;quot;&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-&lt;p&gt;Wie ihr seht, muss das Neos-Package die Adresse des Varnish kennen, um gezielte BAN-Requests zum Leeren des Caches absetzen zu können. Per Konfiguration könnt ihr außerdem die standardmäßige Cache-Lebensdauer beeinflussen.&lt;/p&gt;
-
-&lt;p&gt;Zum Leeren des Caches über das Backend wird zudem noch ein wenig eigener VCL-Code benötigt:&lt;/p&gt;
-
-&lt;figure class=&quot;highlight&quot;&gt;&lt;pre&gt;&lt;code class=&quot;language-perl&quot; data-lang=&quot;perl&quot;&gt;&lt;span&gt;&lt;/span&gt;&lt;span class=&quot;lineno&quot;&gt; 1 &lt;/span&gt;&lt;span class=&quot;k&quot;&gt;sub&lt;/span&gt; &lt;span class=&quot;nf&quot;&gt;vcl_recv&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 2 &lt;/span&gt;  &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;request&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;==&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;BAN&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 3 &lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Varnish&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Ban&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;All&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 4 &lt;/span&gt;      &lt;span class=&quot;n&quot;&gt;ban&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;req.url ~ /&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 5 &lt;/span&gt;      &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Banned all&amp;quot;&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 6 &lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 7 &lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 8 &lt;/span&gt;    &lt;span class=&quot;k&quot;&gt;if&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Varnish&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Ban&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Neos&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NodeIdentifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;)&lt;/span&gt; &lt;span class=&quot;p&quot;&gt;{&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt; 9 &lt;/span&gt;      &lt;span class=&quot;n&quot;&gt;ban&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;(&lt;/span&gt;&lt;span class=&quot;s&quot;&gt;&amp;quot;obj.http.X-Neos-NodeIdentifier == &amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Varnish&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Ban&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Neos&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NodeIdentifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;);&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;10 &lt;/span&gt;      &lt;span class=&quot;n&quot;&gt;error&lt;/span&gt; &lt;span class=&quot;mi&quot;&gt;200&lt;/span&gt; &lt;span class=&quot;s&quot;&gt;&amp;quot;Banned TYPO3 pid &amp;quot;&lt;/span&gt; &lt;span class=&quot;o&quot;&gt;+&lt;/span&gt; &lt;span class=&quot;n&quot;&gt;req&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;http&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;.&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;X&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Varnish&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Ban&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;Neos&lt;/span&gt;&lt;span class=&quot;o&quot;&gt;-&lt;/span&gt;&lt;span class=&quot;n&quot;&gt;NodeIdentifier&lt;/span&gt;&lt;span class=&quot;p&quot;&gt;;&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;11 &lt;/span&gt;    &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;12 &lt;/span&gt;  &lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;
-&lt;span class=&quot;lineno&quot;&gt;13 &lt;/span&gt;&lt;span class=&quot;p&quot;&gt;}&lt;/span&gt;&lt;/code&gt;&lt;/pre&gt;&lt;/figure&gt;
-
-</description>
-        <pubDate>Tue, 14 Apr 2015 19:42:28 +0000</pubDate>
-        <link>https://www.martin-helmich.de/de/blog/typo3-neos-mit-varnish.html</link>
-        <guid isPermaLink="true">https://www.martin-helmich.de/de/blog/typo3-neos-mit-varnish.html</guid>
-        
-        <category>neos</category>
-        
-        <category>varnish</category>
         
         
       </item>

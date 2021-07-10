@@ -137,15 +137,15 @@ machen.</p>
 Dies bedeutet, dass ein zu überwachender Service einen HTTP-Endpunkt anbieten
 muss, der von Prometheus dann in regelmäßigen Intervallen (standardmäßig 15
 Sekunden) abgefragt werden kann. Dieser Endpunkt (beispielsweise
-<code>http://&lt;service-name&gt;/metrics</code>) muss dann eine Antwort mit entsprechenden
+<code class="language-plaintext highlighter-rouge">http://&lt;service-name&gt;/metrics</code>) muss dann eine Antwort mit entsprechenden
 Zeitreihendaten ausliefern:</p>
 
-<pre><code>http_response_count_total{application="my-application"} 12423
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>http_response_count_total{application="my-application"} 12423
 http_response_time_seconds{application="my-application"} 1832745
-</code></pre>
+</code></pre></div></div>
 
 <p>Dies funktioniert ausgezeichnet in Microservice-Architekturen – hier kann jeder
-Service einen einzelnen <code>/metrics</code>-Endpunkt implementieren, der alle denkbaren
+Service einen einzelnen <code class="language-plaintext highlighter-rouge">/metrics</code>-Endpunkt implementieren, der alle denkbaren
 Kennzahlen auswirft.</p>
 
 <h2 id="das-problem">Das Problem</h2>
@@ -160,7 +160,7 @@ einer Datenbank persistieren müsste).</p>
 
 <p>Für die Integration von NGINX-Webservern mit Prometheus gibt es bereits mehrere
 Konnektoren im Internet – diese werten jedoch entweder nur die Informationen
-der NGINX-Statusseite aus, die über das Modul <code>ngx_http_stub_status_module</code>
+der NGINX-Statusseite aus, die über das Modul <code class="language-plaintext highlighter-rouge">ngx_http_stub_status_module</code>
 angeboten wird (nicht detailliert genug für meinen Anwendungsfall), oder
 erfordern eine Umkonfiguration des Webservers, um einen neuen Logging-Server
 anzusprechen (zu invasiv für meine gehegte und gepflegte Alt-Applikation).</p>
@@ -170,7 +170,7 @@ anzusprechen (zu invasiv für meine gehegte und gepflegte Alt-Applikation).</p>
 <p>Meine Lösung des Problems besteht nun in einem eigenen Exporter, der
 Performance-Metriken aus bestehenden NGINX-Accesslogs generieren kann. Dieser
 steht als <a href="https://github.com/martin-helmich/prometheus-nginxlog-exporter">Open Source auf Github zur Verfügung</a>, und stellt einem
-Prometheus-Server auf Grundlage einer bestehenden <code>access.log</code>-Datei diverse
+Prometheus-Server auf Grundlage einer bestehenden <code class="language-plaintext highlighter-rouge">access.log</code>-Datei diverse
 Metriken zur Verfügung:</p>
 
 <ul>
@@ -190,29 +190,44 @@ Konfigurationsdatei können mehrere “Namespaces” konfiguriert werden – die
 werden dann als separate Metriken exportiert. Nachfolgend ein kurzes Beispiel
 für eine solche Konfigurationsdatei:</p>
 
-<figure class="highlight"><pre><code class="language-tf" data-lang="tf"><span></span><span class="lineno"> 1 </span><span class="err">listen</span> <span class=" -Punctuation">{</span>
-<span class="lineno"> 2 </span><span class="na">  port</span> <span class="o">=</span> <span class="m">4040</span>
-<span class="lineno"> 3 </span><span class="na">  address</span> <span class="o">=</span> <span class="s2">&quot;0.0.0.0&quot;</span>
-<span class="lineno"> 4 </span><span class=" -Punctuation">}</span>
-<span class="lineno"> 5 </span>
-<span class="lineno"> 6 </span><span class="err">namespace</span> <span class="s2">&quot;app1&quot;</span> <span class=" -Punctuation">{</span>
-<span class="lineno"> 7 </span><span class="na">  format</span> <span class="o">=</span> <span class="s2">&quot;$remote_addr - $remote_user [$time_local] \&quot;$request\&quot; $status $body_bytes_sent \&quot;$http_referer\&quot; \&quot;$http_user_agent\&quot; \&quot;$http_x_forwarded_for\&quot;&quot;</span>
-<span class="lineno"> 8 </span><span class="na">  source_files</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;/var/log/nginx/access.log&quot;</span><span class="p">]</span>
-<span class="lineno"> 9 </span>  <span class="err">labels</span> <span class=" -Punctuation">{</span>
-<span class="lineno">10 </span><span class="na">    app</span> <span class="o">=</span> <span class="s2">&quot;my-application&quot;</span>
-<span class="lineno">11 </span><span class="na">    environment</span> <span class="o">=</span> <span class="s2">&quot;production&quot;</span>
-<span class="lineno">12 </span><span class="na">    foo</span> <span class="o">=</span> <span class="s2">&quot;bar&quot;</span>
-<span class="lineno">13 </span>  <span class=" -Punctuation">}</span>
-<span class="lineno">14 </span><span class=" -Punctuation">}</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-tf" data-lang="tf"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+</pre></td><td class="code"><pre><span class="nx">listen</span> <span class="p">{</span>
+  <span class="nx">port</span> <span class="p">=</span> <span class="mi">4040</span>
+  <span class="nx">address</span> <span class="p">=</span> <span class="s2">"0.0.0.0"</span>
+<span class="p">}</span>
+
+<span class="nx">namespace</span> <span class="s2">"app1"</span> <span class="p">{</span>
+  <span class="nx">format</span> <span class="p">=</span> <span class="s2">"</span><span class="err">$</span><span class="s2">remote_addr - </span><span class="err">$</span><span class="s2">remote_user [</span><span class="err">$</span><span class="s2">time_local] </span><span class="se">\"</span><span class="err">$</span><span class="s2">request</span><span class="se">\"</span><span class="s2"> </span><span class="err">$</span><span class="s2">status </span><span class="err">$</span><span class="s2">body_bytes_sent </span><span class="se">\"</span><span class="err">$</span><span class="s2">http_referer</span><span class="se">\"</span><span class="s2"> </span><span class="se">\"</span><span class="err">$</span><span class="s2">http_user_agent</span><span class="se">\"</span><span class="s2"> </span><span class="se">\"</span><span class="err">$</span><span class="s2">http_x_forwarded_for</span><span class="se">\"</span><span class="s2">"</span>
+  <span class="nx">source_files</span> <span class="p">=</span> <span class="p">[</span><span class="s2">"/var/log/nginx/access.log"</span><span class="p">]</span>
+  <span class="nx">labels</span> <span class="p">{</span>
+    <span class="nx">app</span> <span class="p">=</span> <span class="s2">"my-application"</span>
+    <span class="nx">environment</span> <span class="p">=</span> <span class="s2">"production"</span>
+    <span class="nx">foo</span> <span class="p">=</span> <span class="s2">"bar"</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</pre></td></tr></tbody></table></code></pre></figure>
 
 <p>Beim Start des Exporters startet dieser einen eigenen HTTP-Server, der auf der
-konfigurierten IP-Adresse und Port lauscht (standardmäßig <code>0.0.0.0:4040</code>). Über
-die URL <code>http://&lt;IP&gt;:4040/metrics</code> können dann von Prometheus die entsprechenden
+konfigurierten IP-Adresse und Port lauscht (standardmäßig <code class="language-plaintext highlighter-rouge">0.0.0.0:4040</code>). Über
+die URL <code class="language-plaintext highlighter-rouge">http://&lt;IP&gt;:4040/metrics</code> können dann von Prometheus die entsprechenden
 Performance-Metriken abgegriffen werden.</p>
 
-<p>Der Namespace-Name (hier <code>app1</code>) wird später in den Namen der exportierten
-Metriken übernommen – also beispielsweise <code>app1_http_response_time_seconds</code>.
-Das Format (<code>format</code>) gibt das Format an, in dem NGINX die Access-Logs schreibt
+<p>Der Namespace-Name (hier <code class="language-plaintext highlighter-rouge">app1</code>) wird später in den Namen der exportierten
+Metriken übernommen – also beispielsweise <code class="language-plaintext highlighter-rouge">app1_http_response_time_seconds</code>.
+Das Format (<code class="language-plaintext highlighter-rouge">format</code>) gibt das Format an, in dem NGINX die Access-Logs schreibt
 (für mehr Informationen dazu sei <a href="http://nginx.org/en/docs/http/ngx_http_log_module.html#log_format">auf die Dokumentation</a> verwiesen).</p>
 
 <h2 id="start-des-exporters">Start des Exporters</h2>
@@ -220,35 +235,48 @@ Das Format (<code>format</code>) gibt das Format an, in dem NGINX die Access-Log
 <p>Der eigentliche Exporter ist ein statisch kompiliertes Go-Binary, welches nach
 dem Herunterladen sofort installiert werden kann:</p>
 
-<pre><code>wget https://github.com/martin-helmich/prometheus-nginxlog-exporter/releases/download/v1.0.0/prometheus-nginxlog-exporter
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>wget https://github.com/martin-helmich/prometheus-nginxlog-exporter/releases/download/v1.0.0/prometheus-nginxlog-exporter
 ./prometheus-nginxlog-exporter -config-file /pfad/zur/config.hcl
-</code></pre>
+</code></pre></div></div>
 
 <p>Um sicherzustellen, dass der Exporter beim Systemstart automatisch startet,
 kann eine entsprechende systemd-Unit konfiguriert werden (ab Debian 8, Ubuntu
-16.04 oder CentOS 7). Diese kann platziert werden unter <code>/etc/systemd/system/prometheus-nginxlog-exporter.service</code>:</p>
+16.04 oder CentOS 7). Diese kann platziert werden unter <code class="language-plaintext highlighter-rouge">/etc/systemd/system/prometheus-nginxlog-exporter.service</code>:</p>
 
-<figure class="highlight"><pre><code class="language-ini" data-lang="ini"><span></span><span class="lineno"> 1 </span><span class="k">[Unit]</span>
-<span class="lineno"> 2 </span><span class="na">Description</span><span class="o">=</span><span class="s">NGINX metrics exporter for Prometheus</span>
-<span class="lineno"> 3 </span><span class="na">After</span><span class="o">=</span><span class="s">network-online.target</span>
-<span class="lineno"> 4 </span>
-<span class="lineno"> 5 </span><span class="k">[Service]</span>
-<span class="lineno"> 6 </span><span class="na">ExecStart</span><span class="o">=</span><span class="s">/usr/local/bin/prometheus-nginxlog-exporter -config-file /etc/prometheus-nginxlog-exporter.hcl</span>
-<span class="lineno"> 7 </span><span class="na">Restart</span><span class="o">=</span><span class="s">always</span>
-<span class="lineno"> 8 </span><span class="na">ProtectSystem</span><span class="o">=</span><span class="s">full</span>
-<span class="lineno"> 9 </span><span class="na">CapabilityBoundingSet</span><span class="o">=</span>
-<span class="lineno">10 </span>
-<span class="lineno">11 </span><span class="k">[Install]</span>
-<span class="lineno">12 </span><span class="na">WantedBy</span><span class="o">=</span><span class="s">multi-user.target</span></code></pre></figure>
+<figure class="highlight"><pre><code class="language-ini" data-lang="ini"><table class="rouge-table"><tbody><tr><td class="gutter gl"><pre class="lineno">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+</pre></td><td class="code"><pre><span class="nn">[Unit]</span>
+<span class="py">Description</span><span class="p">=</span><span class="s">NGINX metrics exporter for Prometheus</span>
+<span class="py">After</span><span class="p">=</span><span class="s">network-online.target</span>
+
+<span class="nn">[Service]</span>
+<span class="py">ExecStart</span><span class="p">=</span><span class="s">/usr/local/bin/prometheus-nginxlog-exporter -config-file /etc/prometheus-nginxlog-exporter.hcl</span>
+<span class="py">Restart</span><span class="p">=</span><span class="s">always</span>
+<span class="py">ProtectSystem</span><span class="p">=</span><span class="s">full</span>
+<span class="py">CapabilityBoundingSet</span><span class="p">=</span>
+
+<span class="nn">[Install]</span>
+<span class="py">WantedBy</span><span class="p">=</span><span class="s">multi-user.target</span>
+</pre></td></tr></tbody></table></code></pre></figure>
 
 <p>Beachtet, dass diese Unitfile davon ausgeht, dass das Binary unter
-<code>/usr/local/bin/prometheus-nginxlog-exporter</code> und die Konfigurationsdatei unter
-<code>/etc/prometheus-nginxlog-exporter.hcl</code> liegt. Diese Pfade können natürlich nach
+<code class="language-plaintext highlighter-rouge">/usr/local/bin/prometheus-nginxlog-exporter</code> und die Konfigurationsdatei unter
+<code class="language-plaintext highlighter-rouge">/etc/prometheus-nginxlog-exporter.hcl</code> liegt. Diese Pfade können natürlich nach
 Bedarf angepasst werden.</p>
 
 <h2 id="das-ergebnis">Das Ergebnis</h2>
 
-<p>Ich betreibe den <code>prometheus-nginxlog-exporter</code> nun seit einiger Zeit schon
+<p>Ich betreibe den <code class="language-plaintext highlighter-rouge">prometheus-nginxlog-exporter</code> nun seit einiger Zeit schon
 produktiv. Insbesondere zusammen mit <a href="https://grafana.com/">Grafana</a> lassen sich wunderbare
 Auswertungen und Monitoring-Dashboards erstellen:</p>
 
@@ -258,11 +286,11 @@ Auswertungen und Monitoring-Dashboards erstellen:</p>
 generiert:</p>
 
 <ul>
-  <li>Durchschnittliche Antwortzeit: <code>sum(rate(app_http_response_time_seconds_sum[5m])) by (instance) / sum(rate(app_http_response_time_seconds_count[5m])) by (instance)</code></li>
-  <li>Anfragen pro Sekunde: <code>sum(rate(app_http_response_time_seconds_count[1m])) by (instance)</code></li>
-  <li>Antwortzeit (90%-Quantil): <code>app_http_response_time_seconds{quantile="0.9",method="GET",status="200"}</code></li>
-  <li>HTTP-Traffic: <code>sum(rate(app_http_response_size_bytes[5m])) by (instance)</code></li>
-  <li>Statuscodes pro Sekunde: <code>sum(rate(app_http_response_count_total[1m])) by (status)</code></li>
+  <li>Durchschnittliche Antwortzeit: <code class="language-plaintext highlighter-rouge">sum(rate(app_http_response_time_seconds_sum[5m])) by (instance) / sum(rate(app_http_response_time_seconds_count[5m])) by (instance)</code></li>
+  <li>Anfragen pro Sekunde: <code class="language-plaintext highlighter-rouge">sum(rate(app_http_response_time_seconds_count[1m])) by (instance)</code></li>
+  <li>Antwortzeit (90%-Quantil): <code class="language-plaintext highlighter-rouge">app_http_response_time_seconds{quantile="0.9",method="GET",status="200"}</code></li>
+  <li>HTTP-Traffic: <code class="language-plaintext highlighter-rouge">sum(rate(app_http_response_size_bytes[5m])) by (instance)</code></li>
+  <li>Statuscodes pro Sekunde: <code class="language-plaintext highlighter-rouge">sum(rate(app_http_response_count_total[1m])) by (status)</code></li>
 </ul>
 
 
@@ -308,6 +336,11 @@ powered by Disqus.</a>
           
           
             <li>
+              <strong><a href="/de/veroeffentlichungen.html">Praxiswissen TYPO3 CMS 10</a></strong>
+              am 04. Dezember 2020
+            </li>
+          
+            <li>
               <strong><a href="/de/veroeffentlichungen.html">Rust: Ein Blick auf die C/C++-Alternative</a></strong>
               am 01. Juli 2020
             </li>
@@ -327,11 +360,6 @@ powered by Disqus.</a>
               am 01. Mai 2019
             </li>
           
-            <li>
-              <strong><a href="/de/veroeffentlichungen.html">Praxiswissen TYPO3 CMS 9</a></strong>
-              am 28. März 2019
-            </li>
-          
         </ul>
       </div>
       <div class="col-sm-4">
@@ -340,6 +368,12 @@ powered by Disqus.</a>
         </h5>
         <ul>
           
+          
+            <li>
+              <strong><a href="/https:/t3n.de/magazin/event-sourcing-das-steckt-hinter-250347/">Event Sourcing: How the "software ledger" works
+</a></strong>
+              am 14. Februar 2021
+            </li>
           
             <li>
               <strong><a href="/https:/t3n.de/magazin/microservices-mit-tools-wie-die-249408/">Microservices: Mit Tools wie Jaeger die Übersicht behalten</a></strong>
@@ -359,11 +393,6 @@ powered by Disqus.</a>
             <li>
               <strong><a href="/de/blog/typo3-cms-docker.html">Gut eingepackt: TYPO3 CMS in Docker betreiben</a></strong>
               am 22. März 2019
-            </li>
-          
-            <li>
-              <strong><a href="/en/blog/kubernetes-crd-client.html">Kubernetes-CRDs über die client-go-Bibliothek auslesen</a></strong>
-              am 28. März 2018
             </li>
           
         </ul>
