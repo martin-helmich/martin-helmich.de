@@ -9,9 +9,9 @@ translations:
 ---
 
 {% capture left %}
-  My name is Martin Helmich; I am 32 years old and am working as a software and systems architect at the webhosting provider Mittwald in Espelkamp. I obtained my Bachelor's degree in Business Administration (with focus on information technology) at the Private University of Applied Sciences in Vechta (*Private Hochschule für Wirtschaft & Technik*) in 2012 and my Master's degree in Computer Science (with special focus on distributed and mobile applications) at the University of Appliced Sciences of Osnabrück in 2015.
+  My name is Martin Helmich; I am 33 years old and am working as a software and systems architect at the webhosting provider Mittwald in Espelkamp. I obtained my Bachelor's degree in Business Administration (with focus on information technology) at the Private University of Applied Sciences in Vechta (*Private Hochschule für Wirtschaft & Technik*) in 2012 and my Master's degree in Computer Science (with special focus on distributed and mobile applications) at the University of Appliced Sciences of Osnabrück in 2015.
 
-  After obtaining my degree, I stuck around at my old university in Vechta and are now regularly giving courses on "Database technologies" (since 2012) and "Programming and Software Engineering" (since 2018).
+  After obtaining my degree, I stuck around at my old university in Vechta and are now regularly giving courses on "Database technologies" (2012 to 2020), "Programming and Software Engineering" (since 2018) and "Cloud Computing" (since 2021).
 
   As a side business, I am also available for minor (part-time) consulting and implementations projects with focus on software development/architecture and cloud architecture on a freelance basis. Inquiries via email to _kontakt (at) (this domain)_:
 
