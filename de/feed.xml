@@ -6,8 +6,8 @@
 </description>
     <link>https://www.martin-helmich.de/</link>
     <atom:link href="https://www.martin-helmich.de/feed.xml" rel="self" type="application/rss+xml"/>
-    <pubDate>Sat, 10 Jul 2021 12:27:15 +0000</pubDate>
-    <lastBuildDate>Sat, 10 Jul 2021 12:27:15 +0000</lastBuildDate>
+    <pubDate>Sat, 29 Oct 2022 14:51:53 +0000</pubDate>
+    <lastBuildDate>Sat, 29 Oct 2022 14:51:53 +0000</lastBuildDate>
     <generator>Jekyll v4.2.0</generator>
     
     
@@ -695,53 +695,7 @@ generiert:&lt;/p&gt;
 
 &lt;p&gt;Die Standard-TypoScript-Konfiguration von Neos sieht bereits vor, dass bei einem Format, das anders lautet als &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;html&lt;/code&gt; einfach das TypoScript-Objekt mit dem entsprechenden Namen gerendert wird. Wir müssen an dieser Stelle also nur noch das Objekt mit dem Namen &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;rss&lt;/code&gt; implementieren. Da hier z.B. auch HTTP-Header verändert werden müssen (wir haben ja schließlich einen anderen Content-Type), kann hier am besten gleich die &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;TYPO3.TypoScript:Http.Message&lt;/code&gt;-Klasse genutzt werden. Das Endergebnis ist recht komplex; anstatt es nach und nach aufzubauen, präsentiere ich erstmal den ganzen Block:&lt;/p&gt;
 
-&lt;noscript&gt;&lt;pre&gt;rss = TYPO3.TypoScript:Http.Message {
-	@override.defaultAuthor = &amp;#39;Martin Helmich&amp;#39;
-
-	httpResponseHead {
-		headers.Content-Type = &amp;#39;application/rss+xml&amp;#39;
-	}
-
-	content = TYPO3.TypoScript:Template {
-		@override.articles = ${q(site).find(&amp;#39;[instanceof Helmich.Homepage:BlogArticle]&amp;#39;)}
-
-		templatePath = &amp;#39;resource://Helmich.Homepage/Private/Templates/Page/Rss.xml&amp;#39;
-		sectionName = &amp;#39;main&amp;#39;
-
-		language = ${node.context.targetDimensions[&amp;#39;language&amp;#39;]}
-		title    = ${q(site).property(&amp;#39;title&amp;#39;)}
-		author   = ${defaultAuthor}
-		date     = ${articles.first().property(&amp;#39;date&amp;#39;)}
-
-		items = TYPO3.TypoScript:Collection {
-			collection = ${articles}
-			itemName = &amp;#39;article&amp;#39;
-			itemRenderer = TYPO3.TypoScript:Template {
-				templatePath = &amp;#39;resource://Helmich.Homepage/Private/Templates/Page/Rss.xml&amp;#39;
-				sectionName = &amp;#39;item&amp;#39;
-
-				article = ${article}
-				author = ${q(article).property(&amp;#39;author&amp;#39;) ? q(article).property(&amp;#39;author&amp;#39;) : defaultAuthor}
-
-				abstract = TYPO3.TypoScript:Collection {
-					collection = ${q(article).children(&amp;#39;main&amp;#39;).children(&amp;#39;[instanceof TYPO3.Neos.NodeTypes:Text]&amp;#39;).first().get()}
-					itemName = &amp;#39;node&amp;#39;
-					itemRenderer = TYPO3.Neos:ContentCase
-				}
-			}
-		}
-
-		@process.tidy = Helmich.Homepage:TidyXml
-
-		@cache {
-			mode = &amp;#39;cached&amp;#39;
-			entryTags {
-				1 = &amp;#39;NodeType_Helmich.Homepage:BlogArticle&amp;#39;
-			}
-		}
-	}
-}&lt;/pre&gt;&lt;/noscript&gt;
-&lt;script src=&quot;https://gist.github.com/martin-helmich/aab1c83379063d4beba5.js?file=Rss.ts2&quot;&gt; &lt;/script&gt;
+&lt;p&gt;true&lt;script src=&quot;https://gist.github.com/martin-helmich/aab1c83379063d4beba5.js?file=Rss.ts2&quot;&gt; &lt;/script&gt;&lt;/p&gt;
 
 &lt;p&gt;Nun im Detail: Der Inhalt des Feeds wird von einem Fluid-Template gerendert. Dem Template werden einige Variablen zugewiesen, die aus der aktuellen Content Node, bzw. dem Kontext geladen werden (z.B. die Sprache). Die Variable &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;items&lt;/code&gt; ist schließlich eine ContentCollection, die in diesem Fall von einer Eel-Expression befüllt wird (hier sind das alle Nodes vom Typ &lt;code class=&quot;language-plaintext highlighter-rouge&quot;&gt;Helmich.Homepage:BlogArticle&lt;/code&gt;; das ist aber hochindividuell und muss je nach Usecase angepasst werden).&lt;/p&gt;
 

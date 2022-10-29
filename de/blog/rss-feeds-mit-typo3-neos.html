@@ -153,53 +153,7 @@
 
 <p>Die Standard-TypoScript-Konfiguration von Neos sieht bereits vor, dass bei einem Format, das anders lautet als <code class="language-plaintext highlighter-rouge">html</code> einfach das TypoScript-Objekt mit dem entsprechenden Namen gerendert wird. Wir müssen an dieser Stelle also nur noch das Objekt mit dem Namen <code class="language-plaintext highlighter-rouge">rss</code> implementieren. Da hier z.B. auch HTTP-Header verändert werden müssen (wir haben ja schließlich einen anderen Content-Type), kann hier am besten gleich die <code class="language-plaintext highlighter-rouge">TYPO3.TypoScript:Http.Message</code>-Klasse genutzt werden. Das Endergebnis ist recht komplex; anstatt es nach und nach aufzubauen, präsentiere ich erstmal den ganzen Block:</p>
 
-<noscript><pre>rss = TYPO3.TypoScript:Http.Message {
-	@override.defaultAuthor = &#39;Martin Helmich&#39;
-
-	httpResponseHead {
-		headers.Content-Type = &#39;application/rss+xml&#39;
-	}
-
-	content = TYPO3.TypoScript:Template {
-		@override.articles = ${q(site).find(&#39;[instanceof Helmich.Homepage:BlogArticle]&#39;)}
-
-		templatePath = &#39;resource://Helmich.Homepage/Private/Templates/Page/Rss.xml&#39;
-		sectionName = &#39;main&#39;
-
-		language = ${node.context.targetDimensions[&#39;language&#39;]}
-		title    = ${q(site).property(&#39;title&#39;)}
-		author   = ${defaultAuthor}
-		date     = ${articles.first().property(&#39;date&#39;)}
-
-		items = TYPO3.TypoScript:Collection {
-			collection = ${articles}
-			itemName = &#39;article&#39;
-			itemRenderer = TYPO3.TypoScript:Template {
-				templatePath = &#39;resource://Helmich.Homepage/Private/Templates/Page/Rss.xml&#39;
-				sectionName = &#39;item&#39;
-
-				article = ${article}
-				author = ${q(article).property(&#39;author&#39;) ? q(article).property(&#39;author&#39;) : defaultAuthor}
-
-				abstract = TYPO3.TypoScript:Collection {
-					collection = ${q(article).children(&#39;main&#39;).children(&#39;[instanceof TYPO3.Neos.NodeTypes:Text]&#39;).first().get()}
-					itemName = &#39;node&#39;
-					itemRenderer = TYPO3.Neos:ContentCase
-				}
-			}
-		}
-
-		@process.tidy = Helmich.Homepage:TidyXml
-
-		@cache {
-			mode = &#39;cached&#39;
-			entryTags {
-				1 = &#39;NodeType_Helmich.Homepage:BlogArticle&#39;
-			}
-		}
-	}
-}</pre></noscript>
-<script src="https://gist.github.com/martin-helmich/aab1c83379063d4beba5.js?file=Rss.ts2"> </script>
+<p>true<script src="https://gist.github.com/martin-helmich/aab1c83379063d4beba5.js?file=Rss.ts2"> </script></p>
 
 <p>Nun im Detail: Der Inhalt des Feeds wird von einem Fluid-Template gerendert. Dem Template werden einige Variablen zugewiesen, die aus der aktuellen Content Node, bzw. dem Kontext geladen werden (z.B. die Sprache). Die Variable <code class="language-plaintext highlighter-rouge">items</code> ist schließlich eine ContentCollection, die in diesem Fall von einer Eel-Expression befüllt wird (hier sind das alle Nodes vom Typ <code class="language-plaintext highlighter-rouge">Helmich.Homepage:BlogArticle</code>; das ist aber hochindividuell und muss je nach Usecase angepasst werden).</p>
 
@@ -320,6 +274,16 @@ powered by Disqus.</a>
           
           
             <li>
+              <strong><a href="/de/veroeffentlichungen.html">Rust: Ein Blick auf die C/C++-Alternative</a></strong>
+              am 25. Mai 2022
+            </li>
+          
+            <li>
+              <strong><a href="/de/veroeffentlichungen.html">Event-Sourcing: Das steckt hinter dem Software-Kontenbuch</a></strong>
+              am 14. Februar 2021
+            </li>
+          
+            <li>
               <strong><a href="/de/veroeffentlichungen.html">Praxiswissen TYPO3 CMS 10</a></strong>
               am 04. Dezember 2020
             </li>
@@ -332,16 +296,6 @@ powered by Disqus.</a>
             <li>
               <strong><a href="/de/veroeffentlichungen.html">Microservices: Mit Tools wie Jaeger die Übersicht behalten</a></strong>
               am 01. April 2020
-            </li>
-          
-            <li>
-              <strong><a href="/de/veroeffentlichungen.html">Kommunikation zwischen Browser & Server: Mit Publish/Subscribe mehr Komplexität abbilden</a></strong>
-              am 28. August 2019
-            </li>
-          
-            <li>
-              <strong><a href="/de/veroeffentlichungen.html">Automatisierung mit Kubernetes Operators</a></strong>
-              am 01. Mai 2019
             </li>
           
         </ul>
