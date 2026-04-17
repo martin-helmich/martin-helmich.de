@@ -2,7 +2,7 @@
 # This workflow was automatically created by the mittwald extension.
 # TODO: Implement deployment logic using the MITTWALD_DEPLOY_KEY secret.
 
-name: mittwald Auto-Deploy
+name: Deploy to mittwald
 
 on:
   push:
@@ -10,8 +10,10 @@ on:
   workflow_dispatch:
 
 jobs:
-  placeholder:
+  deploy:
     runs-on: ubuntu-latest
+    environment:
+      name: p-yz892e
     steps:
       - name: Placeholder
         run: echo "Deployment workflow not yet implemented"
